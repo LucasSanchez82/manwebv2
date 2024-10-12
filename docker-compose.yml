@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: boilerplate-postgres
+    environment:
+      POSTGRES_USER: boilerplate
+      POSTGRES_PASSWORD: jioczhfBHgcaomXhicez
+      POSTGRES_DB: boilerplate
+    ports:
+      - "48874:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data # Persistent storage for PostgreSQL
+
+volumes:
+  pgdata:
+    driver: local # Persist data on the host system
