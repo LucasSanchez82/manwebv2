@@ -1,5 +1,5 @@
-import Feature from "@/components/landing/feature/Feature";
-import Hero from "@/components/landing/Hero";
+import Feature from "@/components/pages/landing/feature/Feature";
+import Hero from "@/components/pages/landing/Hero";
 import { auth } from "@/lib/auth/auth";
 import { redirect } from "next/navigation";
 

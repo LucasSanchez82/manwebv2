@@ -4,10 +4,10 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@radix-ui/react-popover";
-import ProfileEditorForm from "../forms/ProfileEditorForm";
-import { DialogResponsive } from "../ui/DialogResponsive.custom";
+import ProfileEditorForm from "../../forms/ProfileEditorForm";
+import { DialogResponsive } from "../../ui/DialogResponsive.custom";
 import { ModeToggleItem } from "./profileContext/ModeToggleItem";
-import SignOut from "../forms/auth/SignOut";
+import SignOut from "../../forms/auth/SignOut";
 
 export function ProfileSettingsPopover({ children }: { children: React.ReactNode }) {
   return (
