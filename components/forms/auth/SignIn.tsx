@@ -1,6 +1,6 @@
 
-import { signIn } from "@/lib/auth"
-import SubmitButton from "../SubmitButton"
+import { signIn } from "@/lib/auth/auth"
+import SubmitActionButton from "../SubmitActionButton"
  
 export default function SignIn() {
   return (
@@ -10,7 +10,7 @@ export default function SignIn() {
         await signIn()
       }}
     >
-      <SubmitButton>Se connecter</SubmitButton>
+      <SubmitActionButton>Se connecter</SubmitActionButton>
     </form>
   )
 } 

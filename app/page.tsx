@@ -1,28 +1,15 @@
-import SignIn from '@/components/forms/auth/SignIn';
-import SignOut from '@/components/forms/auth/SignOut';
-import { auth } from '@/lib/auth';
-import { prisma } from '@/lib/prisma';
-import React from 'react';
+import Feature from "@/components/landing/feature/Feature";
+import Hero from "@/components/landing/Hero";
+import { auth } from "@/lib/auth/auth";
+import { redirect } from "next/navigation";
 
-const page = async () => {
-  const  session = await auth();
-  if(session?.user?.email) {
-    return (
-      <main>
-        <pre>Connected as {JSON.stringify(session, null, 2)}</pre>
-        <p>email : {session.user.email}</p>
-        <SignOut />
-      </main>
-    )
-
-  }
+export default async function LandingPage() {
+  const session = await auth();
+  if(session) redirect('/home')
   return (
-    <main>
-      <h1>Hello world</h1>
-      <SignIn />
-      {session && <pre>Connected as {JSON.stringify(session, null, 2)}</pre>}
-    </main>
+    <>
+    <Hero />
+    <Feature />
+    </>
   );
-};
-
-export default page;
+}

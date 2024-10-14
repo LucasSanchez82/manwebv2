@@ -1,6 +1,6 @@
-import { signOut } from '@/lib/auth';
+import { signOut } from '@/lib/auth/auth';
 import React from 'react';
-import SubmitButton from '../SubmitButton';
+import SubmitActionButton from '../SubmitActionButton';
 
 const SignOut = () => {
     return (
@@ -8,7 +8,7 @@ const SignOut = () => {
             "use server"
             await signOut()
         }}>
-            <SubmitButton>Se déconnecter</SubmitButton>
+            <SubmitActionButton>Se déconnecter</SubmitActionButton>
         </form>
     );
 };
