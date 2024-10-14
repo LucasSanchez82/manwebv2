@@ -7,6 +7,7 @@ import {
 import ProfileEditorForm from "../forms/ProfileEditorForm";
 import { DialogResponsive } from "../ui/DialogResponsive.custom";
 import { ModeToggleItem } from "./profileContext/ModeToggleItem";
+import SignOut from "../forms/auth/SignOut";
 
 export function ProfileSettingsPopover({ children }: { children: React.ReactNode }) {
   return (
@@ -34,12 +35,9 @@ export function ProfileSettingsPopover({ children }: { children: React.ReactNode
 
           <ModeToggleItem />
           <hr />
-          <Button
+          <SignOut  
             variant="ghost"
-            className="justify-start text-sm font-normal py-2 text-red-500 hover:text-red-600 hover:bg-red-50"
-          >
-            Sign Out
-          </Button>
+            className="w-full text-center text-sm font-normal py-2 text-red-500 hover:text-red-600 hover:bg-red-50"/>
         </div>
       </PopoverContent>
     </Popover>

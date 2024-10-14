@@ -1,17 +1,19 @@
-"use client"
+"use client";
 
-import React from 'react';
-import { Button } from '../ui/button';
-import { useFormStatus } from 'react-dom';
-import Spinner from '../global/Spinner';
+import React, { PropsWithChildren } from "react";
+import { Button } from "../ui/button";
+import { useFormStatus } from "react-dom";
+import Spinner from "../global/Spinner";
+import { ButtonComponentProps } from "@/lib/types/ButtonComponentProps";
 
-const SubmitActionButton = ({children}: {children: React.ReactNode}) => {
-    const {pending} = useFormStatus();
-    return (
-        <Button aria-disabled={pending} type='submit'>
-            {pending ? <Spinner /> : children || 'Submit'}
-        </Button>
-    );
+
+const SubmitActionButton = ({ children, ...button }: ButtonComponentProps) => {
+  const { pending } = useFormStatus();
+  return (
+    <Button {...button} aria-disabled={pending} type="submit">
+      {pending ? <Spinner /> : children || "Submit"}
+    </Button>
+  );
 };
 
 export default SubmitActionButton;
