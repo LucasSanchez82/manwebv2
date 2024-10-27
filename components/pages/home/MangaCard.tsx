@@ -48,7 +48,7 @@ export default function MangaCard({
             className="bg-cover bg-center"
             style={{ backgroundImage: `url(${image})` }}
           >
-            <Edit2 className="h-4 w-4 dark:text-white light:text-black" />
+            <Edit2 className="h-4 w-4 dark:text-white" />
           </DialogResponsive>
         </div>
       </CardContent>
