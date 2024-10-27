@@ -1,35 +1,23 @@
 "use client";
-import { Form } from "@/components/ui/form";
 import React from "react";
-import { DefaultValues, FormState, useForm } from "react-hook-form";
+import { DefaultValues, useForm } from "react-hook-form";
 import { z } from "zod";
+import { Form } from "../form";
 
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "../button";
 
 import AutoFormObject from "./fields/object";
-import { Dependency, FieldConfig, SubmitOptions } from "./types";
+import { FieldConfig } from "./types";
 import {
   ZodObjectOrWrapped,
   getDefaultValues,
   getObjectFormSchema,
 } from "./utils";
 
-export function AutoFormSubmit({
-  children,
-  className,
-  disabled,
-}: {
-  children?: React.ReactNode;
-  className?: string;
-  disabled?: boolean;
-}) {
-  return (
-    <Button type="submit" disabled={disabled} className={className}>
-      {children ?? "Submit"}
-    </Button>
-  );
+export function AutoFormSubmit({ children }: { children?: React.ReactNode }) {
+  return <Button type="submit">{children ?? "Submit"}</Button>;
 }
 
 function AutoForm<SchemaType extends ZodObjectOrWrapped>({
@@ -41,22 +29,19 @@ function AutoForm<SchemaType extends ZodObjectOrWrapped>({
   fieldConfig,
   children,
   className,
-  dependencies,
+  action,
+  parsedAction: parsedActionProp,
 }: {
   formSchema: SchemaType;
   values?: Partial<z.infer<SchemaType>>;
   onValuesChange?: (values: Partial<z.infer<SchemaType>>) => void;
   onParsedValuesChange?: (values: Partial<z.infer<SchemaType>>) => void;
-  onSubmit?: (
-    values: z.infer<SchemaType>,
-    options: SubmitOptions<z.infer<SchemaType>>
-  ) => void;
+  onSubmit?: (values: z.infer<SchemaType>) => void;
   fieldConfig?: FieldConfig<z.infer<SchemaType>>;
-  children?:
-    | React.ReactNode
-    | ((formState: FormState<z.infer<SchemaType>>) => React.ReactNode);
+  children?: React.ReactNode;
   className?: string;
-  dependencies?: Dependency<z.infer<SchemaType>>[];
+  parsedAction?: (values: z.infer<SchemaType>) => void;
+  action?: ((formData: FormData) => void) | undefined;
 }) {
   const objectFormSchema = getObjectFormSchema(formSchema);
   const defaultValues: DefaultValues<z.infer<typeof objectFormSchema>> | null =
@@ -71,49 +56,45 @@ function AutoForm<SchemaType extends ZodObjectOrWrapped>({
   function onSubmit(values: z.infer<typeof formSchema>) {
     const parsedValues = formSchema.safeParse(values);
     if (parsedValues.success) {
-      onSubmitProp?.(parsedValues.data, {
-        setError: form.setError,
-      });
+      onSubmitProp?.(parsedValues.data);
+    }
+  }
+  function onParsedAction(values: z.infer<typeof formSchema>) {
+    const parsedValues = formSchema.safeParse(values);
+    if (parsedValues.success) {
+      parsedActionProp?.(parsedValues.data);
     }
   }
 
-  React.useEffect(() => {
-    const subscription = form.watch((values) => {
-      onValuesChangeProp?.(values);
-      const parsedValues = formSchema.safeParse(values);
-      if (parsedValues.success) {
-        onParsedValuesChange?.(parsedValues.data);
-      }
-    });
-
-    return () => subscription.unsubscribe();
-  }, [form, formSchema, onValuesChangeProp, onParsedValuesChange]);
-
-  const renderChildren =
-    typeof children === "function"
-      ? children(form.formState as FormState<z.infer<SchemaType>>)
-      : children;
-
   return (
-    <div className="w-full">
-      <Form {...form}>
-        <form
-          onSubmit={(e) => {
-            form.handleSubmit(onSubmit)(e);
-          }}
-          className={cn("space-y-5", className)}
-        >
-          <AutoFormObject
-            schema={objectFormSchema}
-            form={form}
-            dependencies={dependencies}
-            fieldConfig={fieldConfig}
-          />
+    <Form {...form}>
+      <form
+        action={(e) => {
+          form.handleSubmit(onParsedAction)();
+          action && action(e);
+        }}
+        onSubmit={(e) => {
+          onSubmitProp && form.handleSubmit(onSubmit)();
+        }}
+        onChange={() => {
+          const values = form.getValues();
+          onValuesChangeProp?.(values);
+          const parsedValues = formSchema.safeParse(values);
+          if (parsedValues.success) {
+            onParsedValuesChange?.(parsedValues.data);
+          }
+        }}
+        className={cn("space-y-5", className)}
+      >
+        <AutoFormObject
+          schema={objectFormSchema}
+          form={form}
+          fieldConfig={fieldConfig}
+        />
 
-          {renderChildren}
-        </form>
-      </Form>
-    </div>
+        {children}
+      </form>
+    </Form>
   );
 }
 

@@ -12,8 +12,8 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { Icons } from "../icons";
 import { components, gettingStartedItems } from "./constant";
+import { Icons } from "@/components/icons";
 
 export default function NavBar() {
   return (

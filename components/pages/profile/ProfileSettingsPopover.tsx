@@ -18,7 +18,7 @@ export function ProfileSettingsPopover({ children }: { children: React.ReactNode
           <DialogResponsive
             form={<ProfileEditorForm />}
             title="Modifier mon profil"
-            button={{
+            buttonProps={{
               variant: "ghost",
               className: "justify-start text-sm font-normal py-2",
             }}

@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, useState, type PropsWithChildren } from "react";
+import { CSSProperties, ReactNode, useState, type PropsWithChildren } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -27,14 +27,18 @@ type DialogResponsiveProps = PropsWithChildren<{
   title: string;
   desc?: string;
   form: ReactNode;
-  button: ButtonProps;
+  buttonProps?: ButtonProps;
+  className?: string;
+  style?: CSSProperties;
 }>;
 export function DialogResponsive({
   title,
   desc,
   children,
   form,
-  button
+  buttonProps,
+  className,
+  style,
 }: DialogResponsiveProps) {
   const [open, setOpen] = useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
@@ -43,9 +47,9 @@ export function DialogResponsive({
     return (
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button {...button}>{children}</Button>
+          <Button {...buttonProps}>{children}</Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className={`sm:max-w-[425px] ${className }`} style={style}>
           <DialogHeader>
             <DialogTitle>{title}</DialogTitle>
             {desc && <DialogDescription>{desc}</DialogDescription>}
@@ -61,7 +65,7 @@ export function DialogResponsive({
       <DrawerTrigger asChild>
         <Button variant="outline">{children}</Button>
       </DrawerTrigger>
-      <DrawerContent>
+      <DrawerContent className={className} style={style}>
         <DrawerHeader className="text-left">
           <DrawerTitle>{title}</DrawerTitle>
           {desc && <DrawerDescription>{desc}</DrawerDescription>}
