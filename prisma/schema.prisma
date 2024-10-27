@@ -51,6 +51,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  mangas        Manga[]
  
   @@map("users")
 }
@@ -62,4 +63,30 @@ model VerificationToken {
  
   @@unique([identifier, token])
   @@map("verification_tokens")
+}
+
+model Manga {
+  id          BigInt     @id @default(autoincrement())
+  title       String
+  readerUrl   String
+  image       String? @db.Text
+  chapter     Int
+  description String?
+  isCompleted Boolean    @default(false)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+   deletedAt   DateTime?
+  userId      String
+  user        User       @relation(fields: [userId], references: [id])
+  categories  Category[]
+
+  @@map("mangas")
+}
+
+model Category {
+  id     String  @id @default(cuid())
+  name   String  @unique
+  mangas Manga[]
+
+  @@map("categories")
 }
