@@ -1,3 +1,4 @@
+"use client";
 import { useState, useEffect, useCallback } from "react";
 
 type FetchResult<T> = Omit<UseFetchResult<T>, "refetch">;
@@ -15,6 +16,7 @@ function useFetch<T = unknown>(): UseFetchResult<T> {
   const [data, setData] = useState<T | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
+  
   const fetchData: Refetch<T> = async (url, options) => {
     setIsLoading(true);
     setError(null);
@@ -25,12 +27,13 @@ function useFetch<T = unknown>(): UseFetchResult<T> {
       }
       const result = await response.json();
       setData(result);
+      setIsLoading(false);
+      return { data: result, isLoading, error, refetch: fetchData };
     } catch (error) {
       setError(error as Error);
-    } finally {
       setIsLoading(false);
-      return { data, isLoading, error };
-    }
+      return { data, isLoading, error: error as Error, refetch: fetchData };
+    };
   };
 
   return { data, isLoading, error, refetch: fetchData };
