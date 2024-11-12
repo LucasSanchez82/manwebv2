@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { MAX_FILE_SIZE } from "./constant";
 
 export const mangaWithoutImage = z.object({
   title: z
@@ -27,14 +28,17 @@ export const mangaSchemaInputServer = mangaWithoutImage.extend({
         "Url de l'image de couverture ( https://exemple.com/image.jpg )"
       ),
     z
-      .string()
-      .regex(/^[A-Za-z0-9+/]*={0,2}$/, { 
-        message: "Doit être une chaîne base64 valide" 
-      })
-      .describe("Image de couverture en base64"),
+      .instanceof(File)
+      .refine(
+        (file) => file.type.startsWith("image/"),
+        "Le fichier doit être une image"
+      )
+      .refine(
+        (file) => file.size <= MAX_FILE_SIZE,
+        `L'image doit faire maximum ${MAX_FILE_SIZE / (1024 * 1024)} MB`
+      ),
   ]),
 });
 export const mangaSchemaOutputServer = mangaSchemaInputServer.extend({
   id: z.coerce.bigint().describe("Id du manga"),
 });
-

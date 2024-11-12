@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Suspense, useState } from "react";
+import { FormEvent, Suspense, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
@@ -39,27 +39,41 @@ export default function AddMangaForm() {
     },
   });
 
-  const onSubmit = (submissionData: z.infer<typeof mangaSchemaClient>) => {
+  const onSubmit = (submissionData: z.infer<typeof mangaSchemaClient>, e: FormEvent) => {
+    const { image: unknownImage, ...submissionDataProps } = submissionData;
+    const image = unknownImage instanceof FileList ?  unknownImage[0] : unknownImage;
+    const submissionDataWithImage = { ...submissionDataProps, image };
+    const formdata = new FormData();
+    Object.entries(submissionDataWithImage).forEach(([key, value]) => {
+      const okValue = typeof value === 'number' ? value.toString() : value;
+      formdata.append(key, okValue || "" );
+    })
+    console.log('formdata to object', Object.entries(submissionDataWithImage));
+    
     refetch("/api/mangas", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(submissionData),
+      body: formdata,
     }).then((fetchedState) => {
-      
-      console.log("'onSubmit' data:", submissionData);
       try {
         if(fetchedState.data) router.refresh();
-        toast.success("Manga added successfully!", {
-          description: (
-            <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-              <code className="text-white">
-                {JSON.stringify(fetchedState.data, null, 2)}
-              </code>
-            </pre>
-          ),
-        });
+        if(!fetchedState.isLoading) {
+          if(fetchedState.error) {
+            console.error("Error adding manga:", fetchedState.error);
+            toast.error("Error adding manga. Please try again.");
+          } else {
+            toast.success("Manga added successfully!", {
+              description: (
+                <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+                  <code className="text-white">
+                    {JSON.stringify(fetchedState.data, null, 2)}
+                  </code>
+                </pre>
+              ),
+            });
+          }
+        }else {
+          toast.loading("Adding manga...");
+        }
       } catch (error) {
         console.error("Error submitting form:", error);
         toast.error("Error adding manga. Please try again.");
@@ -69,7 +83,7 @@ export default function AddMangaForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={e => form.handleSubmit((v) => onSubmit(v, e))(e)} className="space-y-8">
         {/* Title */}
         <FormField
           control={form.control}
