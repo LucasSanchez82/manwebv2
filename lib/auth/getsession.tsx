@@ -1,8 +1,10 @@
 "use server"
+import { redirect } from "next/navigation";
 import { auth } from "./auth";
 
 export const getSession = async () => {
   const session = await auth();
-  if (!session) throw new Error("Vous n'êtes pas connecté");
+
+  if (!session?.user?.id || !session) redirect('/se-connecter');
   return session;
 };
