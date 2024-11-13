@@ -50,7 +50,7 @@ const ImageInput: React.FC<ImageInputProps> = ({ control, name }) => {
                 <Input
                   placeholder="https://example.com/image.jpg"
                   {...field}
-                  value={field.value}
+                  value={undefined}
                 />
               </FormControl>
               <FormDescription>Enter the URL of the image.</FormDescription>
