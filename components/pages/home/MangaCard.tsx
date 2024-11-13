@@ -1,21 +1,12 @@
-"use client";
-
-import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { BookOpen, Edit2 } from "lucide-react";
 import Link from "next/link";
-import { z } from "zod";
-import { mangaSchemaOutputServer } from "@/lib/schemas/mangas/mangaSchema";
-import { mangaSchemaClientPartial } from "@/lib/schemas/mangas/mangaSchemaClient";
-import { MangaSchemaClientPartial } from "@/lib/types/schemasTypes";
 import MangaCardEditedForm from "./MangaCardEditedForm";
 import { DialogResponsive } from "@/components/ui/DialogResponsive.custom";
+import { Manga } from "@prisma/client";
 
-type Manga = Omit<z.infer<typeof mangaSchemaOutputServer>, "id">;
 
-type MangaCardProps = Manga;
 
 export default function MangaCard({
   title,
@@ -23,12 +14,13 @@ export default function MangaCard({
   image,
   chapter,
   description,
-}: MangaCardProps) {
+  isSelfHosted
+}: Manga) {
   return (
     <Card className="w-full max-w-sm h-64 overflow-hidden group relative">
       <div
         className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-110"
-        style={{ backgroundImage: `url(${image})` }}
+        style={{ backgroundImage: `url(${isSelfHosted ? process.env.SELFHOSTED_IMAGES_BASE_URL + '/' : ''}${image})` }}
       />
       <div className="absolute inset-0 bg-black bg-opacity-50 transition-opacity duration-300 group-hover:bg-opacity-70" />
       <CardContent className="relative h-full flex flex-col justify-end p-4 text-white">

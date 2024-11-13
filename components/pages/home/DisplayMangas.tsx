@@ -7,9 +7,10 @@ const DisplayMangas = ({mangas}: {mangas :Manga[]}) => {
         <div className='flex flex-wrap justify-center gap-4 w-screen'>
         {
             mangas.map((manga) => (
-                <MangaCard key={manga.id}
-            chapter={manga.chapter} description={manga.description} image={manga.image || ""} readerUrl={manga.readerUrl} title={manga.title}
-            />
+                <MangaCard 
+                    key={manga.id}
+                    {...manga}
+                />
             ))
         }
         </div>
