@@ -1,6 +1,5 @@
 import { z } from "zod";
 import { mangaWithoutImage } from "./mangaSchema";
-import { fileToBase64 } from "@/lib/helpers/fileHelpers";
 import { MAX_FILE_SIZE } from "./constant";
 
 const isServer = typeof window === "undefined";
@@ -8,7 +7,7 @@ const isServer = typeof window === "undefined";
 export const mangaSchemaClient = mangaWithoutImage.extend({
   image: z.union([
     z
-      .string({ message: "Doit être une url valide" })
+      .string({ message: "Doit être une image valide (ou url si selectionné)" })
       .url({ message: "Doit être une url valide" })
       .describe(
         "Url de l'image de couverture ( https://exemple.com/image.jpg )"

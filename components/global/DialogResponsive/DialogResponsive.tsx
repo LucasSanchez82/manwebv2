@@ -1,37 +1,23 @@
-"use client";
-
-import { CSSProperties, ReactNode, useState, type PropsWithChildren } from "react";
+// DialogResponsive.custom.tsx
+"use client"
+import React from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from "@/components/ui/dialog";
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription, DrawerTrigger, DrawerClose, DrawerFooter } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
 import { useMediaQuery } from "@/lib/hooks/use-media-query";
-import ProfileEditorForm from "@/components/forms/ProfileEditorForm";
-type ButtonProps = React.ComponentProps<typeof Button>;
-type DialogResponsiveProps = PropsWithChildren<{
+import { DialogProvider, useDialog } from "./DialogResponsive.context";
+
+type DialogResponsiveProps = {
   title: string;
   desc?: string;
-  form: ReactNode;
-  buttonProps?: ButtonProps;
+  children: React.ReactNode;
+  form: React.ReactNode;
+  buttonProps?: React.ComponentProps<typeof Button>;
   className?: string;
-  style?: CSSProperties;
-}>;
-export function DialogResponsive({
+  style?: React.CSSProperties;
+};
+
+function DialogResponsiveContent({
   title,
   desc,
   children,
@@ -40,7 +26,7 @@ export function DialogResponsive({
   className,
   style,
 }: DialogResponsiveProps) {
-  const [open, setOpen] = useState(false);
+  const { open, setOpen } = useDialog();
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
   if (isDesktop) {
@@ -49,7 +35,7 @@ export function DialogResponsive({
         <DialogTrigger asChild>
           <Button {...buttonProps}>{children}</Button>
         </DialogTrigger>
-        <DialogContent className={`sm:max-w-[425px] ${className }`} style={style}>
+        <DialogContent className={`sm:max-w-[425px] ${className}`} style={style}>
           <DialogHeader>
             <DialogTitle>{title}</DialogTitle>
             {desc && <DialogDescription>{desc}</DialogDescription>}
@@ -78,5 +64,13 @@ export function DialogResponsive({
         </DrawerFooter>
       </DrawerContent>
     </Drawer>
+  );
+}
+
+export function DialogResponsive(props: DialogResponsiveProps) {
+  return (
+    <DialogProvider>
+      <DialogResponsiveContent {...props} />
+    </DialogProvider>
   );
 }

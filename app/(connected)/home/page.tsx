@@ -1,6 +1,6 @@
 import AddMangaForm from '@/components/forms/AddMangaForm';
 import DisplayMangas from '@/components/pages/home/DisplayMangas';
-import { DialogResponsive } from '@/components/ui/DialogResponsive.custom';
+import { DialogResponsive } from '@/components/global/DialogResponsive/DialogResponsive';
 import { getSession } from '@/lib/auth/getsession';
 import { prisma } from '@/lib/prisma';
 

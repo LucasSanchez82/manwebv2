@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { BookOpen, Edit2 } from "lucide-react";
 import Link from "next/link";
 import MangaCardEditedForm from "./MangaCardEditedForm";
-import { DialogResponsive } from "@/components/ui/DialogResponsive.custom";
+import { DialogResponsive } from "@/components/global/DialogResponsive/DialogResponsive";
 import { Manga } from "@prisma/client";
 
 

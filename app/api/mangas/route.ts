@@ -7,14 +7,6 @@ import { auth } from "@/lib/auth/auth";
 import { parse } from "path";
 
 export async function POST(request: NextRequest) {
-  console.log({
-    WEBDAV_UPLOAD_PATH: process.env.WEBDAV_UPLOAD_PATH,
-    WEBDAV_USER: process.env.WEBDAV_USER,
-    WEBDAV_PASSWORD: process.env.WEBDAV_PASS,
-    WEBDAV_URL: process.env.WEBDAV_URL,
-
-
-  })
   const session = await auth();
   if (!session || !session.user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

@@ -1,13 +1,12 @@
-import { Button } from "@/components/ui/button";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@radix-ui/react-popover";
 import ProfileEditorForm from "../../forms/ProfileEditorForm";
-import { DialogResponsive } from "../../ui/DialogResponsive.custom";
 import { ModeToggleItem } from "./profileContext/ModeToggleItem";
 import SignOut from "../../forms/auth/SignOut";
+import { DialogResponsive } from "@/components/global/DialogResponsive/DialogResponsive";
 
 export function ProfileSettingsPopover({ children }: { children: React.ReactNode }) {
   return (
