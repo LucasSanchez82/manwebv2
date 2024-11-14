@@ -2,7 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { BookOpen, Edit2 } from "lucide-react";
 import Link from "next/link";
-import MangaCardEditedForm from "./MangaCardEditedForm";
+import MangaCardEditedForm from "../../forms/mangaForm/MangaCardEditedForm";
 import { DialogResponsive } from "@/components/global/DialogResponsive/DialogResponsive";
 import { Manga } from "@prisma/client";
 
@@ -11,15 +11,17 @@ export default function MangaCard({
   readerUrl,
   image,
   chapter,
-  description,
   isSelfHosted,
+  description,
+  id,
 }: Manga) {
+  const imageUrl = `${isSelfHosted ? process.env.SELFHOSTED_IMAGES_BASE_URL + "/" : ""}${image}`;
   return (
     <Card className="w-full max-w-sm h-64 overflow-hidden group relative">
       <div
         className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-110"
         style={{
-          backgroundImage: `url(${isSelfHosted ? process.env.SELFHOSTED_IMAGES_BASE_URL + "/" : ""}${image})`,
+          backgroundImage: `url(${imageUrl})`,
         }}
       />
       <div className="absolute inset-0 bg-black bg-opacity-50 transition-opacity duration-300 group-hover:bg-opacity-70" />
@@ -35,10 +37,21 @@ export default function MangaCard({
           </Link>
           <DialogResponsive
             title={`Modifier ${title}`}
-            form={<MangaCardEditedForm />}
+            form={
+              <MangaCardEditedForm
+                {...{
+                  title,
+                  readerUrl,
+                  image: image || undefined,
+                  imageUrl,
+                  chapter,
+                  description,
+                  id,
+                }}
+              />
+            }
             buttonProps={{ variant: "outline", size: "icon" }}
             className="bg-cover bg-center"
-            style={{ backgroundImage: `url(${image})` }}
           >
             <Edit2 className="h-4 w-4 dark:text-white" />
           </DialogResponsive>

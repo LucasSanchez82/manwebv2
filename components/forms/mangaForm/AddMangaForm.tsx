@@ -48,9 +48,11 @@ const AddMangaForm = () => {
     const submissionDataWithImage = { ...submissionDataProps, image };
     const formdata = new FormData();
     Object.entries(submissionDataWithImage).forEach(([key, value]) => {
-      const okValue = typeof value === "number" ? value.toString() : value;
-      formdata.append(key, okValue || "");
+      const okValue =
+        typeof value === "number" ? value.toString() : value || "";
+      formdata.append(key, okValue);
     });
+
     refetch("/api/mangas", {
       method: "POST",
       body: formdata,
@@ -154,7 +156,7 @@ const AddMangaForm = () => {
         />
 
         <Button type="submit" disabled={isLoading}>
-          {isLoading ? "En cours..." : "Add Manga"}
+          {isLoading ? "En cours..." : "Ajouter manga"}
         </Button>
       </form>
     </Form>

@@ -16,17 +16,59 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import ImageInput from "../../pages/home/ImageInput";
+import { toast } from "sonner";
+import useFetch from "@/lib/hooks/useFetch";
+import { Button } from "@/components/ui/button";
+import convertBigIntToNumber from "@/lib/helpers/convertBigIntToNumber";
+import { Manga } from "@prisma/client";
 
-const MangaCardEditedForm = (editedManga: MangaSchemaClientPartial) => {
+const MangaCardEditedForm = (
+  editedManga: MangaSchemaClientPartial &
+    Pick<Manga, "id"> & { imageUrl: string }
+) => {
   const [useUrl, setUseUrl] = useState(false);
+  const { refetch, isLoading } = useFetch();
 
   const form = useForm({
     resolver: zodResolver(mangaSchemaClientPartial),
     defaultValues: editedManga,
   });
 
-  const onSubmit = (data: MangaSchemaClientPartial) => {
-    console.log("data:", data);
+  const onSubmit = (submissionData: MangaSchemaClientPartial) => {
+    const { image: unknownImage, ...submissionDataProps } = submissionData;
+    const image =
+      unknownImage instanceof FileList ? unknownImage[0] : unknownImage;
+    const submissionDataWithImageAndId = {
+      ...submissionDataProps,
+      image,
+      id: convertBigIntToNumber(editedManga.id),
+    };
+    const formdata = new FormData();
+    Object.entries(submissionDataWithImageAndId).forEach(([key, value]) => {
+      const okValue =
+        typeof value === "number" ? value.toString() : value || "";
+      formdata.append(key, okValue);
+    });
+
+    refetch("/api/mangas", {
+      method: "PUT",
+      body: formdata,
+    }).then((fetchedState) => {
+      try {
+        if (!fetchedState.isLoading && fetchedState.error) {
+          toast.error("Erreur lors de l'ajout du manga");
+        } else {
+          toast.success("Manga ajouté avec succès");
+          form.reset();
+        }
+      } catch (error) {
+        toast.error(
+          error instanceof Error
+            ? error.message
+            : "Erreur inconnue (error n'est pas une instance de Error)"
+        );
+      }
+    });
   };
   const friendlyNames: { [key in keyof MangaSchemaClientPartial]: string } = {
     title: "Titre",
@@ -109,7 +151,11 @@ const MangaCardEditedForm = (editedManga: MangaSchemaClientPartial) => {
           )}
         />
 
-        <ImageInput control={form.control} name="image" />
+        <ImageInput
+          control={form.control}
+          defaultValue={editedManga.imageUrl}
+          name="image"
+        />
 
         {/* Chapter */}
         <FormField
@@ -129,6 +175,9 @@ const MangaCardEditedForm = (editedManga: MangaSchemaClientPartial) => {
             </FormItem>
           )}
         />
+        <Button type="submit" disabled={isLoading}>
+          {isLoading ? "En cours..." : "Modifier manga"}
+        </Button>
       </form>
     </Form>
   );

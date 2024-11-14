@@ -13,10 +13,19 @@ import { Control } from "react-hook-form";
 interface ImageInputProps {
   control: Control<any>;
   name: string;
+  defaultValue?: string;
 }
 
-const ImageInput: React.FC<ImageInputProps> = ({ control, name }) => {
+const ImageInput: React.FC<ImageInputProps> = ({
+  control,
+  name,
+  defaultValue = "",
+}) => {
   const [useUrl, setUseUrl] = useState(false);
+  const [inputValue, setInputValue] = useState<File | string | null>(
+    defaultValue
+  );
+
   return (
     <>
       {/* Image Toggle */}
@@ -49,8 +58,13 @@ const ImageInput: React.FC<ImageInputProps> = ({ control, name }) => {
               <FormControl>
                 <Input
                   placeholder="https://example.com/image.jpg"
-                  {...field}
-                  value={undefined}
+                  value={typeof inputValue === "string" ? inputValue : ""}
+                  onChange={(e) => {
+                    const newValue = e.target.value;
+                    setInputValue(newValue);
+                    field.onChange(newValue);
+                  }}
+                  onBlur={field.onBlur}
                 />
               </FormControl>
               <FormDescription>Enter the URL of the image.</FormDescription>
@@ -69,7 +83,15 @@ const ImageInput: React.FC<ImageInputProps> = ({ control, name }) => {
                 <Input
                   type="file"
                   accept="image/*"
-                  onChange={(e) => field.onChange(e.target.files)}
+                  onChange={(e) => {
+                    const files = e.target.files;
+                    if (files && files.length > 0) {
+                      const file = files[0];
+                      setInputValue(file);
+                      field.onChange(file); // Pass single file instead of FileList
+                    }
+                  }}
+                  value={inputValue instanceof File ? "" : undefined} // Ensure the input is controlled
                 />
               </FormControl>
               <FormDescription>Upload an image file.</FormDescription>
