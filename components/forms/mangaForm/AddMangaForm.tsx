@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FormEvent, Suspense, useState } from "react";
+import { FormEvent } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
@@ -20,8 +20,8 @@ import { toast } from "sonner";
 import useFetch from "@/lib/hooks/useFetch";
 import { mangaSchemaClient } from "@/lib/schemas/mangas/mangaSchemaClient";
 import { useRouter } from "next/navigation";
-import ImageInput from "../pages/home/ImageInput";
-import { useDialog } from "../global/DialogResponsive/DialogResponsive.context";
+import { useDialog } from "@/components/global/DialogResponsive/DialogResponsive.context";
+import ImageInput from "@/components/pages/home/ImageInput";
 
 const AddMangaForm = () => {
   const { refetch, isLoading } = useFetch();
@@ -40,7 +40,7 @@ const AddMangaForm = () => {
 
   const onSubmit = (
     submissionData: z.infer<typeof mangaSchemaClient>,
-    e: FormEvent,
+    e: FormEvent
   ) => {
     const { image: unknownImage, ...submissionDataProps } = submissionData;
     const image =

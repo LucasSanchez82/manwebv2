@@ -1,8 +1,8 @@
-import AddMangaForm from "@/components/forms/AddMangaForm";
 import DisplayMangas from "@/components/pages/home/DisplayMangas";
 import { DialogResponsive } from "@/components/global/DialogResponsive/DialogResponsive";
 import { getSession } from "@/lib/auth/getsession";
 import { prisma } from "@/lib/prisma";
+import AddMangaForm from "@/components/forms/mangaForm/AddMangaForm";
 
 const Page = async () => {
   const session = await getSession();
