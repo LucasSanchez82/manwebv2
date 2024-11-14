@@ -16,7 +16,7 @@ const Profile = async () => {
   return (
     <ProfileSettingsPopover>
       <section className="w-12 h-12 flex justify-center items-center bg-gray-300 rounded-full overflow-hidden absolute top-2 right-5 cursor-pointer text-black">
-      {initials}
+        {initials}
       </section>
     </ProfileSettingsPopover>
   );

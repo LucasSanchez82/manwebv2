@@ -4,8 +4,7 @@ import Link from "next/link";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
 
 export default function Hero() {
-
-// TODO: Scroll in view
+  // TODO: Scroll in view
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-8 relative">
       <div className="max-w-4xl flex flex-col md:flex-row items-center gap-8">

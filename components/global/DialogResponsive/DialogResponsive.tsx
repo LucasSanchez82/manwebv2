@@ -1,8 +1,24 @@
 // DialogResponsive.custom.tsx
-"use client"
+"use client";
 import React from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from "@/components/ui/dialog";
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription, DrawerTrigger, DrawerClose, DrawerFooter } from "@/components/ui/drawer";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerDescription,
+  DrawerTrigger,
+  DrawerClose,
+  DrawerFooter,
+} from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 import { useMediaQuery } from "@/lib/hooks/use-media-query";
 import { DialogProvider, useDialog } from "./DialogResponsive.context";
@@ -35,7 +51,10 @@ function DialogResponsiveContent({
         <DialogTrigger asChild>
           <Button {...buttonProps}>{children}</Button>
         </DialogTrigger>
-        <DialogContent className={`sm:max-w-[425px] ${className}`} style={style}>
+        <DialogContent
+          className={`sm:max-w-[425px] ${className}`}
+          style={style}
+        >
           <DialogHeader>
             <DialogTitle>{title}</DialogTitle>
             {desc && <DialogDescription>{desc}</DialogDescription>}

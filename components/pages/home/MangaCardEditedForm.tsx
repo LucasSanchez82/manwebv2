@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import {
   Form,
   FormControl,
@@ -11,9 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { mangaSchemaClientPartial } from "@/lib/schemas/mangas/mangaSchemaClient";
-import {
-  MangaSchemaClientPartial,
-} from "@/lib/types/schemasTypes";
+import { MangaSchemaClientPartial } from "@/lib/types/schemasTypes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";

@@ -8,8 +8,8 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
   const session = getSession();
   return (
     <main className="min-w-screen h-full min-h-screen">
-        <Profile />
-        {children}
+      <Profile />
+      {children}
     </main>
   );
 };

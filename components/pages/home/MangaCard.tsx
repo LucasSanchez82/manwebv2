@@ -6,21 +6,21 @@ import MangaCardEditedForm from "./MangaCardEditedForm";
 import { DialogResponsive } from "@/components/global/DialogResponsive/DialogResponsive";
 import { Manga } from "@prisma/client";
 
-
-
 export default function MangaCard({
   title,
   readerUrl,
   image,
   chapter,
   description,
-  isSelfHosted
+  isSelfHosted,
 }: Manga) {
   return (
     <Card className="w-full max-w-sm h-64 overflow-hidden group relative">
       <div
         className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-110"
-        style={{ backgroundImage: `url(${isSelfHosted ? process.env.SELFHOSTED_IMAGES_BASE_URL + '/' : ''}${image})` }}
+        style={{
+          backgroundImage: `url(${isSelfHosted ? process.env.SELFHOSTED_IMAGES_BASE_URL + "/" : ""}${image})`,
+        }}
       />
       <div className="absolute inset-0 bg-black bg-opacity-50 transition-opacity duration-300 group-hover:bg-opacity-70" />
       <CardContent className="relative h-full flex flex-col justify-end p-4 text-white">

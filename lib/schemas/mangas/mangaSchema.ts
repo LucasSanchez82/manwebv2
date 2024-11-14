@@ -11,7 +11,7 @@ export const mangaWithoutImage = z.object({
     .string()
     .url({ message: "Doit être une url valide ( https://exemple.com/ )" })
     .describe(
-      "Url du lecteur en ligne ( https://exemple.com/lecture-enligne/one-piece )"
+      "Url du lecteur en ligne ( https://exemple.com/lecture-enligne/one-piece )",
     ),
 
   chapter: z.coerce
@@ -25,17 +25,17 @@ export const mangaSchemaInputServer = mangaWithoutImage.extend({
       .string()
       .url({ message: "Doit être une url valide" })
       .describe(
-        "Url de l'image de couverture ( https://exemple.com/image.jpg )"
+        "Url de l'image de couverture ( https://exemple.com/image.jpg )",
       ),
     z
       .instanceof(File)
       .refine(
         (file) => file.type.startsWith("image/"),
-        "Le fichier doit être une image"
+        "Le fichier doit être une image",
       )
       .refine(
         (file) => file.size <= MAX_FILE_SIZE,
-        `L'image doit faire maximum ${MAX_FILE_SIZE / (1024 * 1024)} MB`
+        `L'image doit faire maximum ${MAX_FILE_SIZE / (1024 * 1024)} MB`,
       ),
   ]),
 });

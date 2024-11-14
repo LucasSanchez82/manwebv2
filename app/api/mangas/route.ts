@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
 
   const formdata = await request.formData();
   const parsedManga = mangaSchemaInputServer.safeParse(
-    Object.fromEntries(formdata.entries())
+    Object.fromEntries(formdata.entries()),
   );
   let fullImageName: string;
   let isImageAFile: boolean;
@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
         error: parsedManga.error,
         messsage: "Données recu par le serveur invalides",
       },
-      { status: 400 }
+      { status: 400 },
     );
   if ((isImageAFile = parsedManga.data.image instanceof File)) {
     const imageArrayBuffer = await parsedManga.data.image.arrayBuffer();
@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
     fullImageName = encodeURIComponent(
       Number(new Date()) +
         generateRandString(10) +
-        parsedManga.data.image.type.replace("image/", ".")
+        parsedManga.data.image.type.replace("image/", "."),
     );
     webdav
       .putFileContents(
@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
           onUploadProgress: (e) => {
             console.log(e);
           },
-        }
+        },
       )
       .then(() => {
         console.log("File uploaded");
@@ -93,7 +93,7 @@ export async function POST(request: NextRequest) {
         error: "Error uploading file",
         message: error instanceof Error ? error.message : "erreur inconny",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

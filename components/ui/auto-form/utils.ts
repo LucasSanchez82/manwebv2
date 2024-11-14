@@ -186,7 +186,7 @@ export function zodToHtmlInputProps(
 
 export function sortFieldsByOrder<SchemaType extends z.ZodObject<any, any>>(
   fieldConfig: FieldConfig<z.infer<SchemaType>> | undefined,
-  keys: string[]
+  keys: string[],
 ) {
   const sortedFields = keys.sort((a, b) => {
     const fieldA: number = (fieldConfig?.[a]?.order as number) ?? 0;

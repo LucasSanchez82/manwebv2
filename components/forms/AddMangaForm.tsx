@@ -38,30 +38,32 @@ const AddMangaForm = () => {
     },
   });
 
-  const onSubmit = (submissionData: z.infer<typeof mangaSchemaClient>, e: FormEvent) => {
+  const onSubmit = (
+    submissionData: z.infer<typeof mangaSchemaClient>,
+    e: FormEvent,
+  ) => {
     const { image: unknownImage, ...submissionDataProps } = submissionData;
-    const image = unknownImage instanceof FileList ?  unknownImage[0] : unknownImage;
+    const image =
+      unknownImage instanceof FileList ? unknownImage[0] : unknownImage;
     const submissionDataWithImage = { ...submissionDataProps, image };
     const formdata = new FormData();
     Object.entries(submissionDataWithImage).forEach(([key, value]) => {
-      const okValue = typeof value === 'number' ? value.toString() : value;
-      formdata.append(key, okValue || "" );
-    })
+      const okValue = typeof value === "number" ? value.toString() : value;
+      formdata.append(key, okValue || "");
+    });
     refetch("/api/mangas", {
       method: "POST",
       body: formdata,
     }).then((fetchedState) => {
       try {
-        if(fetchedState.data) {
-          setOpen(false); 
+        if (fetchedState.data) {
+          setOpen(false);
           router.refresh();
         }
-        if(!fetchedState.isLoading && fetchedState.error) {
-            console.error("Error adding manga:", fetchedState.error);
-            toast.error("Error adding manga. Please try again.");
-          
-
-        }else if(fetchedState.isLoading) {
+        if (!fetchedState.isLoading && fetchedState.error) {
+          console.error("Error adding manga:", fetchedState.error);
+          toast.error("Error adding manga. Please try again.");
+        } else if (fetchedState.isLoading) {
           toast.loading("Adding manga...");
         } else toast.success("Manga ajouté avec succès.");
       } catch (error) {
@@ -73,7 +75,10 @@ const AddMangaForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={e => form.handleSubmit((v) => onSubmit(v, e))(e)} className="space-y-8">
+      <form
+        onSubmit={(e) => form.handleSubmit((v) => onSubmit(v, e))(e)}
+        className="space-y-8"
+      >
         {/* Title */}
         <FormField
           control={form.control}
@@ -119,7 +124,7 @@ const AddMangaForm = () => {
             <FormItem>
               <FormLabel>Reader URL</FormLabel>
               <FormControl>
-                <Input placeholder="https://example.com" {...field}/>
+                <Input placeholder="https://example.com" {...field} />
               </FormControl>
               <FormDescription>Url du lecteur en ligne</FormDescription>
               <FormMessage />
@@ -154,6 +159,6 @@ const AddMangaForm = () => {
       </form>
     </Form>
   );
-}
+};
 
 export default AddMangaForm;

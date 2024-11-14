@@ -10,17 +10,17 @@ export const mangaSchemaClient = mangaWithoutImage.extend({
       .string({ message: "Doit être une image valide (ou url si selectionné)" })
       .url({ message: "Doit être une url valide" })
       .describe(
-        "Url de l'image de couverture ( https://exemple.com/image.jpg )"
+        "Url de l'image de couverture ( https://exemple.com/image.jpg )",
       ),
     z
       .instanceof(FileList)
       .refine(
         (file) => file[0].type.startsWith("image/"),
-        'Le fichier doit être une image'
+        "Le fichier doit être une image",
       )
       .refine(
         (file) => file[0].size <= MAX_FILE_SIZE,
-        `L'image doit faire maximum ${MAX_FILE_SIZE / (1024 * 1024)} MB`
+        `L'image doit faire maximum ${MAX_FILE_SIZE / (1024 * 1024)} MB`,
       ),
   ]),
 });

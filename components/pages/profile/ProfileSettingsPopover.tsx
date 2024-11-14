@@ -8,7 +8,11 @@ import { ModeToggleItem } from "./profileContext/ModeToggleItem";
 import SignOut from "../../forms/auth/SignOut";
 import { DialogResponsive } from "@/components/global/DialogResponsive/DialogResponsive";
 
-export function ProfileSettingsPopover({ children }: { children: React.ReactNode }) {
+export function ProfileSettingsPopover({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <Popover>
       <PopoverTrigger asChild>{children}</PopoverTrigger>
@@ -34,9 +38,10 @@ export function ProfileSettingsPopover({ children }: { children: React.ReactNode
 
           <ModeToggleItem />
           <hr />
-          <SignOut  
+          <SignOut
             variant="ghost"
-            className="w-full text-center text-sm font-normal py-2 text-red-500 hover:text-red-600 hover:bg-red-50"/>
+            className="w-full text-center text-sm font-normal py-2 text-red-500 hover:text-red-600 hover:bg-red-50"
+          />
         </div>
       </PopoverContent>
     </Popover>
