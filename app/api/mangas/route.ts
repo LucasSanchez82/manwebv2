@@ -95,11 +95,11 @@ export async function PUT(request: NextRequest) {
   }
 
   const formdata = await request.formData();
-  const parsedManga = mangaSchemaInputServerWithId.safeParse(
-    Object.fromEntries(formdata.entries())
-  );
-  let fullImageName: string;
-  let isImageAFile: boolean;
+  const parsedManga = mangaSchemaInputServerWithId
+    .partial()
+    .safeParse(Object.fromEntries(formdata.entries()));
+  let fullImageName: string | undefined;
+  let isImageAFile: boolean | undefined;
 
   if (!parsedManga.success)
     return NextResponse.json(
@@ -121,10 +121,9 @@ export async function PUT(request: NextRequest) {
       { status: 404 }
     );
   }
-
-  if ((isImageAFile = parsedManga.data.image instanceof File)) {
+  isImageAFile = parsedManga.data.image instanceof File || undefined;
+  if (parsedManga.data.image instanceof File) {
     const imageArrayBuffer = await parsedManga.data.image.arrayBuffer();
-    // ... existing code for WebDAV directory check ...
 
     fullImageName = encodeURIComponent(
       Number(new Date()) +
@@ -133,6 +132,7 @@ export async function PUT(request: NextRequest) {
     );
 
     if (
+      parsedManga.data.image &&
       !(parsedManga.data.image instanceof File) &&
       currentManga.image === parsedManga.data.image &&
       currentManga.isSelfHosted
@@ -174,7 +174,7 @@ export async function PUT(request: NextRequest) {
         readerUrl: parsedManga.data.readerUrl,
         title: parsedManga.data.title,
         image: fullImageName,
-        isSelfHosted: isImageAFile,
+        isSelfHosted: parsedManga.data.image instanceof File || undefined,
       },
     });
 

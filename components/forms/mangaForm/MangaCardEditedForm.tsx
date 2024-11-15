@@ -26,12 +26,11 @@ const MangaCardEditedForm = (
   editedManga: MangaSchemaClientPartial &
     Pick<Manga, "id"> & { imageUrl: string }
 ) => {
-  const [useUrl, setUseUrl] = useState(false);
   const { refetch, isLoading } = useFetch();
 
   const form = useForm({
-    resolver: zodResolver(mangaSchemaClientPartial),
-    defaultValues: editedManga,
+    resolver: zodResolver(mangaSchemaClientPartial.partial()),
+    defaultValues: { ...editedManga, image: undefined },
   });
 
   const onSubmit = (submissionData: MangaSchemaClientPartial) => {
@@ -47,7 +46,7 @@ const MangaCardEditedForm = (
     Object.entries(submissionDataWithImageAndId).forEach(([key, value]) => {
       const okValue =
         typeof value === "number" ? value.toString() : value || "";
-      formdata.append(key, okValue);
+      if (value) formdata.append(key, okValue);
     });
 
     refetch("/api/mangas", {
@@ -151,11 +150,7 @@ const MangaCardEditedForm = (
           )}
         />
 
-        <ImageInput
-          control={form.control}
-          defaultValue={editedManga.imageUrl}
-          name="image"
-        />
+        <ImageInput control={form.control} name="image" />
 
         {/* Chapter */}
         <FormField
