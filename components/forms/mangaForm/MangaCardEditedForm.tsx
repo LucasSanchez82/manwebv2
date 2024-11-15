@@ -176,9 +176,15 @@ const MangaCardEditedForm = (
             </FormItem>
           )}
         />
-        <Button type="submit" disabled={isLoading}>
-          {isLoading ? "En cours..." : "Modifier manga"}
-        </Button>
+        <section className="w-full flex justify-around">
+          <Button type="submit" disabled={isLoading}>
+            {isLoading ? "En cours..." : "Modifier manga"}
+          </Button>
+
+          <Button type="submit" disabled={isLoading} variant="destructive">
+            {isLoading ? "En cours..." : "Supprimer manga"}
+          </Button>
+        </section>
       </form>
     </Form>
   );

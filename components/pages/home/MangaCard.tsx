@@ -24,15 +24,18 @@ export default function MangaCard({
           backgroundImage: `url(${imageUrl})`,
         }}
       />
-      <div className="absolute inset-0 bg-opacity-50 transition-opacity duration-300 group-hover:bg-opacity-70" />
       <CardContent className="relative h-full flex flex-col justify-end p-4 ">
-        <h2 className="text-2xl font-bold mb-2">{title}</h2>
-        <p className="text-sm mb-4">Last read: {chapter}</p>
+        <h2 className="text-2xl font-bold mb-2 p-2 bg-secondary rounded-xl rounded-l-none text-nowrap leading-none absolute top-1/2 left-0 transform -translate-y-1/2">
+          {title.length > 20 ? title.substring(0, 20) + "..." : title}
+        </h2>
+        {/* <p className="text-sm mb-4 p-2 bg-secondary w-min text-nowrap rounded leading-none">
+          Last read: {chapter}
+        </p> */}
         <div className="flex justify-between items-center">
           <Link href={readerUrl} passHref>
             <Button className="flex-grow mr-2" variant="secondary">
               <BookOpen className="mr-2 h-4 w-4" />
-              Continue Reading
+              Continue Reading: {chapter}
             </Button>
           </Link>
           <DialogResponsive
