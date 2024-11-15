@@ -21,12 +21,16 @@ import useFetch from "@/lib/hooks/useFetch";
 import { Button } from "@/components/ui/button";
 import convertBigIntToNumber from "@/lib/helpers/convertBigIntToNumber";
 import { Manga } from "@prisma/client";
+import { useRouter } from "next/navigation";
+import { useDialog } from "@/components/global/DialogResponsive/DialogResponsive.context";
 
 const MangaCardEditedForm = (
   editedManga: MangaSchemaClientPartial &
     Pick<Manga, "id"> & { imageUrl: string }
 ) => {
   const { refetch, isLoading } = useFetch();
+  const router = useRouter();
+  const { setOpen } = useDialog();
 
   const form = useForm({
     resolver: zodResolver(mangaSchemaClientPartial.partial()),
@@ -59,6 +63,8 @@ const MangaCardEditedForm = (
         } else {
           toast.success("Manga ajouté avec succès");
           form.reset();
+          router.refresh();
+          setOpen(false);
         }
       } catch (error) {
         toast.error(
