@@ -18,7 +18,7 @@ export default function NavBar() {
   return (
     <section className="flex w-full justify-between p-5">
       <NavigationMenu>
-        <NavigationMenuList>
+        {/* <NavigationMenuList>
           <NavigationMenuItem>
             <NavigationMenuTrigger>Getting started</NavigationMenuTrigger>
             <NavigationMenuContent>
@@ -72,7 +72,7 @@ export default function NavBar() {
               </NavigationMenuLink>
             </Link>
           </NavigationMenuItem>
-        </NavigationMenuList>
+        </NavigationMenuList> */}
       </NavigationMenu>
       <Profile />
     </section>
