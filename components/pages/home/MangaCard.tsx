@@ -24,8 +24,8 @@ export default function MangaCard({
           backgroundImage: `url(${imageUrl})`,
         }}
       />
-      <div className="absolute inset-0 bg-black bg-opacity-50 transition-opacity duration-300 group-hover:bg-opacity-70" />
-      <CardContent className="relative h-full flex flex-col justify-end p-4 text-white">
+      <div className="absolute inset-0 bg-opacity-50 transition-opacity duration-300 group-hover:bg-opacity-70" />
+      <CardContent className="relative h-full flex flex-col justify-end p-4 ">
         <h2 className="text-2xl font-bold mb-2">{title}</h2>
         <p className="text-sm mb-4">Last read: {chapter}</p>
         <div className="flex justify-between items-center">
