@@ -16,7 +16,7 @@ export function ProfileSettingsPopover({
   return (
     <Popover>
       <PopoverTrigger asChild>{children}</PopoverTrigger>
-      <PopoverContent className="w-56 border rounded-lg shadow-lg p-1">
+      <PopoverContent className="w-56 border rounded-lg shadow-lg p-1 z-10 bg-primary-foreground  ">
         <div className="flex flex-col space-y-1">
           <DialogResponsive
             form={<ProfileEditorForm />}
