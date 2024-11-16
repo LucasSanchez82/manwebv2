@@ -55,6 +55,10 @@ export async function POST(request: NextRequest) {
       })
       .catch((err) => {
         console.error("Error uploading file:", err);
+        return NextResponse.json(
+          { error: "Error uploading file" },
+          { status: 500 }
+        );
       });
   } else fullImageName = parsedManga.data.image;
 
