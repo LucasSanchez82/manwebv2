@@ -5,6 +5,7 @@ import Link from "next/link";
 import MangaCardEditedForm from "../../forms/mangaForm/MangaCardEditedForm";
 import { DialogResponsive } from "@/components/global/DialogResponsive/DialogResponsive";
 import { Manga } from "@prisma/client";
+import MangaCardBackgroundImage from "./MangaCard.backgroundImage";
 
 export default function MangaCard({
   title,
@@ -18,24 +19,16 @@ export default function MangaCard({
   const imageUrl = `${isSelfHosted ? process.env.SELFHOSTED_IMAGES_BASE_URL + "/" : ""}${image}`;
   return (
     <Card className="w-full max-w-sm h-64 overflow-hidden group relative">
-      <div
-        className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-110"
-        style={{
-          backgroundImage: `url(${imageUrl})`,
-        }}
-      />
-      <CardContent className="relative h-full flex flex-col justify-end p-4 ">
-        <h2 className="text-2xl font-bold mb-2 p-2 bg-secondary rounded-xl rounded-l-none text-nowrap leading-none absolute top-1/2 left-0 transform -translate-y-1/2">
-          {title.length > 20 ? title.substring(0, 20) + "..." : title}
-        </h2>
-        {/* <p className="text-sm mb-4 p-2 bg-secondary w-min text-nowrap rounded leading-none">
-          Last read: {chapter}
-        </p> */}
+      <MangaCardBackgroundImage imageUrl={imageUrl} />
+      <div className="absolute inset-0 bg-black bg-opacity-50 transition-opacity duration-300 group-hover:bg-opacity-70" />
+      <CardContent className="relative h-full flex flex-col justify-end p-4 text-white">
+        <h2 className="text-2xl font-bold mb-2 s">{title}</h2>
+        <p className="text-sm mb-4">Last read: {chapter}</p>
         <div className="flex justify-between items-center">
           <Link href={readerUrl} passHref>
             <Button className="flex-grow mr-2" variant="secondary">
               <BookOpen className="mr-2 h-4 w-4" />
-              Continue Reading: {chapter}
+              Continue Reading
             </Button>
           </Link>
           <DialogResponsive
