@@ -115,7 +115,7 @@ const MangaCardEditedForm = (
                         field.name as keyof MangaSchemaClientPartial
                       ] + "..."
                     }
-                    className="bg-white/20 text-white placeholder:text-white/60"
+                    className="bg-white/20"
                   />
                 </FormControl>
                 <FormDescription />
@@ -139,7 +139,7 @@ const MangaCardEditedForm = (
                         field.name as keyof MangaSchemaClientPartial
                       ] + "..."
                     }
-                    className="bg-white/20 text-white placeholder:text-white/60"
+                    className="bg-white/20"
                   />
                 </FormControl>
                 <FormDescription />
@@ -162,7 +162,7 @@ const MangaCardEditedForm = (
                         field.name as keyof MangaSchemaClientPartial
                       ] + "..."
                     }
-                    className="bg-white/20 text-white placeholder:text-white/60"
+                    className="bg-white/20"
                   />
                 </FormControl>
                 <FormDescription />
