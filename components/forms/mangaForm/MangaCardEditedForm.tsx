@@ -1,4 +1,7 @@
 "use client";
+import ButtonAction from "@/components/global/Button.action";
+import { useDialog } from "@/components/global/DialogResponsive/DialogResponsive.context";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -10,19 +13,17 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { deleteMangaAction } from "@/lib/actions/mangas.actions";
+import convertBigIntToNumber from "@/lib/helpers/convertBigIntToNumber";
+import useFetch from "@/lib/hooks/useFetch";
 import { mangaSchemaClientPartial } from "@/lib/schemas/mangas/mangaSchemaClient";
 import { MangaSchemaClientPartial } from "@/lib/types/schemasTypes";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
-import ImageInput from "../../pages/home/ImageInput";
-import { toast } from "sonner";
-import useFetch from "@/lib/hooks/useFetch";
-import { Button } from "@/components/ui/button";
-import convertBigIntToNumber from "@/lib/helpers/convertBigIntToNumber";
 import { Manga } from "@prisma/client";
 import { useRouter } from "next/navigation";
-import { useDialog } from "@/components/global/DialogResponsive/DialogResponsive.context";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import ImageInput from "../../pages/home/ImageInput";
 
 const MangaCardEditedForm = (
   editedManga: MangaSchemaClientPartial &
@@ -36,6 +37,19 @@ const MangaCardEditedForm = (
     resolver: zodResolver(mangaSchemaClientPartial.partial()),
     defaultValues: { ...editedManga, image: undefined },
   });
+
+  const handleDeleteManga = async () => {
+    const res = await deleteMangaAction(editedManga.id);
+    if ("error" in res) {
+      toast.error("Erreur lors de la suppression du manga", {
+        description: res.error,
+      });
+    } else {
+      toast.success("Manga supprimé avec succès");
+      router.refresh();
+      setOpen(false);
+    }
+  };
 
   const onSubmit = (submissionData: MangaSchemaClientPartial) => {
     const { image: unknownImage, ...submissionDataProps } = submissionData;
@@ -84,109 +98,117 @@ const MangaCardEditedForm = (
   };
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name={"title"}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel />
-              <FormControl>
-                <Input
-                  {...field}
-                  placeholder={
-                    friendlyNames[
-                      field.name as keyof MangaSchemaClientPartial
-                    ] + "..."
-                  }
-                  className="bg-white/20 text-white placeholder:text-white/60"
-                />
-              </FormControl>
-              <FormDescription />
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+    <>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <FormField
+            control={form.control}
+            name={"title"}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel />
+                <FormControl>
+                  <Input
+                    {...field}
+                    placeholder={
+                      friendlyNames[
+                        field.name as keyof MangaSchemaClientPartial
+                      ] + "..."
+                    }
+                    className="bg-white/20 text-white placeholder:text-white/60"
+                  />
+                </FormControl>
+                <FormDescription />
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <FormField
-          control={form.control}
-          name={"description"}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel />
-              <FormControl>
-                <Textarea
-                  {...field}
-                  value={field.value ?? ""}
-                  placeholder={
-                    friendlyNames[
-                      field.name as keyof MangaSchemaClientPartial
-                    ] + "..."
-                  }
-                  className="bg-white/20 text-white placeholder:text-white/60"
-                />
-              </FormControl>
-              <FormDescription />
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          <FormField
+            control={form.control}
+            name={"description"}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel />
+                <FormControl>
+                  <Textarea
+                    {...field}
+                    value={field.value ?? ""}
+                    placeholder={
+                      friendlyNames[
+                        field.name as keyof MangaSchemaClientPartial
+                      ] + "..."
+                    }
+                    className="bg-white/20 text-white placeholder:text-white/60"
+                  />
+                </FormControl>
+                <FormDescription />
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <FormField
-          control={form.control}
-          name={"readerUrl"}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel />
-              <FormControl>
-                <Textarea
-                  {...field}
-                  placeholder={
-                    friendlyNames[
-                      field.name as keyof MangaSchemaClientPartial
-                    ] + "..."
-                  }
-                  className="bg-white/20 text-white placeholder:text-white/60"
-                />
-              </FormControl>
-              <FormDescription />
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          <FormField
+            control={form.control}
+            name={"readerUrl"}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel />
+                <FormControl>
+                  <Textarea
+                    {...field}
+                    placeholder={
+                      friendlyNames[
+                        field.name as keyof MangaSchemaClientPartial
+                      ] + "..."
+                    }
+                    className="bg-white/20 text-white placeholder:text-white/60"
+                  />
+                </FormControl>
+                <FormDescription />
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <ImageInput control={form.control} name="image" />
+          <ImageInput control={form.control} name="image" />
 
-        {/* Chapter */}
-        <FormField
-          control={form.control}
-          name="chapter"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Chapter</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Last chapter read"
-                  type="number"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <section className="w-full flex justify-around">
-          <Button type="submit" disabled={isLoading}>
-            {isLoading ? "En cours..." : "Modifier manga"}
-          </Button>
+          {/* Chapter */}
+          <FormField
+            control={form.control}
+            name="chapter"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Chapter</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Last chapter read"
+                    type="number"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <section className="w-full flex justify-around">
+            <Button type="submit" disabled={isLoading}>
+              {isLoading ? "En cours..." : "Modifier manga"}
+            </Button>
 
-          <Button type="submit" disabled={isLoading} variant="destructive">
-            {isLoading ? "En cours..." : "Supprimer manga"}
-          </Button>
-        </section>
-      </form>
-    </Form>
+            <ButtonAction
+              type="button"
+              variant="destructive"
+              action={handleDeleteManga}
+              pendingText="Suppression en cours..."
+            >
+              {isLoading ? "En cours..." : "Supprimer manga"}
+            </ButtonAction>
+          </section>
+        </form>
+      </Form>
+      {/* <form action={dele}></form> */}
+    </>
   );
 };
 
