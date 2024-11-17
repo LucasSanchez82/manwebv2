@@ -8,6 +8,7 @@ const Page = async () => {
   const session = await getSession();
   if (!(session && session.user?.id)) throw new Error("pas de session");
   const mangas = await prisma.manga.findMany({
+    where: { deletedAt: null, userId: session.user.id },
     orderBy: { createdAt: "desc" },
   });
   return (
