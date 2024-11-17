@@ -49,7 +49,7 @@ export default function MangaCard({
             buttonProps={{ variant: "outline", size: "icon" }}
             className="bg-cover bg-center"
           >
-            <Edit2 className="h-4 w-4 dark:text-white" />
+            <Edit2 className="h-4 w-4 dark:text-white text-black" />
           </DialogResponsive>
         </div>
       </CardContent>
