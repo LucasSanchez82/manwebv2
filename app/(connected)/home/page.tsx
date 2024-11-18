@@ -1,17 +1,14 @@
-import DisplayMangas from "@/components/pages/home/DisplayMangas";
-import { DialogResponsive } from "@/components/global/DialogResponsive/DialogResponsive";
-import { getSession } from "@/lib/auth/getsession";
-import { prisma } from "@/lib/prisma";
 import AddMangaForm from "@/components/forms/mangaForm/AddMangaForm";
+import { DialogResponsive } from "@/components/global/DialogResponsive/DialogResponsive";
+import DisplayMangas from "@/components/pages/home/DisplayMangas";
 import SearchMangaBar from "@/components/pages/home/SearchMangaBar";
+import { getSession } from "@/lib/auth/getsession";
+import { getPersonnalMangas } from "@/lib/cachedRequests/manga/getPersonnalMangas";
 
 const Page = async () => {
   const session = await getSession();
   if (!(session && session.user?.id)) throw new Error("pas de session");
-  const mangas = await prisma.manga.findMany({
-    where: { deletedAt: null, userId: session.user.id },
-    orderBy: { createdAt: "desc" },
-  });
+  const mangas = await getPersonnalMangas(session.user.id);
   return (
     <div className="w-full">
       <SearchMangaBar />

@@ -1,9 +1,7 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { FormEvent } from "react";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
+import { useDialog } from "@/components/global/DialogResponsive/DialogResponsive.context";
+import ImageInput from "@/components/pages/home/ImageInput";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -16,12 +14,16 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { toast } from "sonner";
+import { cacheTagEnum } from "@/lib/cachedRequests/cacheTagEnum";
 import useFetch from "@/lib/hooks/useFetch";
 import { mangaSchemaClient } from "@/lib/schemas/mangas/mangaSchemaClient";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { revalidateTag } from "next/cache";
 import { useRouter } from "next/navigation";
-import { useDialog } from "@/components/global/DialogResponsive/DialogResponsive.context";
-import ImageInput from "@/components/pages/home/ImageInput";
+import { FormEvent } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import * as z from "zod";
 
 const AddMangaForm = () => {
   const { refetch, isLoading } = useFetch();

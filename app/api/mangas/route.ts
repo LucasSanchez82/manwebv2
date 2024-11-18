@@ -7,6 +7,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { generateRandString } from "@/lib/utils";
 import { auth } from "@/lib/auth/auth";
 import { webdav } from "@/lib/webdav";
+import { expireTag } from "next/cache";
+import { cacheTagEnum } from "@/lib/cachedRequests/cacheTagEnum";
 
 export async function POST(request: NextRequest) {
   const session = await auth();
@@ -186,6 +188,8 @@ export async function PUT(request: NextRequest) {
       ...updatedManga,
       id: Number(updatedManga.id),
     };
+    expireTag(cacheTagEnum.GET_PERSONNAL_MANGAS);
+
     return NextResponse.json(returnedManga, { status: 200 });
   } catch (error) {
     console.error("Error updating manga:", error);

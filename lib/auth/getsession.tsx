@@ -5,6 +5,6 @@ import { auth } from "./auth";
 export const getSession = async () => {
   const session = await auth();
 
-  if (!session?.user?.id || !session) redirect("/se-connecter");
+  if (!(session && session.user?.id)) redirect("/se-connecter");
   return session;
 };
