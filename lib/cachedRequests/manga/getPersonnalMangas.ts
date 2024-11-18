@@ -10,13 +10,18 @@ import { cacheTagEnum } from "../cacheTagEnum";
 type Props = {
   userId: string;
   searchStr?: string;
+  showDeleted?: boolean;
 };
-export const getPersonnalMangas = async ({ userId, searchStr }: Props) => {
+export const getPersonnalMangas = async ({
+  userId,
+  searchStr,
+  showDeleted = false,
+}: Props) => {
   cacheLife("days");
   cacheTag(cacheTagEnum.GET_PERSONNAL_MANGAS);
   const mangas = await prisma.manga.findMany({
     where: {
-      deletedAt: null,
+      deletedAt: showDeleted ? { not: null } : null,
       userId,
       title: searchStr
         ? { contains: searchStr, mode: "insensitive" }
