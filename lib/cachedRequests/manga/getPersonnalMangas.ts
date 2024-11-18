@@ -8,7 +8,7 @@ import {
 import { cacheTagEnum } from "../cacheTagEnum";
 
 export const getPersonnalMangas = async (userId: string) => {
-  cacheLife("weeks");
+  cacheLife("days");
   cacheTag(cacheTagEnum.GET_PERSONNAL_MANGAS);
   const mangas = await prisma.manga.findMany({
     where: { deletedAt: null, userId },
