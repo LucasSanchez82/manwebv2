@@ -1,23 +1,31 @@
 import * as React from "react";
-import Link from "next/link";
 import { cn } from "@/lib/utils";
 import {
   NavigationMenu,
-  NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { components, gettingStartedItems } from "./constant";
-import { Icons } from "@/components/icons";
 import Profile from "../profile/Profile";
+import { NavigationMenuList } from "@radix-ui/react-navigation-menu";
 
 export default function NavBar() {
   return (
     <section className="flex w-full justify-between p-5">
       <NavigationMenu>
+        <NavigationMenuList>
+          <NavigationMenuItem>
+            <NavigationMenuLink href="/home/bin" className="font-bold">
+              Corbeille
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+
+          <NavigationMenuItem>
+            <NavigationMenuLink href="/home" className="font-bold">
+              Accueil
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+
         {/* <NavigationMenuList>
           <NavigationMenuItem>
             <NavigationMenuTrigger>Getting started</NavigationMenuTrigger>
