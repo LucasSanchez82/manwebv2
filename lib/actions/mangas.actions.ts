@@ -1,7 +1,9 @@
 "use server";
 
+import { expireTag } from "next/cache";
 import { auth } from "../auth/auth";
 import { prisma } from "../prisma";
+import { cacheTagEnum } from "../cachedRequests/cacheTagEnum";
 
 export const deleteMangaAction = async (id: number | bigint) => {
   const session = await auth();
@@ -41,6 +43,8 @@ export const deleteMangaAction = async (id: number | bigint) => {
       deletedAt: new Date(),
     },
   });
+
+  expireTag(cacheTagEnum.GET_PERSONNAL_MANGAS);
 
   return softDeletedManga;
 };

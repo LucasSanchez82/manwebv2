@@ -81,6 +81,8 @@ export async function POST(request: NextRequest) {
       ...mangaCreated,
       id: Number(mangaCreated.id),
     };
+    expireTag(cacheTagEnum.GET_PERSONNAL_MANGAS);
+
     return NextResponse.json(returnedManga, { status: 201 });
   } catch (error) {
     console.error("Error uploading file:", error);
