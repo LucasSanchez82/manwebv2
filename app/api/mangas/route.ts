@@ -10,197 +10,202 @@ import { webdav } from "@/lib/webdav";
 import { expireTag } from "next/cache";
 import { cacheTagEnum } from "@/lib/cachedRequests/cacheTagEnum";
 
-export async function POST(request: NextRequest) {
-  const session = await auth();
+// Types
+type ApiResponse<T = any> = {
+  data?: T;
+  error?: string;
+  message?: string;
+};
 
-  if (!session || !session.user?.id) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+// Constants
+const WEBDAV_UPLOAD_PATH = process.env.WEBDAV_UPLOAD_PATH!;
 
-  const formdata = await request.formData();
-  const parsedManga = mangaSchemaInputServer.safeParse(
-    Object.fromEntries(formdata.entries())
+// Helper functions
+const generateImageName = (file: File): string => {
+  return encodeURIComponent(
+    `${Date.now()}${generateRandString(10)}${file.type.replace("image/", ".")}`
   );
-  let fullImageName: string;
-  let isImageAFile: boolean;
-  if (!parsedManga.success) {
-    return NextResponse.json(
-      {
-        error: parsedManga.error,
-        messsage: "Données recu par le serveur invalides",
-      },
-      { status: 400 }
-    );
-  }
+};
 
-  if ((isImageAFile = parsedManga.data.image instanceof File)) {
-    const imageArrayBuffer = await parsedManga.data.image.arrayBuffer();
-
-    fullImageName = encodeURIComponent(
-      Number(new Date()) +
-        generateRandString(10) +
-        parsedManga.data.image.type.replace("image/", ".")
-    );
-
-    webdav
-      .putFileContents(
-        process.env.WEBDAV_UPLOAD_PATH + fullImageName,
-        imageArrayBuffer,
-        {
-          onUploadProgress: (e) => {
-            console.log(e);
-          },
-        }
-      )
-      .then(() => {
-        console.log("File uploaded");
-      })
-      .catch((err) => {
-        console.error("Error uploading file:", err);
-        return NextResponse.json(
-          { error: "Error uploading file" },
-          { status: 500 }
-        );
-      });
-  } else fullImageName = parsedManga.data.image;
+const handleFileUpload = async (
+  file: File,
+  imageName: string
+): Promise<void> => {
+  const imageArrayBuffer = await file.arrayBuffer();
 
   try {
+    await webdav.putFileContents(
+      WEBDAV_UPLOAD_PATH + imageName,
+      imageArrayBuffer,
+      {
+        onUploadProgress: (e) => console.log("Upload progress:", e),
+      }
+    );
+    console.log("File uploaded successfully");
+  } catch (error) {
+    console.error("Error uploading file:", error);
+    throw new Error("Failed to upload file");
+  }
+};
+
+const deleteOldFile = async (filePath: string): Promise<void> => {
+  try {
+    await webdav.deleteFile(WEBDAV_UPLOAD_PATH + filePath);
+    console.log("Old file deleted successfully");
+  } catch (error) {
+    console.error("Error deleting old file:", error);
+    // Continue execution even if delete fails
+  }
+};
+
+// Auth middleware
+const authenticateRequest = async () => {
+  const session = await auth();
+  if (!session?.user?.id) {
+    throw new Error("Unauthorized");
+  }
+  return session.user.id;
+};
+
+// API handlers
+export async function POST(request: NextRequest) {
+  try {
+    const userId = await authenticateRequest();
+    const formData = await request.formData();
+    const parsedData = mangaSchemaInputServer.safeParse(
+      Object.fromEntries(formData.entries())
+    );
+
+    if (!parsedData.success) {
+      return NextResponse.json<ApiResponse>(
+        {
+          error: "Validation Error",
+          message: "Données reçues par le serveur invalides",
+        },
+        { status: 400 }
+      );
+    }
+
+    const { image, ...mangaData } = parsedData.data;
+    const isImageFile = image instanceof File;
+    const imageName = isImageFile ? generateImageName(image) : image;
+
+    if (isImageFile) {
+      await handleFileUpload(image, imageName);
+    }
+
     const mangaCreated = await prisma.manga.create({
       data: {
-        chapter: parsedManga.data.chapter,
-        description: parsedManga.data.description,
-        readerUrl: parsedManga.data.readerUrl,
-        title: parsedManga.data.title,
-        image: fullImageName,
-        userId: session.user.id,
-        isSelfHosted: isImageAFile,
+        ...mangaData,
+        image: imageName,
+        userId,
+        isSelfHosted: isImageFile,
       },
     });
 
-    const returnedManga = {
-      ...mangaCreated,
-      id: Number(mangaCreated.id),
-    };
     expireTag(cacheTagEnum.GET_PERSONNAL_MANGAS);
 
-    return NextResponse.json(returnedManga, { status: 201 });
-  } catch (error) {
-    console.error("Error uploading file:", error);
     return NextResponse.json(
       {
-        error: "Error uploading file",
-        message: error instanceof Error ? error.message : "erreur inconny",
+        data: { ...mangaCreated, id: Number(mangaCreated.id) },
       },
-      { status: 500 }
+      { status: 201 }
+    );
+  } catch (error) {
+    console.error("API Error:", error);
+    return NextResponse.json<ApiResponse>(
+      {
+        error: "Server Error",
+        message: error instanceof Error ? error.message : "Erreur inconnue",
+      },
+      {
+        status:
+          error instanceof Error && error.message === "Unauthorized"
+            ? 401
+            : 500,
+      }
     );
   }
 }
 
 export async function PUT(request: NextRequest) {
-  const session = await auth();
-  if (!session || !session.user?.id) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  try {
+    const userId = await authenticateRequest();
+    const formData = await request.formData();
+    const parsedData = mangaSchemaInputServerWithId
+      .partial()
+      .safeParse(Object.fromEntries(formData.entries()));
 
-  const formdata = await request.formData();
-  const parsedManga = mangaSchemaInputServerWithId
-    .partial()
-    .safeParse(Object.fromEntries(formdata.entries()));
-  let fullImageName: string | undefined;
-  let isImageAFile: boolean | undefined;
-
-  if (!parsedManga.success)
-    return NextResponse.json(
-      {
-        error: parsedManga.error,
-        message: "Données reçues par le serveur invalides",
-      },
-      { status: 400 }
-    );
-  const currentManga = await prisma.manga.findUnique({
-    where: { id: parsedManga.data.id, userId: session.user.id },
-  });
-  if (!currentManga) {
-    return NextResponse.json(
-      {
-        error: "Current manga not found",
-        message: "Le manga existant n'a pas été trouvé",
-      },
-      { status: 404 }
-    );
-  }
-  isImageAFile = parsedManga.data.image instanceof File || undefined;
-  if (parsedManga.data.image instanceof File) {
-    const imageArrayBuffer = await parsedManga.data.image.arrayBuffer();
-
-    fullImageName = encodeURIComponent(
-      Number(new Date()) +
-        generateRandString(10) +
-        parsedManga.data.image.type.replace("image/", ".")
-    );
-
-    if (
-      parsedManga.data.image &&
-      !(parsedManga.data.image instanceof File) &&
-      currentManga.image === parsedManga.data.image &&
-      currentManga.isSelfHosted
-    ) {
-      webdav
-        .deleteFile(process.env.WEBDAV_UPLOAD_PATH! + currentManga.image)
-        .then(() => {
-          console.log("Old file deleted");
-        })
-        .catch((err) => {
-          console.error("Error deleting old file:", err);
-        });
+    if (!parsedData.success) {
+      return NextResponse.json<ApiResponse>(
+        {
+          error: "Validation Error",
+          message: "Données reçues par le serveur invalides",
+        },
+        { status: 400 }
+      );
     }
 
-    webdav
-      .putFileContents(
-        process.env.WEBDAV_UPLOAD_PATH + fullImageName,
-        imageArrayBuffer,
-        {
-          onUploadProgress: (e) => {
-            console.log(e);
-          },
-        }
-      )
-      .then(() => {
-        console.log("File uploaded");
-      })
-      .catch((err) => {
-        console.error("Error uploading file:", err);
-      });
-  } else fullImageName = parsedManga.data.image;
+    const currentManga = await prisma.manga.findUnique({
+      where: { id: parsedData.data.id, userId },
+    });
 
-  try {
+    if (!currentManga) {
+      return NextResponse.json<ApiResponse>(
+        {
+          error: "Not Found",
+          message: "Le manga existant n'a pas été trouvé",
+        },
+        { status: 404 }
+      );
+    }
+
+    const { image, ...updateData } = parsedData.data;
+    let imageName;
+    let isImageFile = false;
+
+    if (image instanceof File) {
+      isImageFile = true;
+      imageName = generateImageName(image);
+
+      // Delete old file if it was self-hosted
+      if (currentManga.isSelfHosted && currentManga.image) {
+        await deleteOldFile(currentManga.image);
+      }
+
+      await handleFileUpload(image, imageName);
+    }
+
     const updatedManga = await prisma.manga.update({
-      where: { id: parsedManga.data.id, userId: session.user.id },
+      where: { id: parsedData.data.id, userId },
       data: {
-        chapter: parsedManga.data.chapter,
-        description: parsedManga.data.description,
-        readerUrl: parsedManga.data.readerUrl,
-        title: parsedManga.data.title,
-        image: fullImageName,
-        isSelfHosted: parsedManga.data.image instanceof File || undefined,
+        ...updateData,
+        image: imageName,
+        isSelfHosted: isImageFile || undefined,
       },
     });
 
-    const returnedManga = {
-      ...updatedManga,
-      id: Number(updatedManga.id),
-    };
     expireTag(cacheTagEnum.GET_PERSONNAL_MANGAS);
 
-    return NextResponse.json(returnedManga, { status: 200 });
-  } catch (error) {
-    console.error("Error updating manga:", error);
     return NextResponse.json(
       {
-        error: "Error updating manga",
-        message: error instanceof Error ? error.message : "erreur inconnue",
+        data: { ...updatedManga, id: Number(updatedManga.id) },
       },
-      { status: 500 }
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("API Error:", error);
+    return NextResponse.json<ApiResponse>(
+      {
+        error: "Server Error",
+        message: error instanceof Error ? error.message : "Erreur inconnue",
+      },
+      {
+        status:
+          error instanceof Error && error.message === "Unauthorized"
+            ? 401
+            : 500,
+      }
     );
   }
 }
