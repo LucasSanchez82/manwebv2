@@ -19,15 +19,15 @@ import useFetch from "@/lib/hooks/useFetch";
 import { mangaSchemaClientPartial } from "@/lib/schemas/mangas/mangaSchemaClient";
 import { MangaSchemaClientPartial } from "@/lib/types/schemasTypes";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Manga } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import ImageInput from "../../pages/home/ImageInput";
+import { PersonnalManga } from "@/lib/cachedRequests/manga/getPersonnalMangas";
 
 const MangaCardEditedForm = (
   editedManga: MangaSchemaClientPartial &
-    Pick<Manga, "id"> & { imageUrl: string }
+    Pick<PersonnalManga, "id"> & { imageUrl: string }
 ) => {
   const { refetch, isLoading } = useFetch();
   const router = useRouter();

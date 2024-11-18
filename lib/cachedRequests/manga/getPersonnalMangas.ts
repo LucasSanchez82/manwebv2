@@ -7,12 +7,32 @@ import {
 } from "next/cache";
 import { cacheTagEnum } from "../cacheTagEnum";
 
-export const getPersonnalMangas = async (userId: string) => {
+type Props = {
+  userId: string;
+  searchStr?: string;
+};
+export const getPersonnalMangas = async ({ userId, searchStr }: Props) => {
   cacheLife("days");
   cacheTag(cacheTagEnum.GET_PERSONNAL_MANGAS);
   const mangas = await prisma.manga.findMany({
-    where: { deletedAt: null, userId },
+    where: {
+      deletedAt: null,
+      userId,
+      title: searchStr && { contains: searchStr, mode: "insensitive" },
+    },
     orderBy: { createdAt: "desc" },
+    select: {
+      title: true,
+      readerUrl: true,
+      image: true,
+      chapter: true,
+      isSelfHosted: true,
+      description: true,
+      id: true,
+    },
   });
   return mangas;
 };
+
+export type PersonnalMangas = Awaited<ReturnType<typeof getPersonnalMangas>>;
+export type PersonnalManga = PersonnalMangas[number];

@@ -6,6 +6,7 @@ import MangaCardEditedForm from "../../forms/mangaForm/MangaCardEditedForm";
 import { DialogResponsive } from "@/components/global/DialogResponsive/DialogResponsive";
 import { Manga } from "@prisma/client";
 import MangaCardBackgroundImage from "./MangaCard.backgroundImage";
+import { PersonnalManga } from "@/lib/cachedRequests/manga/getPersonnalMangas";
 
 export default function MangaCard({
   title,
@@ -15,7 +16,7 @@ export default function MangaCard({
   isSelfHosted,
   description,
   id,
-}: Manga) {
+}: PersonnalManga) {
   const imageUrl = `${isSelfHosted ? process.env.SELFHOSTED_IMAGES_BASE_URL + "/" : ""}${image}`;
   return (
     <Card className="w-full max-w-sm h-64 overflow-hidden group relative">

@@ -15,6 +15,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useRouter } from "next/navigation";
 
 const SearchMangaBar = () => {
   const form = useForm({
@@ -27,9 +28,9 @@ const SearchMangaBar = () => {
       search: "",
     },
   });
-
+  const router = useRouter();
   const handleSubmit = form.handleSubmit((data) => {
-    console.log(data);
+    router.push("?search=" + data.search);
   });
   return (
     <Form {...form}>

@@ -5,10 +5,18 @@ import SearchMangaBar from "@/components/pages/home/SearchMangaBar";
 import { getSession } from "@/lib/auth/getsession";
 import { getPersonnalMangas } from "@/lib/cachedRequests/manga/getPersonnalMangas";
 
-const Page = async () => {
+const Page = async ({
+  searchParams,
+}: {
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
+}) => {
   const session = await getSession();
   if (!(session && session.user?.id)) throw new Error("pas de session");
-  const mangas = await getPersonnalMangas(session.user.id);
+
+  const mangas = await getPersonnalMangas({
+    userId: session.user.id,
+    searchStr: (await searchParams)?.search?.toString().toLowerCase() || "",
+  });
   return (
     <div className="w-full">
       <SearchMangaBar />

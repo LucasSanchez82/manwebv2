@@ -1,8 +1,9 @@
 import { Manga } from "@prisma/client";
 import React from "react";
 import MangaCard from "./MangaCard";
+import { PersonnalMangas } from "@/lib/cachedRequests/manga/getPersonnalMangas";
 
-const DisplayMangas = ({ mangas }: { mangas: Manga[] }) => {
+const DisplayMangas = ({ mangas }: { mangas: PersonnalMangas }) => {
   return (
     <div className="flex flex-wrap justify-center gap-4 w-screen">
       {mangas.map((manga) => (
