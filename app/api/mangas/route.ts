@@ -9,6 +9,7 @@ import { auth } from "@/lib/auth/auth";
 import { webdav } from "@/lib/webdav";
 import { expireTag } from "next/cache";
 import { cacheTagEnum } from "@/lib/cachedRequests/cacheTagEnum";
+import { deleteOldFile } from "@/lib/actions/mangas.actions";
 
 // Types
 type ApiResponse<T = any> = {
@@ -45,16 +46,6 @@ const handleFileUpload = async (
   } catch (error) {
     console.error("Error uploading file:", error);
     throw new Error("Failed to upload file");
-  }
-};
-
-const deleteOldFile = async (filePath: string): Promise<void> => {
-  try {
-    await webdav.deleteFile(WEBDAV_UPLOAD_PATH + filePath);
-    console.log("Old file deleted successfully");
-  } catch (error) {
-    console.error("Error deleting old file:", error);
-    // Continue execution even if delete fails
   }
 };
 
