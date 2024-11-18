@@ -15,7 +15,8 @@ const Page = async ({
 
   const mangas = await getPersonnalMangas({
     userId: session.user.id,
-    searchStr: (await searchParams)?.search?.toString().toLowerCase() || "",
+    searchStr:
+      (await searchParams)?.search?.toString().toLowerCase() || undefined,
   });
   return (
     <div className="w-full">

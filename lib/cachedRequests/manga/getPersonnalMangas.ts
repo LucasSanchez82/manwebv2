@@ -18,7 +18,9 @@ export const getPersonnalMangas = async ({ userId, searchStr }: Props) => {
     where: {
       deletedAt: null,
       userId,
-      title: searchStr && { contains: searchStr, mode: "insensitive" },
+      title: searchStr
+        ? { contains: searchStr, mode: "insensitive" }
+        : undefined,
     },
     orderBy: { createdAt: "desc" },
     select: {
