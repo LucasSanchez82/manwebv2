@@ -22,7 +22,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import ImageInput from "../../pages/home/ImageInput";
+import ImageInput from "../../pages/home/Manga/ImageInput";
 import { PersonnalManga } from "@/lib/cachedRequests/manga/getPersonnalMangas";
 
 const MangaCardEditedForm = (

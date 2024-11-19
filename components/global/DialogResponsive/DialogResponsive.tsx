@@ -26,7 +26,7 @@ import { DialogProvider, useDialog } from "./DialogResponsive.context";
 type DialogResponsiveProps = {
   title: string;
   desc?: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   form: React.ReactNode;
   buttonProps?: React.ComponentProps<typeof Button>;
   className?: string;

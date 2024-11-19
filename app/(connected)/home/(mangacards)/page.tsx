@@ -1,6 +1,6 @@
 import AddMangaForm from "@/components/forms/mangaForm/AddMangaForm";
 import { DialogResponsive } from "@/components/global/DialogResponsive/DialogResponsive";
-import DisplayMangas from "@/components/pages/home/DisplayMangas";
+import DisplayMangas from "@/components/pages/home/Manga/DisplayMangas";
 import { getSession } from "@/lib/auth/getsession";
 import { getPersonnalMangas } from "@/lib/cachedRequests/manga/getPersonnalMangas";
 

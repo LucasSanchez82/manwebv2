@@ -5,6 +5,7 @@ import { auth } from "../auth/auth";
 import { prisma } from "../prisma";
 import { cacheTagEnum } from "../cachedRequests/cacheTagEnum";
 import { webdav } from "../webdav";
+import { NextResponse } from "next/server";
 
 const WEBDAV_UPLOAD_PATH = process.env.WEBDAV_UPLOAD_PATH!;
 
@@ -61,4 +62,39 @@ export const deleteMangaAction = async (id: number | bigint) => {
   expireTag(cacheTagEnum.GET_PERSONNAL_MANGAS);
 
   return softDeletedManga;
+};
+
+export const restoreMangaAction = async (id: number | bigint) => {
+  const session = await auth();
+  if (!session || !session.user?.id) {
+    return { error: "Unauthorized" };
+  }
+
+  try {
+    const currentManga = await prisma.manga.findUnique({
+      where: {
+        userId: session.user.id,
+        id,
+      },
+    });
+    if (!currentManga) return { error: "Ce manga n'existe pas/plus" };
+    if (!currentManga?.deletedAt)
+      return { error: "Ce manga n'est pas dans la corebeille" };
+    const deletedManga = await prisma.manga.delete({
+      where: {
+        userId: session.user.id,
+        id,
+      },
+      select: {
+        title: true,
+        chapter: true,
+        description: true,
+        readerUrl: true,
+        isSelfHosted: true,
+      },
+    });
+    return deleteMangaAction;
+  } catch (error) {
+    return { error: "Erreur interne du serveur" };
+  }
 };

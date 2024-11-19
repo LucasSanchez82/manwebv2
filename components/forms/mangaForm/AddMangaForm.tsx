@@ -1,7 +1,7 @@
 "use client";
 
 import { useDialog } from "@/components/global/DialogResponsive/DialogResponsive.context";
-import ImageInput from "@/components/pages/home/ImageInput";
+import ImageInput from "@/components/pages/home/Manga/ImageInput";
 import { Button } from "@/components/ui/button";
 import {
   Form,
