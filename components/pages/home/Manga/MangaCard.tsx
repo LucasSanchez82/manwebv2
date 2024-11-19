@@ -1,5 +1,5 @@
 import { Edit2 } from "lucide-react";
-import MangaCardEditedForm from "../../forms/mangaForm/MangaCardEditedForm";
+import MangaCardEditedForm from "../../../forms/mangaForm/MangaCardEditedForm";
 import { DialogResponsive } from "@/components/global/DialogResponsive/DialogResponsive";
 import { PersonnalManga } from "@/lib/cachedRequests/manga/getPersonnalMangas";
 import MangaCardProvider from "./MangaCard.provider";
