@@ -6,7 +6,11 @@ import RestoreButtonMangaCard from "./Restore/RestoreButton.MangaCard";
 
 export default function MangaCardDeleted(props: PersonnalManga) {
   return (
-    <MangaCardProvider {...props}>
+    <MangaCardProvider
+      {...props}
+      hideContinueReading
+      buttonContainer={{ className: "justify-end" }}
+    >
       <RestoreButtonMangaCard mangaToRestore={props.id}>
         <Undo2 />
       </RestoreButtonMangaCard>

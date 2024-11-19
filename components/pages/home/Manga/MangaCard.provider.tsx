@@ -6,16 +6,24 @@ import MangaCardBackgroundImage from "./MangaCard.backgroundImage";
 import { PersonnalManga } from "@/lib/cachedRequests/manga/getPersonnalMangas";
 import { PropsWithChildren } from "react";
 
+type Props = PropsWithChildren<
+  PersonnalManga & {
+    hideContinueReading?: boolean;
+    buttonContainer?: {
+      className?: string;
+    };
+  }
+>;
 export default function MangaCardProvider({
   title,
   readerUrl,
   image,
   chapter,
   isSelfHosted,
-  description,
-  id,
   children,
-}: PropsWithChildren<PersonnalManga>) {
+  hideContinueReading = false,
+  buttonContainer,
+}: Props) {
   const imageUrl = `${isSelfHosted ? process.env.SELFHOSTED_IMAGES_BASE_URL + "/" : ""}${image}`;
   return (
     <Card className="w-full max-w-sm h-64 overflow-hidden group relative">
@@ -24,13 +32,17 @@ export default function MangaCardProvider({
       <CardContent className="relative h-full flex flex-col justify-end p-4 text-white">
         <h2 className="text-2xl font-bold mb-2 s">{title}</h2>
         <p className="text-sm mb-4">Last read: {chapter}</p>
-        <div className="flex justify-between items-center">
-          <Link href={readerUrl} passHref>
-            <Button className="flex-grow mr-2" variant="secondary">
-              <BookOpen className="mr-2 h-4 w-4" />
-              Continue Reading
-            </Button>
-          </Link>
+        <div
+          className={`flex items-center ${buttonContainer?.className || "justify-between"}`}
+        >
+          {!hideContinueReading && (
+            <Link href={readerUrl} passHref>
+              <Button className="flex-grow mr-2" variant="secondary">
+                <BookOpen className="mr-2 h-4 w-4" />
+                Continue Reading
+              </Button>
+            </Link>
+          )}
           {children}
         </div>
       </CardContent>
