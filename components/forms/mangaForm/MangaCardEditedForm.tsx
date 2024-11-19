@@ -75,7 +75,7 @@ const MangaCardEditedForm = (
         if (!fetchedState.isLoading && fetchedState.error) {
           toast.error("Erreur lors de l'ajout du manga");
         } else {
-          toast.success("Manga ajouté avec succès");
+          toast.success("Manga modifié avec succès");
           form.reset();
           router.refresh();
           setOpen(false);
