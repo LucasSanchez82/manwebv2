@@ -34,7 +34,7 @@ const useBackgroundImageWithRetry = (
 
   useEffect(() => {
     let retryCount = 0;
-    let timeoutId: NodeJS.Timeout;
+    let timeoutId: Timer;
 
     const loadImage = () => {
       const img = new Image();

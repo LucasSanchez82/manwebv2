@@ -1,5 +1,3 @@
-import { Manga } from "@prisma/client";
-import React from "react";
 import MangaCard from "./MangaCard";
 import { PersonnalMangas } from "@/lib/cachedRequests/manga/getPersonnalMangas";
 import MangaCardDeleted from "./MangaCard.showDeleted";
@@ -16,7 +14,6 @@ const DisplayMangas = ({
       {showDeleted
         ? mangas.map((manga) => <MangaCardDeleted key={manga.id} {...manga} />)
         : mangas.map((manga) => <MangaCard key={manga.id} {...manga} />)}
-      {}
     </div>
   );
 };
