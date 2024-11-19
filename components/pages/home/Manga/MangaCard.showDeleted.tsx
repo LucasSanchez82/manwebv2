@@ -2,13 +2,14 @@ import { Undo2 } from "lucide-react";
 import { PersonnalManga } from "@/lib/cachedRequests/manga/getPersonnalMangas";
 import MangaCardProvider from "./MangaCard.provider";
 import { Button } from "@/components/ui/button";
+import RestoreButtonMangaCard from "./Restore/RestoreButton.MangaCard";
 
 export default function MangaCardDeleted(props: PersonnalManga) {
   return (
     <MangaCardProvider {...props}>
-      <Button variant={"outline"}>
-        <Undo2 className="h-4 w-4 dark:text-white text-black" />
-      </Button>
+      <RestoreButtonMangaCard mangaToRestore={props.id}>
+        <Undo2 />
+      </RestoreButtonMangaCard>
     </MangaCardProvider>
   );
 }

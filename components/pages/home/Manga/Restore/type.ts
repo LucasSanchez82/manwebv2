@@ -1,3 +1,3 @@
 export type RestoreProps = {
-  mangaToDelete: number | bigint;
+  mangaToRestore: number | bigint;
 };

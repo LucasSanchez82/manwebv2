@@ -80,20 +80,25 @@ export const restoreMangaAction = async (id: number | bigint) => {
     if (!currentManga) return { error: "Ce manga n'existe pas/plus" };
     if (!currentManga?.deletedAt)
       return { error: "Ce manga n'est pas dans la corebeille" };
-    const deletedManga = await prisma.manga.delete({
+    const restoredManga = await prisma.manga.update({
       where: {
         userId: session.user.id,
         id,
+      },
+      data: {
+        deletedAt: null,
       },
       select: {
         title: true,
         chapter: true,
         description: true,
         readerUrl: true,
+        image: true,
         isSelfHosted: true,
       },
     });
-    return deleteMangaAction;
+    expireTag(cacheTagEnum.GET_PERSONNAL_MANGAS);
+    return restoredManga;
   } catch (error) {
     return { error: "Erreur interne du serveur" };
   }

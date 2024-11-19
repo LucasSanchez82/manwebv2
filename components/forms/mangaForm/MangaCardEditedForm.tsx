@@ -38,8 +38,8 @@ const MangaCardEditedForm = (
     defaultValues: { ...editedManga, image: undefined },
   });
 
-  const handleDeleteManga = async () => {
-    const res = await deleteMangaAction(editedManga.id);
+  const handleDeleteManga = async (id: bigint | number) => {
+    const res = await deleteMangaAction(id);
     if ("error" in res) {
       toast.error("Erreur lors de la suppression du manga", {
         description: res.error,
@@ -197,12 +197,12 @@ const MangaCardEditedForm = (
             </Button>
 
             <ButtonAction
-              type="button"
               variant="destructive"
               action={handleDeleteManga}
+              actionProps={[editedManga.id]}
               pendingText="Suppression en cours..."
             >
-              {isLoading ? "En cours..." : "Supprimer manga"}
+              Supprimer manga
             </ButtonAction>
           </section>
         </form>
