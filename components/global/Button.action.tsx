@@ -1,28 +1,33 @@
 "use client";
+import React from "react";
 import { Button } from "../ui/button";
+import { useFormStatus } from "react-dom";
 import { ButtonComponentProps } from "@/lib/types/ButtonComponentProps";
 import useAction from "@/lib/hooks/useAction";
+import { toast } from "sonner";
 
-type ButtonActionProps<T extends (...args: unknown[]) => Promise<unknown>> =
-  ButtonComponentProps & {
-    pendingText?: string;
-    action: T;
-    actionProps: Parameters<T>;
-  };
-const ButtonAction = <T extends (...args: any[]) => Promise<unknown>>({
-  action,
-  actionProps,
+const ButtonAction = ({
   children,
   pendingText,
+  action,
   ...props
-}: ButtonActionProps<T>) => {
+}: ButtonComponentProps & {
+  pendingText?: string;
+  action: (...args: unknown[]) => Promise<any>;
+}) => {
   const { pending, execute } = useAction(action);
   const handleClick = async () => {
-    await execute(...actionProps);
+    const result = await execute();
+    console.log("result", result);
+    if ("data" in result && "message" in result.data) {
+      toast.success(result.data.message);
+    } else if ("error" in result) {
+      toast.error(result.error);
+    }
   };
+
   return (
     <Button
-      type="button"
       disabled={pending}
       aria-disabled={pending}
       {...props}

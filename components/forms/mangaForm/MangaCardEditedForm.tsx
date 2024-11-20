@@ -38,17 +38,11 @@ const MangaCardEditedForm = (
     defaultValues: { ...editedManga, image: undefined },
   });
 
-  const handleDeleteManga = async (id: bigint | number) => {
-    const res = await deleteMangaAction(id);
-    if ("error" in res) {
-      toast.error("Erreur lors de la suppression du manga", {
-        description: res.error,
-      });
-    } else {
-      toast.success("Manga supprimé avec succès");
-      router.refresh();
-      setOpen(false);
-    }
+  const handleDeleteManga = async () => {
+    const res = await deleteMangaAction(editedManga.id);
+    router.refresh();
+    setOpen(false);
+    return res;
   };
 
   const onSubmit = (submissionData: MangaSchemaClientPartial) => {
@@ -199,7 +193,6 @@ const MangaCardEditedForm = (
             <ButtonAction
               variant="destructive"
               action={handleDeleteManga}
-              actionProps={[editedManga.id]}
               pendingText="Suppression en cours..."
             >
               Supprimer manga

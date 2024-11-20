@@ -5,7 +5,6 @@ import { auth } from "../auth/auth";
 import { prisma } from "../prisma";
 import { cacheTagEnum } from "../cachedRequests/cacheTagEnum";
 import { webdav } from "../webdav";
-import { NextResponse } from "next/server";
 
 const WEBDAV_UPLOAD_PATH = process.env.WEBDAV_UPLOAD_PATH!;
 
@@ -42,11 +41,21 @@ export const deleteMangaAction = async (id: number | bigint) => {
         id,
         userId: session.user.id,
       },
+      select: {
+        title: true,
+        chapter: true,
+        description: true,
+        readerUrl: true,
+        image: true,
+        isSelfHosted: true,
+      },
     });
 
-    deletedManga.image && (await deleteOldFile(deletedManga.image));
+    deletedManga.image &&
+      deletedManga.isSelfHosted &&
+      (await deleteOldFile(deletedManga.image));
 
-    return deletedManga;
+    return { data: { deletedManga, message: "Manga supprimé définitivement" } };
   }
   //   SSOFT DELETE
   const softDeletedManga = await prisma.manga.update({
@@ -57,11 +66,21 @@ export const deleteMangaAction = async (id: number | bigint) => {
     data: {
       deletedAt: new Date(),
     },
+    select: {
+      title: true,
+      chapter: true,
+      description: true,
+      readerUrl: true,
+      image: true,
+      isSelfHosted: true,
+    },
   });
 
   expireTag(cacheTagEnum.GET_PERSONNAL_MANGAS);
 
-  return softDeletedManga;
+  return {
+    data: { softDeletedManga, message: "Manga déplacé dans la corbeille" },
+  };
 };
 
 export const restoreMangaAction = async (id: number | bigint) => {
@@ -98,7 +117,7 @@ export const restoreMangaAction = async (id: number | bigint) => {
       },
     });
     expireTag(cacheTagEnum.GET_PERSONNAL_MANGAS);
-    return restoredManga;
+    return { data: { restoredManga, message: "Manga restauré" } };
   } catch (error) {
     return { error: "Erreur interne du serveur" };
   }
