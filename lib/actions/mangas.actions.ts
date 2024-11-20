@@ -5,6 +5,7 @@ import { auth } from "../auth/auth";
 import { prisma } from "../prisma";
 import { cacheTagEnum } from "../cachedRequests/cacheTagEnum";
 import { webdav } from "../webdav";
+import { ServerResponseHandler } from "./type";
 
 const WEBDAV_UPLOAD_PATH = process.env.WEBDAV_UPLOAD_PATH!;
 
@@ -17,7 +18,9 @@ export const deleteOldFile = async (filePath: string): Promise<void> => {
     // Continue execution even if delete fails
   }
 };
-export const deleteMangaAction = async (id: number | bigint) => {
+export const deleteMangaAction: ServerResponseHandler = async (
+  id: number | bigint
+) => {
   const session = await auth();
   if (!session || !session.user?.id) {
     return { error: "Unauthorized" };
@@ -83,7 +86,9 @@ export const deleteMangaAction = async (id: number | bigint) => {
   };
 };
 
-export const restoreMangaAction = async (id: number | bigint) => {
+export const restoreMangaAction: ServerResponseHandler = async (
+  id: number | bigint
+) => {
   const session = await auth();
   if (!session || !session.user?.id) {
     return { error: "Unauthorized" };

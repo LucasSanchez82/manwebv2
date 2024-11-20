@@ -45,3 +45,5 @@ export const mangaSchemaInputServerWithId = mangaSchemaInputServer.extend({
 export const mangaSchemaOutputServer = mangaSchemaInputServer.extend({
   id: z.coerce.bigint().describe("Id du manga"),
 });
+
+export type MangaSchemaInputServer = z.infer<typeof mangaSchemaInputServer>;

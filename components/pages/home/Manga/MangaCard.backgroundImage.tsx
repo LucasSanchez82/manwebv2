@@ -55,6 +55,7 @@ const useBackgroundImageWithRetry = (
           setError(`Retry ${retryCount}/${maxRetries}`);
         } else {
           setError(`Failed to load image`);
+          console.log(`Failed to load image: ${imageUrl}`);
           setLoading(false);
         }
       };

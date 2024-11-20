@@ -1,4 +1,5 @@
 import AddMangaForm from "@/components/forms/mangaForm/AddMangaForm";
+import AddMangasTabs from "@/components/forms/mangaForm/AddMangasTabs";
 import { DialogResponsive } from "@/components/global/DialogResponsive/DialogResponsive";
 import DisplayMangas from "@/components/pages/home/Manga/DisplayMangas";
 import { getSession } from "@/lib/auth/getsession";
@@ -20,7 +21,7 @@ const Page = async ({
   return (
     <>
       <div className="w-full flex justify-center my-4">
-        <DialogResponsive form={<AddMangaForm />} title="Ajouter un manga">
+        <DialogResponsive form={<AddMangasTabs />} title="Ajouter un manga">
           Ajouter un manga
         </DialogResponsive>
       </div>

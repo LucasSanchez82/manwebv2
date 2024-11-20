@@ -7,7 +7,7 @@ import { PersonnalManga } from "@/lib/cachedRequests/manga/getPersonnalMangas";
 import { PropsWithChildren } from "react";
 
 type Props = PropsWithChildren<
-  PersonnalManga & {
+  Omit<PersonnalManga, "id"> & {
     hideContinueReading?: boolean;
     buttonContainer?: {
       className?: string;

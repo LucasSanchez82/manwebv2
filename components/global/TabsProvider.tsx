@@ -9,14 +9,18 @@ type TabsProviderProps = {
 export function TabsProvider({ tabs }: TabsProviderProps) {
   const defaultValue = tabs[0].value;
   return (
-    <Tabs defaultValue={defaultValue} className="w-[400px]">
-      <TabsList className="grid w-full grid-cols-2">
+    <Tabs defaultValue={defaultValue}>
+      <TabsList className={"grid w-full grid-cols-" + tabs.length}>
         {tabs.map((tab) => (
-          <TabsTrigger value={tab.value}>{tab.value}</TabsTrigger>
+          <TabsTrigger key={tab.value} value={tab.value}>
+            {tab.value}
+          </TabsTrigger>
         ))}
       </TabsList>
       {tabs.map((tab) => (
-        <TabsContent value={tab.value}>{tab.node}</TabsContent>
+        <TabsContent key={tab.value} value={tab.value}>
+          {tab.node}
+        </TabsContent>
       ))}
     </Tabs>
   );
