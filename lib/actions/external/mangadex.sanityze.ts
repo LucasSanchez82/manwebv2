@@ -13,13 +13,17 @@ export type SanityzedMangadexResponseItem = MangaSchemaInputServer & {
 export const sanityzeMangadexResponse = (
   response: MangadexResponse
 ): SanityzedMangadexResponseItem[] => {
+  console.log({ response });
   return response.data.map((manga) => {
     const coverRelation: MangadexRelationshipCoverArtSchema =
       manga.relationships.find(
-        (rel) => rel.id === "cover_art"
+        (rel) => rel.type === "cover_art"
       ) as MangadexRelationshipCoverArtSchema;
-    const cover = coverRelation?.attributes?.fileName ?? "/404.png";
-
+    const cover = coverRelation?.attributes?.fileName;
+    console.log({
+      manga,
+      cover_art: manga.relationships.find((rel) => rel.id === "cover_art"),
+    });
     return {
       title: manga.attributes.title.en,
       description: manga.attributes.description?.en ?? "",

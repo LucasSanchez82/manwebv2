@@ -24,8 +24,12 @@ const coverArtAttributesSchema = z.object({
   version: z.number(),
 });
 
-const relationschipCoverArtSchema = z.object({
-  id: z.literal("cover_art"),
+const baseRelationSchipCover = z.object({
+  id: z.string(),
+  type: z.string(),
+});
+const relationschipCoverArtSchema = baseRelationSchipCover.extend({
+  type: z.literal("cover_art"),
   attributes: coverArtAttributesSchema,
 });
 // Relationship Schema
@@ -49,13 +53,13 @@ export const mangaAttributesSchema = z.object({
     })
     .optional(),
   isLocked: z.boolean(),
-  links: z.record(z.string()),
+  links: z.record(z.string()).nullable(),
   originalLanguage: z.string(),
   lastVolume: z.string().nullable(),
   lastChapter: z.string().nullable(),
   publicationDemographic: z.string().nullable(),
   status: z.string(),
-  year: z.number(),
+  year: z.number().nullable(),
   contentRating: z.string(),
   tags: z.array(tagSchema),
   state: z.string(),
