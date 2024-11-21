@@ -168,7 +168,7 @@ export function AutoComplete<T extends string>({
                   </div>
                 </CommandPrimitive.Loading>
               )}
-              {items.length > 0 && !isLoading ? (
+              {items.length > 0 && !isLoading && (
                 <CommandGroup>
                   {items.map((option) => (
                     <CommandItem
@@ -189,10 +189,10 @@ export function AutoComplete<T extends string>({
                     </CommandItem>
                   ))}
                 </CommandGroup>
-              ) : null}
-              {!isLoading ? (
+              )}
+              {!isLoading && (
                 <CommandEmpty>{emptyMessage ?? "No items."}</CommandEmpty>
-              ) : null}
+              )}
             </CommandList>
           </PopoverContent>
         </Command>
