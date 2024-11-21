@@ -15,7 +15,7 @@ export const sanityzeMangadexResponse = (
     );
     const cover = coverRelation?.attributes?.fileName;
     return {
-      title: manga.attributes.title.en,
+      title: manga.attributes?.title.en || "",
       description: manga.attributes.description?.en ?? "",
       image: cover
         ? `https://mangadex.org/covers/${manga.id}/${cover}.512.jpg`

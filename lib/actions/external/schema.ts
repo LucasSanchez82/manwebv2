@@ -33,7 +33,7 @@ const relationshipSchema = z.object({
 // Manga Attributes Schema
 export const mangaAttributesSchema = z.object({
   title: z.object({
-    en: z.string(),
+    en: z.string().optional().nullable(),
   }),
   altTitles: z.array(z.record(z.string())).optional(),
   description: z
