@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { Command as CommandPrimitive } from "cmdk";
 import { Check } from "lucide-react";
-import { useMemo, useState, useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   Command,
   CommandEmpty,
@@ -40,9 +40,9 @@ export function AutoComplete<T extends string>({
 }: Props<T>) {
   const [open, setOpen] = useState(false);
   const [searchInput, setSearchInput] = useState("");
-  const [isSearching, setIsSearching] = useState(false);
   const lastSearchTermRef = useRef("");
   const controllerRef = useRef<AbortController | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   // Cancel any ongoing search when component unmounts or search changes
   const cancelOngoingSearch = useCallback(() => {
@@ -57,12 +57,6 @@ export function AutoComplete<T extends string>({
     // Cancel any ongoing search
     cancelOngoingSearch();
 
-    // If search input is empty or unchanged, reset and return
-    if (!searchInput.trim() || searchInput === lastSearchTermRef.current) {
-      setIsSearching(false);
-      return;
-    }
-
     // Create a new AbortController for this search
     const controller = new AbortController();
     controllerRef.current = controller;
@@ -70,8 +64,6 @@ export function AutoComplete<T extends string>({
     // Perform the search
     const performSearch = async () => {
       try {
-        setIsSearching(true);
-
         // Only search if the term is different from the last searched term
         if (searchInput !== lastSearchTermRef.current) {
           await onSearchValueChange(searchInput, controller.signal);
@@ -85,11 +77,6 @@ export function AutoComplete<T extends string>({
           console.log("Search was cancelled");
         } else {
           console.error("Search error:", error);
-        }
-      } finally {
-        // Only clear searching state if this controller is still the current one
-        if (controllerRef.current === controller) {
-          setIsSearching(false);
         }
       }
     };
@@ -132,6 +119,8 @@ export function AutoComplete<T extends string>({
         lastSearchTermRef.current = labels[inputValue] ?? "";
       }
       setOpen(false);
+      // Focus the input after selection
+      setTimeout(() => inputRef.current?.focus(), 0);
     },
     [selectedValue, labels, onSelectedValueChange, reset]
   );
@@ -142,14 +131,19 @@ export function AutoComplete<T extends string>({
         <Command shouldFilter={false}>
           <PopoverAnchor asChild>
             <CommandPrimitive.Input
+              ref={inputRef}
               asChild
               value={searchInput}
-              onValueChange={setSearchInput}
+              onValueChange={(value) => {
+                setSearchInput(value);
+                // Focus the input after value change
+                setTimeout(() => inputRef.current?.focus(), 0);
+              }}
               onKeyDown={(e) => setOpen(e.key !== "Escape")}
               onMouseDown={() => setOpen((open) => !open)}
               onFocus={() => setOpen(true)}
             >
-              <Input placeholder={placeholder} disabled={isSearching} />
+              <Input placeholder={placeholder} />
             </CommandPrimitive.Input>
           </PopoverAnchor>
           {!open && <CommandList aria-hidden="true" className="hidden" />}
@@ -167,14 +161,14 @@ export function AutoComplete<T extends string>({
             className="w-[--radix-popover-trigger-width] p-0"
           >
             <CommandList>
-              {(isLoading || isSearching) && (
+              {isLoading && (
                 <CommandPrimitive.Loading>
                   <div className="p-1">
                     <Skeleton className="h-6 w-full" />
                   </div>
                 </CommandPrimitive.Loading>
               )}
-              {items.length > 0 && !isLoading && !isSearching ? (
+              {items.length > 0 && !isLoading ? (
                 <CommandGroup>
                   {items.map((option) => (
                     <CommandItem
@@ -196,7 +190,7 @@ export function AutoComplete<T extends string>({
                   ))}
                 </CommandGroup>
               ) : null}
-              {!isLoading && !isSearching ? (
+              {!isLoading ? (
                 <CommandEmpty>{emptyMessage ?? "No items."}</CommandEmpty>
               ) : null}
             </CommandList>
