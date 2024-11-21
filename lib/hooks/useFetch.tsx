@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 type FetchResult<T> = Omit<UseFetchResult<T>, "refetch">;
 type Refetch<T> = (
   url: FetchProps[0],
-  options?: FetchProps[1],
+  options?: FetchProps[1]
 ) => Promise<FetchResult<T>>;
 interface UseFetchResult<T> {
   data: T | null;
@@ -31,11 +31,11 @@ function useFetch<T = unknown>(): UseFetchResult<T> {
       const result = await response.json();
       setData(result);
       setIsLoading(false);
-      return { data: result, isLoading, error, refetch: fetchData };
+      return result;
     } catch (error) {
       setError(error as Error);
       setIsLoading(false);
-      return { data, isLoading, error: error as Error, refetch: fetchData };
+      return { error };
     }
   };
 

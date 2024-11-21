@@ -70,7 +70,8 @@ export async function POST(request: NextRequest) {
     if (!parsedData.success) {
       return NextResponse.json<ApiResponse>(
         {
-          error: "Validation Error",
+          error:
+            "Echouée, les données reçues par le serveur sont invalides, si cela se reproduit, veuillez contacter le support.",
           message: "Données reçues par le serveur invalides",
         },
         { status: 400 }
@@ -98,7 +99,11 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(
       {
-        data: { ...mangaCreated, id: Number(mangaCreated.id) },
+        data: {
+          ...mangaCreated,
+          id: Number(mangaCreated.id),
+          message: "Manga ajouté avec succès",
+        },
       },
       { status: 201 }
     );
@@ -106,7 +111,8 @@ export async function POST(request: NextRequest) {
     console.error("API Error:", error);
     return NextResponse.json<ApiResponse>(
       {
-        error: "Server Error",
+        error:
+          "Erreur serveur interne imprévue 🫠, si cela se reproduit, veuillez contacter le support.",
         message: error instanceof Error ? error.message : "Erreur inconnue",
       },
       {

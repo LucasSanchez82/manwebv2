@@ -18,10 +18,13 @@ const ButtonAction = ({
   const { pending, execute } = useAction(action);
   const handleClick = async () => {
     const result = await execute();
-    if ("data" in result && "message" in result.data) {
-      toast.success(result.data.message);
-    } else if ("error" in result) {
-      toast.error(result.error);
+    console.log("result", result);
+    if (result) {
+      if ("data" in result && "message" in result.data) {
+        toast.success(result.data.message);
+      } else if ("error" in result) {
+        toast.error(result.error);
+      }
     }
   };
 
@@ -29,6 +32,7 @@ const ButtonAction = ({
     <Button
       disabled={pending}
       aria-disabled={pending}
+      type="button"
       {...props}
       onClick={handleClick}
     >
