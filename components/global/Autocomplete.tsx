@@ -16,6 +16,7 @@ import {
   PopoverContent,
 } from "@/components/ui/popover";
 import { Skeleton } from "@/components/ui/skeleton";
+import { set } from "date-fns";
 
 type Props<T extends string> = {
   selectedValue: T;
@@ -139,7 +140,7 @@ export function AutoComplete<T extends string>({
                 // Focus the input after value change
                 setTimeout(() => inputRef.current?.focus(), 0);
               }}
-              onKeyDown={(e) => setOpen(e.key !== "Escape")}
+              onKeyDownCapture={(e) => setOpen(e.key !== "Escape")}
               onMouseDown={() => setOpen((open) => !open)}
               onFocus={() => setOpen(true)}
             >
