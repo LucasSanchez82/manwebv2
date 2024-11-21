@@ -15,13 +15,13 @@ const tagSchema = z.object({
   relationships: z.array(z.any()).optional(),
 });
 const coverArtAttributesSchema = z.object({
-  description: z.string(),
-  volume: z.string().optional(),
-  fileName: z.string(),
-  locale: z.string(),
+  description: z.string().optional().nullable(),
+  volume: z.string().optional().nullable(),
+  fileName: z.string().optional().nullable(),
+  locale: z.string().optional().nullable(),
   //   createdAt: z.string().date().optional(),
   //   updatedAt: z.string().date().optional(),
-  version: z.number(),
+  version: z.number().optional().nullable(),
 });
 
 const relationshipSchema = z.object({

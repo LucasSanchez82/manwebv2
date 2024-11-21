@@ -57,6 +57,7 @@ export const deleteMangaAction: ServerResponseHandler = async (
     deletedManga.image &&
       deletedManga.isSelfHosted &&
       (await deleteOldFile(deletedManga.image));
+    expireTag(cacheTagEnum.GET_PERSONNAL_MANGAS);
 
     return { data: { deletedManga, message: "Manga supprimé définitivement" } };
   }
