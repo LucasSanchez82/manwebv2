@@ -19,27 +19,16 @@ const coverArtAttributesSchema = z.object({
   volume: z.string().optional(),
   fileName: z.string(),
   locale: z.string(),
-  createdAt: z.string().datetime(),
-  updatedAt: z.string().datetime(),
+  //   createdAt: z.string().date().optional(),
+  //   updatedAt: z.string().date().optional(),
   version: z.number(),
 });
 
-const baseRelationSchipCover = z.object({
+const relationshipSchema = z.object({
   id: z.string(),
   type: z.string(),
+  attributes: coverArtAttributesSchema.optional(),
 });
-const relationschipCoverArtSchema = baseRelationSchipCover.extend({
-  type: z.literal("cover_art"),
-  attributes: coverArtAttributesSchema,
-});
-// Relationship Schema
-const relationshipSchema = z.union([
-  relationschipCoverArtSchema,
-  z.object({
-    id: z.string(),
-    type: z.string(),
-  }),
-]);
 
 // Manga Attributes Schema
 export const mangaAttributesSchema = z.object({
@@ -93,6 +82,3 @@ export type MangadexResponse = z.infer<typeof mangaResponseSchema>;
 export type MangadexItem = z.infer<typeof mangaItemSchema>;
 export type MangadexAttributes = z.infer<typeof mangaAttributesSchema>;
 export type MangadexRelationshipSchema = z.infer<typeof relationshipSchema>;
-export type MangadexRelationshipCoverArtSchema = z.infer<
-  typeof relationschipCoverArtSchema
->;
