@@ -7,9 +7,9 @@ export default async function LandingPage() {
   const session = await auth();
   if (session) redirect("/home");
   return (
-    <>
+    <main>
       <Hero />
       <Feature />
-    </>
+    </main>
   );
 }
