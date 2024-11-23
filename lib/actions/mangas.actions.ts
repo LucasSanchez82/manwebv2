@@ -26,7 +26,7 @@ export const deleteMangaAction: ServerResponseHandler = async (
     return { error: "Unauthorized" };
   }
 
-  const mangaToDelete = await prisma.manga.findUnique({
+  const mangaToDelete = await prisma.content.findUnique({
     where: {
       id,
       userId: session.user.id,
@@ -39,7 +39,7 @@ export const deleteMangaAction: ServerResponseHandler = async (
 
   //HARD DELETE
   if (mangaToDelete.deletedAt) {
-    const deletedManga = await prisma.manga.delete({
+    const deletedManga = await prisma.content.delete({
       where: {
         id,
         userId: session.user.id,
@@ -62,7 +62,7 @@ export const deleteMangaAction: ServerResponseHandler = async (
     return { data: { deletedManga, message: "Manga supprimé définitivement" } };
   }
   //   SSOFT DELETE
-  const softDeletedManga = await prisma.manga.update({
+  const softDeletedManga = await prisma.content.update({
     where: {
       id,
       userId: session.user.id,
@@ -96,7 +96,7 @@ export const restoreMangaAction: ServerResponseHandler = async (
   }
 
   try {
-    const currentManga = await prisma.manga.findUnique({
+    const currentManga = await prisma.content.findUnique({
       where: {
         userId: session.user.id,
         id,
@@ -105,7 +105,7 @@ export const restoreMangaAction: ServerResponseHandler = async (
     if (!currentManga) return { error: "Ce manga n'existe pas/plus" };
     if (!currentManga?.deletedAt)
       return { error: "Ce manga n'est pas dans la corebeille" };
-    const restoredManga = await prisma.manga.update({
+    const restoredManga = await prisma.content.update({
       where: {
         userId: session.user.id,
         id,

@@ -12,7 +12,12 @@ export default function MangaCard(props: PersonnalManga) {
         title={`Modifier ${props.title}`}
         form={
           <MangaCardEditedForm
-            {...{ ...props, imageUrl, image: props.image || undefined }}
+            {...{
+              ...props,
+              imageUrl,
+              image: props.image ?? undefined,
+              readerUrl: props.readerUrl ?? undefined,
+            }}
           />
         }
         buttonProps={{ variant: "outline", size: "icon" }}

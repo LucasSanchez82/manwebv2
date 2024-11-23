@@ -35,7 +35,7 @@ export default function MangaCardProvider({
         <div
           className={`flex items-center ${buttonContainer?.className || "justify-between"}`}
         >
-          {!hideContinueReading && (
+          {!hideContinueReading && readerUrl && (
             <Link href={readerUrl} passHref>
               <Button className="flex-grow mr-2" variant="secondary">
                 <BookOpen className="mr-2 h-4 w-4" />
