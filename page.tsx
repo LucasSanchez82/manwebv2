@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <>
       <Navigation />
-      <main className="flex flex-col justify-center items-center">
+      <main>
         <Hero />
         <Feature />
         <HowItWorks />
@@ -23,3 +23,4 @@ export default function Home() {
     </>
   );
 }
+
