@@ -1,6 +1,4 @@
-import React from "react";
 import FeatureCard from "./FeatureCard";
-import { ChevronDownIcon } from "@radix-ui/react-icons";
 import { featuresContent } from "./constant";
 
 const Feature = () => {
