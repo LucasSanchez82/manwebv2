@@ -6,17 +6,25 @@ export default function CallToAction() {
     <section className="py-20 px-8 bg-primary text-primary-foreground">
       <div className="max-w-4xl mx-auto text-center">
         <h2 className="text-3xl font-bold mb-4">
-          Start Organizing Your Entertainment Today
+          Commencez à Organiser Votre Divertissement Aujourd'hui
         </h2>
         <p className="text-primary-foreground/80 mb-8 max-w-2xl mx-auto">
-          Join Manweb and take control of your entertainment library. Track your progress, discover new content, and never lose track of what you're watching or reading again.
+          Rejoignez Manweb et prenez le contrôle de votre bibliothèque de
+          divertissement. Suivez votre progression, découvrez de nouveaux
+          contenus et ne perdez plus jamais la trace de ce que vous regardez ou
+          lisez.
         </p>
         <div className="flex gap-4 justify-center">
           <Button size="lg" variant="secondary" asChild>
-            <Link href="/register">Create Free Account</Link>
+            <Link href="/register">Créer un Compte Gratuit</Link>
           </Button>
-          <Button size="lg" variant="outline" className="bg-transparent" asChild>
-            <Link href="/about">Learn More</Link>
+          <Button
+            size="lg"
+            variant="outline"
+            className="bg-transparent"
+            asChild
+          >
+            <Link href="/about">En Savoir Plus</Link>
           </Button>
         </div>
       </div>

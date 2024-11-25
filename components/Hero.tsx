@@ -21,19 +21,19 @@ export default function Hero() {
           transition={{ duration: 0.5 }}
         >
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/80">
-            Your Personal Entertainment Library
+            Votre Bibliothèque de Divertissement Personnelle
           </h1>
           <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto lg:mx-0">
-            Track, organize, and discover your favorite manga, films, and series
-            all in one place. Never lose track of what you're watching or
-            reading again.
+            Suivez, organisez et découvrez vos mangas, films et séries préférés
+            en un seul endroit. Ne perdez plus jamais la trace de ce que vous
+            regardez ou lisez.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4">
             <Button size="lg" className="text-lg" asChild>
-              <Link href="/register">Get Started Free</Link>
+              <Link href="/register">Commencez Gratuitement</Link>
             </Button>
             <Button size="lg" variant="outline" className="text-lg" asChild>
-              <Link href="/explore">Explore Features</Link>
+              <Link href="/explore">Explorer les Fonctionnalités</Link>
             </Button>
           </div>
         </CustomMotion>
@@ -60,21 +60,21 @@ export default function Hero() {
                     className="flex flex-col items-center gap-2"
                   >
                     <Film className="w-12 h-12 text-primary" />
-                    <span className="text-sm font-medium">Movies</span>
+                    <span className="text-sm font-medium">Films</span>
                   </CustomMotion>
                   <CustomMotion
                     whileHover={{ scale: 1.05 }}
                     className="flex flex-col items-center gap-2"
                   >
                     <Tv className="w-12 h-12 text-primary" />
-                    <span className="text-sm font-medium">Series</span>
+                    <span className="text-sm font-medium">Séries</span>
                   </CustomMotion>
                   <CustomMotion
                     whileHover={{ scale: 1.05 }}
                     className="flex flex-col items-center gap-2"
                   >
                     <Library className="w-12 h-12 text-primary" />
-                    <span className="text-sm font-medium">Library</span>
+                    <span className="text-sm font-medium">Bibliothèque</span>
                   </CustomMotion>
                 </div>
               </div>
