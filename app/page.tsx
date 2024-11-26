@@ -1,25 +1,15 @@
-import { Navigation } from "@/components/navigation";
-import Hero from "@/components/hero";
-import Feature from "@/components/Feature";
-import { HowItWorks } from "@/components/how-it-works";
-import { Testimonials } from "@/components/testimonials";
-import { CTA } from "@/components/cta";
-import { Footer } from "@/components/footer";
-import { MangaDexAcknowledgment } from "@/components/MangaDexAcknowledgment";
+import CallToAction from "@/components/CallToAction";
+import Features from "@/components/Features";
+import Hero from "@/components/Hero";
+import WhyChooseUs from "@/components/WhyChooseUs";
 
 export default function Home() {
   return (
-    <>
-      <Navigation />
-      <main className="flex flex-col justify-center items-center">
-        <Hero />
-        <Feature />
-        <HowItWorks />
-        <MangaDexAcknowledgment />
-        <Testimonials />
-        <CTA />
-      </main>
-      <Footer />
-    </>
+    <main className="min-h-screen">
+      <Hero />
+      <Features />
+      <WhyChooseUs />
+      <CallToAction />
+    </main>
   );
 }
