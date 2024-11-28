@@ -1,6 +1,6 @@
 import CallToAction from "@/components/CallToAction";
 import Features from "@/components/Features";
-import Hero from "@/components/Hero";
+import Hero from "@/components/hero";
 import WhyChooseUs from "@/components/WhyChooseUs";
 
 export default function Home() {
