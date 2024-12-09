@@ -7,7 +7,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { generateRandString } from "@/lib/utils";
 import { auth } from "@/lib/auth/auth";
 import { webdav } from "@/lib/webdav";
-import { expireTag } from "next/cache";
+import { unstable_expireTag as expireTag } from "next/cache";
 import { cacheTagEnum } from "@/lib/cachedRequests/cacheTagEnum";
 import { deleteOldFile } from "@/lib/actions/mangas.actions";
 import { contentTypes } from "@/prisma/constant";
@@ -111,6 +111,7 @@ export async function POST(request: NextRequest) {
     );
   } catch (error) {
     console.error("API Error:", error);
+    expireTag(cacheTagEnum.GET_PERSONNAL_MANGAS);
     return NextResponse.json<ApiResponse>(
       {
         error:
