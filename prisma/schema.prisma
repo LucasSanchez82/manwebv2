@@ -83,7 +83,6 @@ model Content {
   user         User       @relation(fields: [userId], references: [id])
   categories   Category[]
 
-  @@unique([title, typeId])
   @@map("content")
 }
 
