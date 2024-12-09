@@ -38,7 +38,7 @@
     "date-fns": "^4.1.0",
     "framer-motion": "^11.11.17",
     "lucide-react": "^0.452.0",
-    "next": "^15.0.4-canary.28",
+    "next": "^15.0.4-canary.48",
     "next-auth": "^5.0.0-beta.25",
     "next-themes": "^0.3.0",
     "react": "^19.0.0-rc-fb9a90fa48-20240614",
