@@ -89,9 +89,10 @@ model Content {
 
 model Type {
   id       Int       @id @default(autoincrement())
-  name     String    @unique
+  name     String
   contents Content[]
 
+  @@unique([name, id])
   @@map("type")
 }
 

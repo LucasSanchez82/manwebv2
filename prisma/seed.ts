@@ -7,16 +7,17 @@ const seed = async () => {
     const results: Type[] = [];
     Object.values(contentTypes).forEach(async ({ name, id }) => {
       const result = await prisma.type.upsert({
-        where: {
-          id,
-        },
+        where: { id },
         create: {
           name,
+          id,
         },
         update: {
           name,
+          id,
         },
       });
+      console.log(result);
       results.push(result);
     });
     console.log(results);
