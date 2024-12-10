@@ -9,7 +9,9 @@ export const contentTypes = {
 
 export type ContentType = typeof contentTypes;
 export type ContentTypeKey = keyof ContentType;
+
 export const contentTypesValues = Object.values(contentTypes);
 export const contentTypesKeys = Object.keys(
   contentTypes
 ) as (keyof ContentType)[];
+export const getTypeIdFromKey = (key: ContentTypeKey) => contentTypes[key].id;

@@ -13,11 +13,10 @@ const Page = async ({
 }) => {
   const session = await getSession();
   if (!(session && session.user?.id)) throw new Error("pas de session");
-
+  const params = await searchParams;
   const mangas = await getPersonnalMangas({
     userId: session.user.id,
-    searchStr:
-      (await searchParams)?.search?.toString().toLowerCase() || undefined,
+    searchStr: params?.search?.toString().toLowerCase() || undefined,
   });
   return (
     <>

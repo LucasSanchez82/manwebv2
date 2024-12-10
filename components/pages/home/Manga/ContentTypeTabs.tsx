@@ -4,13 +4,10 @@ import {
   ContentTypeKey,
   contentTypes,
   contentTypesKeys,
-  contentTypesValues,
 } from "@/prisma/constant";
-import { PropsWithChildren, useState } from "react";
+import { PropsWithChildren } from "react";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { isInArray } from "@/lib/utils";
 import { toast } from "sonner";
-import { useSearchParams } from "next/navigation";
 import useCustomSearchParams from "@/lib/hooks/useCustomSearchParams";
 export function ContentTypestabs({
   children,
@@ -18,14 +15,19 @@ export function ContentTypestabs({
 }: PropsWithChildren<{
   currentTab: ContentTypeKey;
 }>) {
-  const [selectedValues, setSelectedValues] = useState<ContentTypeKey[]>([]);
   const { pushQuery, removeQuery, getQuery } = useCustomSearchParams();
   const types = getQuery("types")?.split(",");
   const handleValueChange = (values: ContentTypeKey[]) => {
-    const okValues = values.filter((value) => contentTypesKeys.includes(value));
-    if (okValues) {
-      // si certains elements au moins sont bons
-      pushQuery("types", okValues.join(","));
+    const okContentTypesKeys = values.filter((key) =>
+      contentTypesKeys.includes(key)
+    );
+    const okContentTypesKeysIds = okContentTypesKeys.map(
+      (value) => contentTypes[value].id
+    );
+
+    // si certains elements au moins sont bons
+    if (okContentTypesKeys) {
+      pushQuery("types", okContentTypesKeysIds.join(","));
     } else {
       toast.error(
         "Les valeurs ne correspondent pas avec celles prevues, si cela se reproduit veuillez contacter le support"
