@@ -11,11 +11,13 @@ type Props = {
   userId: string;
   searchStr?: string;
   showDeleted?: boolean;
+  typeIds?: number[];
 };
 export const getPersonnalMangas = async ({
   userId,
   searchStr,
   showDeleted = false,
+  typeIds = undefined,
 }: Props) => {
   cacheLife("days");
   cacheTag(cacheTagEnum.GET_PERSONNAL_MANGAS);
@@ -26,6 +28,7 @@ export const getPersonnalMangas = async ({
       title: searchStr
         ? { contains: searchStr, mode: "insensitive" }
         : undefined,
+      typeId: typeIds && { in: typeIds },
     },
     orderBy: { createdAt: "desc" },
     select: {
