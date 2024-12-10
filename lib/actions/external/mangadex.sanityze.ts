@@ -1,7 +1,7 @@
-import { MangaSchemaInputServer } from "@/lib/schemas/mangas/mangaSchema";
+import { ContentSchemaInputServer } from "@/lib/schemas/contents/contentSchema";
 import { MangadexResponse } from "./schema";
 
-export type SanityzedMangadexResponseItem = MangaSchemaInputServer & {
+export type SanityzedMangadexResponseItem = ContentSchemaInputServer & {
   image: string;
   mangadexId: string;
   isSelfHosted: boolean;

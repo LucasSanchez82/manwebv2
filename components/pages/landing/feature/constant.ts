@@ -24,7 +24,8 @@ export const featuresContent: FeatureCardProps[] = [
   },
   {
     key: 2,
-    title: "Ajouter toutes les données d'un manga en 1 lien",
+    title:
+      "Ajouter toutes les données d'un manga (bientot les films aussi) en 1 lien",
     image: images.link,
   },
   {

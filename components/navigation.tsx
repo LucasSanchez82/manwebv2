@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
+import * as React from "react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -10,7 +10,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu"
+} from "@/components/ui/navigation-menu";
 
 export function Navigation() {
   return (
@@ -35,7 +35,8 @@ export function Navigation() {
                           Découvrez nos fonctionnalités
                         </div>
                         <p className="text-sm leading-tight text-muted-foreground">
-                          Explorez comment Manweb peut améliorer votre expérience de lecture de manga.
+                          Explorez comment Manweb peut améliorer votre
+                          expérience de lecture de séries, films, mangas.
                         </p>
                       </a>
                     </NavigationMenuLink>
@@ -46,7 +47,9 @@ export function Navigation() {
                         className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                         href="/ameliorations"
                       >
-                        <div className="text-sm font-medium leading-none">Améliorations futures</div>
+                        <div className="text-sm font-medium leading-none">
+                          Améliorations futures
+                        </div>
                         <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
                           Découvrez nos plans pour l'avenir de Manweb.
                         </p>
@@ -70,6 +73,5 @@ export function Navigation() {
         </Button>
       </div>
     </div>
-  )
+  );
 }
-

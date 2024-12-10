@@ -4,7 +4,7 @@ import { BookOpen, Film, Tv, History, List, Star } from "lucide-react";
 const features = [
   {
     icon: <BookOpen className="w-10 h-10" />,
-    title: "Suivi de Manga",
+    title: "Suivi de Contenu",
     description:
       "Suivez votre progression de lecture de manga et vos séries préférées",
   },

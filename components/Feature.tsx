@@ -14,7 +14,7 @@ const featuresContent = [
     key: "centralize",
     title: "Centralisation des données",
     description:
-      "Gardez toutes vos lectures et informations sur vos mangas au même endroit. Suivez votre progression, vos notes et vos commentaires pour chaque série.",
+      "Gardez toutes vos lectures et informations sur vos mangas, series etc.. au même endroit. Suivez votre progression, vos notes et vos commentaires pour chaque série.",
     icon: Database,
   },
   {
@@ -28,7 +28,7 @@ const featuresContent = [
     key: "reading",
     title: "Expérience de lecture fluide",
     description:
-      "Lisez vos mangas directement sur Manweb avec notre lecteur intégré. Profitez d'une expérience de lecture optimisée pour tous vos appareils.",
+      "Lisez vos mangas, series etc.. directement sur Manweb avec notre lecteur intégré. Profitez d'une expérience de lecture optimisée pour tous vos appareils.",
     icon: BookOpen,
   },
   {
@@ -55,7 +55,7 @@ const Feature = () => {
       </h2>
       <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
         Découvrez comment Manweb révolutionne votre expérience de lecture de
-        mangas avec ces fonctionnalités uniques.
+        mangas, séries et autre contenus avec ces fonctionnalités uniques.
       </p>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         {featuresContent.map((feat) => (
