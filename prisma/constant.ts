@@ -6,3 +6,5 @@ export const contentTypes = {
   documentaire: { name: "Documentaire", id: 5 },
   autre: { name: "Autre", id: 6 },
 };
+
+export const contentTypesValues = Object.values(contentTypes);
