@@ -83,15 +83,15 @@ model Content {
   user         User       @relation(fields: [userId], references: [id])
   categories   Category[]
 
-  @@unique([title, typeId])
   @@map("content")
 }
 
 model Type {
   id       Int       @id @default(autoincrement())
-  name     String    @unique
+  name     String
   contents Content[]
 
+  @@unique([name, id])
   @@map("type")
 }
 

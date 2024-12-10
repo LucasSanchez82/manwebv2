@@ -1,8 +1,10 @@
 import { z } from "zod";
 import {
-  mangaSchemaClient,
-  mangaSchemaClientPartial,
-} from "../schemas/mangas/mangaSchemaClient";
+  contentSchemaClient,
+  contentSchemaClientPartial,
+} from "../schemas/contents/contentSchemaClient";
 
-export type MangaSchemaClientPartial = z.infer<typeof mangaSchemaClientPartial>;
-export type MangaSchemaClient = z.infer<typeof mangaSchemaClient>;
+export type ContentSchemaClientPartial = z.infer<
+  typeof contentSchemaClientPartial
+>;
+export type ContentSchemaClient = z.infer<typeof contentSchemaClient>;

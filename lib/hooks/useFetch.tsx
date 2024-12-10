@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect, useCallback } from "react";
+import { toast } from "sonner";
 
 type FetchResult<T> = Omit<UseFetchResult<T>, "refetch">;
 type Refetch<T> = (
@@ -14,8 +15,10 @@ interface UseFetchResult<T> {
 }
 
 type FetchProps = Parameters<typeof fetch>;
-
-function useFetch<T = unknown>(): UseFetchResult<T> {
+type UseFetchProps = {
+  errorMessage?: string;
+};
+function useFetch<T = unknown>(props?: UseFetchProps): UseFetchResult<T> {
   const [data, setData] = useState<T | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
@@ -26,7 +29,8 @@ function useFetch<T = unknown>(): UseFetchResult<T> {
     try {
       const response = await fetch(url, options);
       if (!response.ok) {
-        throw new Error("Could not fetch the data for that resource");
+        console.warn("Error fetching data", response);
+        toast.error(props?.errorMessage ?? "Error fetching data");
       }
       const result = await response.json();
       setData(result);

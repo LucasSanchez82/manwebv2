@@ -6,3 +6,11 @@ export const contentTypes = {
   documentaire: { name: "Documentaire", id: 5 },
   autre: { name: "Autre", id: 6 },
 };
+
+export type ContentType = typeof contentTypes;
+export type ContentTypeKey = keyof ContentType;
+
+export const contentTypesValues = Object.values(contentTypes);
+export const contentTypesKeys = Object.keys(
+  contentTypes
+) as (keyof ContentType)[];

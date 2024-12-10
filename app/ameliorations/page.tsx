@@ -11,12 +11,6 @@ import { Badge } from "@/components/ui/badge";
 
 const improvements = [
   {
-    title: "Intégration de films et séries",
-    description:
-      "Ajout de la possibilité de suivre et gérer vos films et séries préférés, en plus des mangas.",
-    status: "En développement",
-  },
-  {
     title: "Support pour les livres numériques",
     description:
       "Extension de la plateforme pour inclure le suivi et la gestion de livres électroniques.",

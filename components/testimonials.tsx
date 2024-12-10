@@ -5,21 +5,21 @@ export function Testimonials() {
   const usersComments = [
     {
       name: "Lucas",
-      title: "Dévellopeur et lecteur passionné",
+      title: "Dévellopeur de Manweb et lecteur passionné",
       description:
-        "Manweb a complètement changé ma façon de lire des mangas. Tout est centralisé et simple à utiliser.",
+        "Manweb a complètement changé ma façon de lire des séries. Tout est centralisé et simple à utiliser.",
     },
     {
       name: "Lucas",
       avatar: "U",
-      title: "Dévellopeur et lecteur régulier",
+      title: "Dévellopeur de Manweb et lecteur régulier",
       description:
         "Je peux enfin suivre tous mes mangas préférés au même endroit. C'est un vrai gain de temps !",
     },
     {
       name: "Lucas",
       avatar: "C",
-      title: "Dévellopeur et fan de manga",
+      title: "Dévellopeur de Manweb et fan de films",
       description:
         "L'interface est intuitive et la synchronisation entre les différentes sources est parfaite.",
     },

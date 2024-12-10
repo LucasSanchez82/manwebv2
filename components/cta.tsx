@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button"
-import Link from "next/link"
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export function CTA() {
   return (
@@ -9,14 +9,13 @@ export function CTA() {
           Prêt à commencer votre voyage ?
         </h2>
         <p className="max-w-2xl text-muted-foreground">
-          Rejoignez des milliers de lecteurs qui utilisent déjà Manweb pour
-          centraliser leur lecture de manga.
+          Rejoignez les lecteurs qui utilisent déjà Manweb pour centraliser leur
+          lecture de mangas, films, séries et autres contenu.
         </p>
         <Button size="lg" asChild>
           <Link href="/se-connecter">Commencer maintenant</Link>
         </Button>
       </div>
     </section>
-  )
+  );
 }
-
