@@ -1,6 +1,6 @@
 "use server";
 
-import { expireTag } from "next/cache";
+import { unstable_expireTag as expireTag } from "next/cache";
 import { auth } from "../auth/auth";
 import { prisma } from "../prisma";
 import { cacheTagEnum } from "../cachedRequests/cacheTagEnum";

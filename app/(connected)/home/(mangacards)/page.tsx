@@ -1,6 +1,7 @@
 import AddMangaForm from "@/components/forms/mangaForm/AddMangaForm";
 import AddMangasTabs from "@/components/forms/mangaForm/AddMangasTabs";
 import { DialogResponsive } from "@/components/global/DialogResponsive/DialogResponsive";
+import { ContentTypestabs } from "@/components/pages/home/Manga/ContentTypeTabs";
 import DisplayMangas from "@/components/pages/home/Manga/DisplayMangas";
 import { getSession } from "@/lib/auth/getsession";
 import { getPersonnalMangas } from "@/lib/cachedRequests/manga/getPersonnalMangas";
@@ -25,7 +26,9 @@ const Page = async ({
           Ajouter un manga
         </DialogResponsive>
       </div>
-      <DisplayMangas mangas={mangas} />
+      <ContentTypestabs currentTab={"manga"}>
+        <DisplayMangas mangas={mangas} />
+      </ContentTypestabs>
     </>
   );
 };

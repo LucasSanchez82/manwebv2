@@ -20,7 +20,7 @@ const Page = async ({
   });
   return (
     <>
-      <DisplayMangas mangas={mangas} showDeleted={true} />
+      <DisplayMangas mangas={mangas} showDeleted />
     </>
   );
 };

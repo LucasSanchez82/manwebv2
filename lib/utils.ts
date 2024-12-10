@@ -17,3 +17,7 @@ export function generateRandString(length: number) {
   }
   return result;
 }
+
+export const isInArray = (arr1: string[], arr2: string[]) => {
+  return arr1.every((item) => arr2.includes(item));
+};

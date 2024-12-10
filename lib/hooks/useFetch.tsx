@@ -18,7 +18,7 @@ type FetchProps = Parameters<typeof fetch>;
 type UseFetchProps = {
   errorMessage?: string;
 };
-function useFetch<T = unknown>(props: UseFetchProps): UseFetchResult<T> {
+function useFetch<T = unknown>(props?: UseFetchProps): UseFetchResult<T> {
   const [data, setData] = useState<T | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
