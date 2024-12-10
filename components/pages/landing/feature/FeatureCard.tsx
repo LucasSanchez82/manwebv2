@@ -1,7 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ChevronDownIcon } from "@radix-ui/react-icons";
-import { IconProps } from "@radix-ui/react-icons/dist/types";
-import React, { SVGProps } from "react";
+import { Card, CardTitle } from "@/components/ui/card";
 import { FeatureCardProps } from "./constant";
 import Image from "next/image";
 

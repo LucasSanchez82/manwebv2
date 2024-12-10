@@ -10,6 +10,7 @@ import { webdav } from "@/lib/webdav";
 import { expireTag } from "next/cache";
 import { cacheTagEnum } from "@/lib/cachedRequests/cacheTagEnum";
 import { deleteOldFile } from "@/lib/actions/mangas.actions";
+import { contentTypes } from "@/prisma/constant";
 
 // Types
 type ApiResponse<T = any> = {
@@ -86,12 +87,13 @@ export async function POST(request: NextRequest) {
       await handleFileUpload(image, imageName);
     }
 
-    const mangaCreated = await prisma.manga.create({
+    const mangaCreated = await prisma.content.create({
       data: {
         ...mangaData,
         image: imageName,
         userId,
         isSelfHosted: isImageFile,
+        typeId: contentTypes.manga.id,
       },
     });
 
@@ -143,7 +145,7 @@ export async function PUT(request: NextRequest) {
       );
     }
 
-    const currentManga = await prisma.manga.findUnique({
+    const currentManga = await prisma.content.findUnique({
       where: { id: parsedData.data.id, userId },
     });
 
@@ -173,7 +175,7 @@ export async function PUT(request: NextRequest) {
       await handleFileUpload(image, imageName);
     }
 
-    const updatedManga = await prisma.manga.update({
+    const updatedManga = await prisma.content.update({
       where: { id: parsedData.data.id, userId },
       data: {
         ...updateData,

@@ -19,7 +19,7 @@ export const getPersonnalMangas = async ({
 }: Props) => {
   cacheLife("days");
   cacheTag(cacheTagEnum.GET_PERSONNAL_MANGAS);
-  const mangas = await prisma.manga.findMany({
+  const mangas = await prisma.content.findMany({
     where: {
       deletedAt: showDeleted ? { not: null } : null,
       userId,
