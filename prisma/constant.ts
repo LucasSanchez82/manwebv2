@@ -14,4 +14,3 @@ export const contentTypesValues = Object.values(contentTypes);
 export const contentTypesKeys = Object.keys(
   contentTypes
 ) as (keyof ContentType)[];
-export const getTypeIdFromKey = (key: ContentTypeKey) => contentTypes[key].id;

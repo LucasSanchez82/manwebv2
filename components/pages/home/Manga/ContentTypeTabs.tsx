@@ -9,6 +9,11 @@ import { PropsWithChildren } from "react";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { toast } from "sonner";
 import useCustomSearchParams from "@/lib/hooks/useCustomSearchParams";
+import {
+  allContentTypesIdsAvailable,
+  getKeyFromId,
+  getManyKeysFromStr,
+} from "@/lib/contentTypes.utils";
 export function ContentTypestabs({
   children,
   currentTab,
@@ -16,7 +21,7 @@ export function ContentTypestabs({
   currentTab: ContentTypeKey;
 }>) {
   const { pushQuery, removeQuery, getQuery } = useCustomSearchParams();
-  const types = getQuery("types")?.split(",");
+  const types = getManyKeysFromStr(getQuery("types") || "");
   const handleValueChange = (values: ContentTypeKey[]) => {
     const okContentTypesKeys = values.filter((key) =>
       contentTypesKeys.includes(key)
