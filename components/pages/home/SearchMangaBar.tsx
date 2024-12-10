@@ -1,5 +1,4 @@
 "use client";
-import ButtonAction from "@/components/global/Button.action";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -12,10 +11,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useRouter } from "next/navigation";
+import useCustomSearchParams from "@/lib/hooks/useCustomSearchParams";
 
 const SearchMangaBar = () => {
   const form = useForm({
@@ -28,9 +26,9 @@ const SearchMangaBar = () => {
       search: "",
     },
   });
-  const router = useRouter();
+  const { pushQuery } = useCustomSearchParams();
   const handleSubmit = form.handleSubmit((data) => {
-    router.push("?search=" + data.search);
+    pushQuery("search", data.search);
   });
   return (
     <Form {...form}>
