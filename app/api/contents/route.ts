@@ -11,6 +11,7 @@ import { unstable_expireTag as expireTag } from "next/cache";
 import { cacheTagEnum } from "@/lib/cachedRequests/cacheTagEnum";
 import { deleteOldFile } from "@/lib/actions/contents.actions";
 import { contentTypes } from "@/prisma/constant";
+import { getTypeIdFromKey, getTypeIdFromStr } from "@/lib/contentTypes.utils";
 
 // Types
 type ApiResponse<T = any> = {
@@ -79,7 +80,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { image, ...contentData } = parsedData.data;
+    const { image, type, ...contentData } = parsedData.data;
     const isImageFile = image instanceof File;
     const imageName = isImageFile ? generateImageName(image) : image;
 
@@ -93,7 +94,7 @@ export async function POST(request: NextRequest) {
         image: imageName,
         userId,
         isSelfHosted: isImageFile,
-        typeId: contentTypes.manga.id,
+        typeId: getTypeIdFromStr(type),
       },
     });
 
@@ -160,7 +161,7 @@ export async function PUT(request: NextRequest) {
       );
     }
 
-    const { image, ...updateData } = parsedData.data;
+    const { image, type, ...updateData } = parsedData.data;
     let imageName;
     let isImageFile = false;
 

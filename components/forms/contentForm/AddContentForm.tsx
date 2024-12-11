@@ -17,11 +17,13 @@ import { Textarea } from "@/components/ui/textarea";
 import useFetch from "@/lib/hooks/useFetch";
 import { contentSchemaClient } from "@/lib/schemas/contents/contentSchemaClient";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Select } from "@radix-ui/react-select";
 import { useRouter } from "next/navigation";
 import { FormEvent } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
+import { SelectType } from "./items/SelectType";
 
 const AddContentForm = () => {
   const { refetch, isLoading } = useFetch();
@@ -149,6 +151,21 @@ const AddContentForm = () => {
                   type="number"
                   {...field}
                 />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* type */}
+        <FormField
+          control={form.control}
+          name="type"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Chapter</FormLabel>
+              <FormControl>
+                <SelectType field={field} />
               </FormControl>
               <FormMessage />
             </FormItem>

@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { MAX_FILE_SIZE } from "./constant";
+import { contentTypesKeys } from "@/prisma/constant";
 
 export const contentWithoutImage = z.object({
   title: z
@@ -17,6 +18,11 @@ export const contentWithoutImage = z.object({
   chapter: z.coerce
     .number({ message: "Doit être un nombre valide" })
     .describe("Chapitre, par exemple le dernier chapitre lu"),
+  type: z
+    .enum([...contentTypesKeys] as [string, ...string[]], {
+      message: "Doit être un type de contenu valide",
+    })
+    .describe('Type de contenu (ex: "manga")'),
 });
 
 export const contentSchemaInputServer = contentWithoutImage.extend({

@@ -24,6 +24,7 @@ export const sanityzeMangadexResponse = (
       chapter: 0,
       mangadexId: manga.id,
       isSelfHosted: false,
+      type: "manga",
     };
   });
 };

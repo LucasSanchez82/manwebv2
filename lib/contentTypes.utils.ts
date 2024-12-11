@@ -9,6 +9,10 @@ export const allContentTypesIdsAvailable = contentTypesValues.map(
   (type) => type.id
 );
 export const getTypeIdFromKey = (key: ContentTypeKey) => contentTypes[key].id;
+export const getTypeIdFromStr = (str: string) => {
+  const key = contentTypesKeys.find((key) => key === str) ?? "autre";
+  return getTypeIdFromKey(key);
+};
 export const getKeyFromId = (id: number) =>
   contentTypesKeys.find((key) => contentTypes[key].id === id);
 export const getManyKeysFromStr = (ids: string) => {
