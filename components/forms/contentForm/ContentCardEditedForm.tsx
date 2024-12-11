@@ -127,7 +127,7 @@ const ContentCardEditedForm = (
                 <FormControl>
                   <Textarea
                     {...field}
-                    value={field.value ?? ""}
+                    value={field.value || ""}
                     placeholder={
                       friendlyNames[
                         field.name as keyof ContentSchemaClientPartial
@@ -151,6 +151,7 @@ const ContentCardEditedForm = (
                 <FormControl>
                   <Textarea
                     {...field}
+                    value={field.value || ""}
                     placeholder={
                       friendlyNames[
                         field.name as keyof ContentSchemaClientPartial

@@ -44,7 +44,7 @@ const AddContentMagicForm = () => {
       Object.entries(selectedContent).forEach(([key, value]) => {
         const okValue = value?.toString();
 
-        formdata.append(key, okValue);
+        if (okValue) formdata.append(key, okValue);
       });
       const result = await refetch("/api/contents", {
         method: "POST",
