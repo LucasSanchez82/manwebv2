@@ -14,27 +14,18 @@ import {
   SelectLabel,
   SelectItem,
 } from "@/components/ui/select";
+import { contentSchemaClient } from "@/lib/schemas/contents/contentSchemaClient";
 import { contentTypes, contentTypesKeys } from "@/prisma/constant";
 import React from "react";
 import { ControllerRenderProps } from "react-hook-form";
-
+import { z } from "zod";
 export const SelectType = ({
   field,
 }: {
-  field: ControllerRenderProps<
-    {
-      title: string;
-      image: string | FileList;
-      type: string;
-      readerUrl: string;
-      chapter: number;
-      description?: string | null | undefined;
-    },
-    "type"
-  >;
+  field: ControllerRenderProps<z.infer<typeof contentSchemaClient>, "type">;
 }) => (
   <FormItem>
-    <FormLabel>Email</FormLabel>
+    <FormLabel>Type</FormLabel>
     <Select onValueChange={field.onChange} defaultValue={field.value}>
       <FormControl>
         <SelectTrigger className="w-[180px]">

@@ -44,7 +44,7 @@ const AddContentMagicForm = () => {
       Object.entries(selectedContent).forEach(([key, value]) => {
         const okValue = value?.toString();
 
-        formdata.append(key, okValue);
+        if (okValue) formdata.append(key, okValue);
       });
       const result = await refetch("/api/contents", {
         method: "POST",
@@ -104,7 +104,8 @@ const AddContentMagicForm = () => {
               {...{
                 ...selectedItem,
                 isSelfHosted: false,
-                description: selectedItem.description ?? "",
+                description: selectedItem.description,
+                readerUrl: selectedItem.readerUrl,
               }}
             ></ContentCardProvider>
             <ButtonAction action={handleClick}>Ajouter</ButtonAction>

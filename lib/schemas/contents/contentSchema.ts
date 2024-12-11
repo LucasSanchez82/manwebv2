@@ -13,7 +13,9 @@ export const contentWithoutImage = z.object({
     .url({ message: "Doit être une url valide ( https://exemple.com/ )" })
     .describe(
       "Url du lecteur en ligne ( https://exemple.com/lecture-enligne/one-piece )"
-    ),
+    )
+    .nullable()
+    .optional(),
 
   chapter: z.coerce
     .number({ message: "Doit être un nombre valide" })
