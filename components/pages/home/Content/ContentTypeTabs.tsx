@@ -1,23 +1,24 @@
 "use client";
-import { Tabs } from "@/components/ui/tabs";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import contentypesUtilities from "@/lib/contentTypes.utils";
+import useCustomSearchParams from "@/lib/hooks/useCustomSearchParams";
 import {
   ContentTypeKey,
   contentTypes,
   contentTypesKeys,
 } from "@/prisma/constant";
 import { PropsWithChildren } from "react";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { toast } from "sonner";
-import useCustomSearchParams from "@/lib/hooks/useCustomSearchParams";
-import { getManyKeysFromStr } from "@/lib/contentTypes.utils";
 export function ContentTypesToggleGroups({
   children,
   currentTab,
 }: PropsWithChildren<{
   currentTab: ContentTypeKey;
 }>) {
-  const { pushQuery, removeQuery, getQuery } = useCustomSearchParams();
-  const types = getManyKeysFromStr(getQuery("types") || "");
+  const { pushQuery, getQuery } = useCustomSearchParams();
+  const types = contentypesUtilities.getManyKeysFromStr(
+    getQuery("types") || ""
+  );
   const handleValueChange = (values: ContentTypeKey[]) => {
     const okContentTypesKeys = values.filter((key) =>
       contentTypesKeys.includes(key)

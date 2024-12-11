@@ -10,8 +10,7 @@ import { webdav } from "@/lib/webdav";
 import { unstable_expireTag as expireTag } from "next/cache";
 import { cacheTagEnum } from "@/lib/cachedRequests/cacheTagEnum";
 import { deleteOldFile } from "@/lib/actions/contents.actions";
-import { contentTypes } from "@/prisma/constant";
-import { getTypeIdFromKey, getTypeIdFromStr } from "@/lib/contentTypes.utils";
+import contentypesUtilities from "@/lib/contentTypes.utils";
 
 // Types
 type ApiResponse<T = any> = {
@@ -94,7 +93,7 @@ export async function POST(request: NextRequest) {
         image: imageName,
         userId,
         isSelfHosted: isImageFile,
-        typeId: getTypeIdFromStr(type),
+        typeId: contentypesUtilities.getTypeIdFromStr(type),
       },
     });
 
