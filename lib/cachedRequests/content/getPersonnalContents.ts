@@ -6,6 +6,7 @@ import {
   unstable_cacheTag as cacheTag,
 } from "next/cache";
 import { cacheTagEnum } from "../cacheTagEnum";
+import { Optional } from "@prisma/client/runtime/library";
 
 type Props = {
   userId: string;
@@ -47,4 +48,15 @@ export const getPersonnalContents = async ({
 export type PersonnalContents = Awaited<
   ReturnType<typeof getPersonnalContents>
 >;
-export type PersonnalContent = PersonnalContents[number];
+
+type PersonnalContentPrimitive = PersonnalContents[number];
+
+type NullableAlsoOptional<T> = T extends null
+  ? undefined | T
+  : T extends (infer U)[]
+    ? NullableAlsoOptional<U>[]
+    : T extends Record<string, unknown>
+      ? { [K in keyof T]: NullableAlsoOptional<T[K]> }
+      : T;
+
+export type PersonnalContent = NullableAlsoOptional<PersonnalContents[number]>;

@@ -104,7 +104,8 @@ const AddContentMagicForm = () => {
               {...{
                 ...selectedItem,
                 isSelfHosted: false,
-                description: selectedItem.description ?? "",
+                description: selectedItem.description,
+                readerUrl: selectedItem.readerUrl,
               }}
             ></ContentCardProvider>
             <ButtonAction action={handleClick}>Ajouter</ButtonAction>
