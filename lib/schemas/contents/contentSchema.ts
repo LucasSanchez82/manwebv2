@@ -19,7 +19,9 @@ export const contentWithoutImage = z.object({
     .number({ message: "Doit être un nombre valide" })
     .describe("Chapitre, par exemple le dernier chapitre lu"),
   type: z
-    .enum([...contentTypesKeys] as [string, ...string[]])
+    .enum([...contentTypesKeys] as [string, ...string[]], {
+      message: "Doit être un type de contenu valide",
+    })
     .describe('Type de contenu (ex: "manga")'),
 });
 

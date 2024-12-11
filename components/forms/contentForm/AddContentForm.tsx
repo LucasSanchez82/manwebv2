@@ -165,7 +165,7 @@ const AddContentForm = () => {
             <FormItem>
               <FormLabel>Chapter</FormLabel>
               <FormControl>
-                <SelectType {...field} />
+                <SelectType field={field} />
               </FormControl>
               <FormMessage />
             </FormItem>
