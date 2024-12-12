@@ -38,10 +38,10 @@ export default function CustomPagination({
 
   // Generate page numbers
   const start = 1;
+  const nbPages = Math.ceil(itemsCount / getItemsPerPage());
+  const totalPages = nbPages - start + 1;
   const getPageNumbers = useCallback(() => {
     const pages: number[] = [];
-    const nbPages = Math.ceil(itemsCount / getItemsPerPage());
-    const totalPages = nbPages - start + 1;
 
     if (totalPages <= 7) {
       // If total pages is 7 or less, show all pages
@@ -75,7 +75,7 @@ export default function CustomPagination({
     }
 
     return pages;
-  }, [getPage(), start, itemsCount]);
+  }, [getPage(), start, itemsCount, nbPages, totalPages]);
 
   return (
     <Pagination>
@@ -112,10 +112,10 @@ export default function CustomPagination({
         <PaginationItem>
           <PaginationNext
             onClick={() =>
-              getPage() < itemsCount && handlePageChange(getPage() + 1)
+              getPage() >= totalPages && handlePageChange(getPage() + 1)
             }
             className={
-              getPage() >= itemsCount
+              getPage() >= totalPages
                 ? "pointer-events-none opacity-50"
                 : "cursor-pointer"
             }
