@@ -26,6 +26,18 @@ const useCustomSearchParams = () => {
     },
     [createQueryString, pathname, router]
   );
+
+  const pushManyQueries = useCallback(
+    (queries: Record<string, string>) => {
+      const params = new URLSearchParams(searchParams.toString());
+      Object.entries(queries).forEach(([key, value]) => {
+        params.set(key, value);
+      });
+
+      router.push(`${pathname}?${params.toString()}`);
+    },
+    [pathname, router, searchParams]
+  );
   const removeQuery = useCallback(
     (name: string) => {
       const params = new URLSearchParams(searchParams.toString());
@@ -41,7 +53,7 @@ const useCustomSearchParams = () => {
     },
     [searchParams]
   );
-  return { pushQuery, removeQuery, getQuery };
+  return { pushQuery, removeQuery, getQuery, pushManyQueries };
 };
 
 export default useCustomSearchParams;
