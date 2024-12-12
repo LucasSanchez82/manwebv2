@@ -1,35 +1,34 @@
 "use cache";
 
 import { prisma } from "@/lib/prisma";
+import { Prisma } from "@prisma/client";
 import {
   unstable_cacheLife as cacheLife,
   unstable_cacheTag as cacheTag,
 } from "next/cache";
 import { cacheTagEnum } from "../cacheTagEnum";
-import { Optional } from "@prisma/client/runtime/library";
+import { SanitizedSearchParamsForSearch } from "./sanitizeSearchParamsForSearch";
 
 type Props = {
   userId: string;
-  searchStr?: string;
   showDeleted?: boolean;
-  typeIds?: number[];
+  filters: SanitizedSearchParamsForSearch;
 };
 export const getPersonnalContents = async ({
   userId,
-  searchStr,
   showDeleted = false,
-  typeIds = undefined,
+  filters: { itempsPerPage, page, search = "", types = [] },
 }: Props) => {
   cacheLife("days");
   cacheTag(cacheTagEnum.GET_PERSONNAL_CONTENTS);
-  const contents = await prisma.content.findMany({
+
+  const query: Prisma.ContentFindManyArgs = {
     where: {
       deletedAt: showDeleted ? { not: null } : null,
       userId,
-      title: searchStr
-        ? { contains: searchStr, mode: "insensitive" }
-        : undefined,
-      typeId: typeIds && { in: typeIds },
+      title: search ? { contains: search, mode: "insensitive" } : undefined,
+
+      typeId: types.length > 0 ? { in: types } : undefined,
     },
     orderBy: { createdAt: "desc" },
     select: {
@@ -41,22 +40,30 @@ export const getPersonnalContents = async ({
       description: true,
       id: true,
     },
-  });
-  return contents;
+    take: itempsPerPage,
+    skip: itempsPerPage * (page - 1),
+  };
+
+  const [contents, count] = await prisma.$transaction([
+    prisma.content.findMany(query),
+    prisma.content.count({ where: query.where }),
+  ]);
+
+  return { contents, itemsCount: count };
 };
 
 export type PersonnalContents = Awaited<
   ReturnType<typeof getPersonnalContents>
->;
+>["contents"];
 
 type PersonnalContentPrimitive = PersonnalContents[number];
 
-type NullableAlsoOptional<T> = T extends null
-  ? undefined | T
-  : T extends (infer U)[]
-    ? NullableAlsoOptional<U>[]
-    : T extends Record<string, unknown>
-      ? { [K in keyof T]: NullableAlsoOptional<T[K]> }
-      : T;
+type NullablePartial<
+  T,
+  NK extends keyof T = {
+    [K in keyof T]: null extends T[K] ? K : never;
+  }[keyof T],
+  NP = Partial<Pick<T, NK>> & Pick<T, Exclude<keyof T, NK>>,
+> = { [K in keyof NP]: NP[K] };
 
-export type PersonnalContent = NullableAlsoOptional<PersonnalContents[number]>;
+export type PersonnalContent = NullablePartial<PersonnalContentPrimitive>;

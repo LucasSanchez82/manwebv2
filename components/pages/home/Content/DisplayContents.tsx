@@ -1,12 +1,15 @@
 import ContentCard from "./ContentCard";
 import { PersonnalContents } from "@/lib/cachedRequests/content/getPersonnalContents";
 import ContentCardDeleted from "./ContentCard.showDeleted";
+import CustomPagination from "@/components/global/CustomPagination";
 
 const DisplayContents = ({
   contents,
   showDeleted = false,
+  itemsCount,
 }: {
   contents: PersonnalContents;
+  itemsCount: number;
   showDeleted?: boolean;
 }) => {
   return (
@@ -18,6 +21,7 @@ const DisplayContents = ({
         : contents.map((content) => (
             <ContentCard key={content.id} {...content} />
           ))}
+      <CustomPagination itemsCount={itemsCount} />
     </div>
   );
 };

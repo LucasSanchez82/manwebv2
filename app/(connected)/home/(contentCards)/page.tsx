@@ -4,12 +4,10 @@ import { ContentTypesToggleGroups } from "@/components/pages/home/Content/Conten
 import DisplayContents from "@/components/pages/home/Content/DisplayContents";
 import { getSession } from "@/lib/auth/getsession";
 import { getPersonnalContents } from "@/lib/cachedRequests/content/getPersonnalContents";
+import sanitizeSearchParamsForSearch from "@/lib/cachedRequests/content/sanitizeSearchParamsForSearch";
+import SearchParams from "@/lib/global/types/searchParams";
 
-const Page = async ({
-  searchParams,
-}: {
-  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
-}) => {
+const Page = async ({ searchParams }: { searchParams?: SearchParams }) => {
   const session = await getSession();
   if (!(session && session.user?.id)) throw new Error("pas de session");
   const params = await searchParams;
@@ -22,11 +20,10 @@ const Page = async ({
           return acc;
         }, [] as number[])
       : [];
-  console.log("types", types);
-  const contents = await getPersonnalContents({
+
+  const personnalContent = await getPersonnalContents({
     userId: session.user.id,
-    searchStr: params?.search?.toString().toLowerCase() || undefined,
-    typeIds: types.length > 0 ? types : undefined,
+    filters: await sanitizeSearchParamsForSearch(searchParams),
   });
   return (
     <>
@@ -36,7 +33,7 @@ const Page = async ({
         </DialogResponsive>
       </div>
       <ContentTypesToggleGroups currentTab={"manga"}>
-        <DisplayContents contents={contents} />
+        <DisplayContents {...personnalContent} />
       </ContentTypesToggleGroups>
     </>
   );
