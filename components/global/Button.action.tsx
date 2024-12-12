@@ -18,7 +18,7 @@ const ButtonAction = ({
   const { pending, execute } = useAction(action);
   const handleClick = async () => {
     const result = await execute();
-    console.log("result", result);
+
     if (result) {
       if ("data" in result && "message" in result.data) {
         toast.success(result.data.message);
