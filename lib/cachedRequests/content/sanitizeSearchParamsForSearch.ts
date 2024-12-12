@@ -17,7 +17,7 @@ const sanitizeSearchParamsForSearch = async (p?: SearchParams) => {
       (params?.page instanceof Array ? params.page[0] : params?.page) ?? "1"
     ) ?? 1;
   const types =
-    params?.types === "string"
+    typeof params?.types === "string"
       ? params.types.split(",").reduce((acc, nb) => {
           // return array of numbers (skip if isNaN)
           const number = Number(nb);
