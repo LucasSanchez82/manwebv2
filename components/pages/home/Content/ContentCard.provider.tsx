@@ -7,7 +7,7 @@ import { PersonnalContent } from "@/lib/cachedRequests/content/getPersonnalConte
 import { PropsWithChildren } from "react";
 
 type Props = PropsWithChildren<
-  Omit<PersonnalContent, "id"> & {
+  Omit<Partial<PersonnalContent>, "id"> & {
     hideContinueReading?: boolean;
     buttonContainer?: {
       className?: string;

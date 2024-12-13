@@ -15,7 +15,7 @@ export function ContentTypesToggleGroups({
 }: PropsWithChildren<{
   currentTab: ContentTypeKey;
 }>) {
-  const { pushQuery, getQuery } = useCustomSearchParams();
+  const { pushManyQueries, getQuery } = useCustomSearchParams();
   const types = contentypesUtilities.getManyKeysFromStr(
     getQuery("types") || ""
   );
@@ -29,7 +29,7 @@ export function ContentTypesToggleGroups({
 
     // si certains elements au moins sont bons
     if (okContentTypesKeys) {
-      pushQuery("types", okContentTypesKeysIds.join(","));
+      pushManyQueries({ types: okContentTypesKeysIds.join(","), page: "1" });
     } else {
       toast.error(
         "Les valeurs ne correspondent pas avec celles prevues, si cela se reproduit veuillez contacter le support"

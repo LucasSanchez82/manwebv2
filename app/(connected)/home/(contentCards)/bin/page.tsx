@@ -3,24 +3,21 @@ import { DialogResponsive } from "@/components/global/DialogResponsive/DialogRes
 import DisplayContents from "@/components/pages/home/Content/DisplayContents";
 import { getSession } from "@/lib/auth/getsession";
 import { getPersonnalContents } from "@/lib/cachedRequests/content/getPersonnalContents";
+import sanitizeSearchParamsForSearch from "@/lib/cachedRequests/content/sanitizeSearchParamsForSearch";
+import SearchParams from "@/lib/global/types/searchParams";
 
-const Page = async ({
-  searchParams,
-}: {
-  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
-}) => {
+const Page = async ({ searchParams }: { searchParams?: SearchParams }) => {
   const session = await getSession();
   if (!(session && session.user?.id)) throw new Error("pas de session");
 
-  const contents = await getPersonnalContents({
+  const personnalContent = await getPersonnalContents({
     userId: session.user.id,
-    searchStr:
-      (await searchParams)?.search?.toString().toLowerCase() || undefined,
     showDeleted: true,
+    filters: await sanitizeSearchParamsForSearch(undefined),
   });
   return (
     <>
-      <DisplayContents contents={contents} showDeleted />
+      <DisplayContents {...personnalContent} showDeleted />
     </>
   );
 };

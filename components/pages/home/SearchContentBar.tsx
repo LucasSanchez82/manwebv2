@@ -26,10 +26,11 @@ const SearchContentBar = () => {
       search: "",
     },
   });
-  const { pushQuery } = useCustomSearchParams();
+  const { pushManyQueries } = useCustomSearchParams();
   const handleSubmit = form.handleSubmit((data) => {
-    pushQuery("search", data.search);
+    pushManyQueries({ page: "1", search: data.search });
   });
+
   return (
     <Form {...form}>
       <form onSubmit={handleSubmit} className="w-3/4 m-auto">
