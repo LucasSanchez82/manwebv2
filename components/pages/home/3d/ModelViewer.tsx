@@ -1,26 +1,40 @@
 "use client";
 
-import React, { Suspense, useEffect } from "react";
+import React, { Suspense, useEffect, useRef } from "react";
 import { useGLTF, OrbitControls, Stage } from "@react-three/drei";
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 import { ErrorBoundary } from "react-error-boundary";
+import * as THREE from "three";
 
 interface ModelViewerProps {
   modelPath: string;
 }
-type OrbitControlsProps = React.ComponentProps<typeof OrbitControls>;
 
 function Model({ modelPath }: ModelViewerProps) {
   const { scene } = useGLTF(modelPath);
+  const modelRef = useRef<THREE.Group>(null);
+  const scrollRef = useRef(0);
 
   useEffect(() => {
+    const handleScroll = () => {
+      scrollRef.current = window.scrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll);
     return () => {
-      // Cleanup when component unmounts
+      window.removeEventListener("scroll", handleScroll);
       useGLTF.preload(modelPath);
     };
   }, [modelPath]);
 
-  return <primitive object={scene} dispose={null} />;
+  useFrame(() => {
+    if (modelRef.current) {
+      // Adjust rotation speed by changing the division factor
+      modelRef.current.rotation.y = scrollRef.current * 0.002;
+    }
+  });
+
+  return <primitive ref={modelRef} object={scene} dispose={null} />;
 }
 
 function FallbackComponent({ error }: { error: Error }) {
@@ -32,42 +46,15 @@ function FallbackComponent({ error }: { error: Error }) {
   );
 }
 
-export function ModelViewer({
-  modelPath,
-  ...orbitControlsProps
-}: ModelViewerProps & OrbitControlsProps) {
+export function ModelViewer({ modelPath }: ModelViewerProps) {
   return (
     <ErrorBoundary FallbackComponent={FallbackComponent}>
       <div className="w-full h-full bg-gray-900">
-        <Canvas
-          shadows
-          dpr={[1, 2]} // Optimize for device pixel ratio
-          camera={{ position: [0, 0, 10], fov: 50 }}
-          gl={{
-            antialias: true,
-            powerPreference: "high-performance",
-            failIfMajorPerformanceCaveat: true,
-          }}
-          onCreated={({ gl }) => {
-            gl.domElement.addEventListener("webglcontextlost", (event) => {
-              event.preventDefault();
-              console.error("WebGL context lost", event);
-            });
-
-            gl.domElement.addEventListener("webglcontextrestored", () => {
-              console.log("WebGL context restored");
-            });
-          }}
-        >
+        <Canvas shadows camera={{ position: [5, 5, 5], fov: 45 }}>
           <Suspense fallback={null}>
             <Stage environment="city" intensity={0.6}>
               <Model modelPath={modelPath} />
             </Stage>
-            <OrbitControls
-              minPolarAngle={Math.PI / 4}
-              maxPolarAngle={Math.PI / 1.5}
-              {...orbitControlsProps}
-            />
           </Suspense>
         </Canvas>
       </div>
