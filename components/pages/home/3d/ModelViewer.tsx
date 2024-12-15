@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect } from "react";
+import React, { Suspense, useEffect } from "react";
 import { useGLTF, OrbitControls, Stage } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { ErrorBoundary } from "react-error-boundary";
@@ -8,6 +8,7 @@ import { ErrorBoundary } from "react-error-boundary";
 interface ModelViewerProps {
   modelPath: string;
 }
+type OrbitControlsProps = React.ComponentProps<typeof OrbitControls>;
 
 function Model({ modelPath }: ModelViewerProps) {
   const { scene } = useGLTF(modelPath);
@@ -31,10 +32,13 @@ function FallbackComponent({ error }: { error: Error }) {
   );
 }
 
-export function ModelViewer({ modelPath }: ModelViewerProps) {
+export function ModelViewer({
+  modelPath,
+  ...orbitControlsProps
+}: ModelViewerProps & OrbitControlsProps) {
   return (
     <ErrorBoundary FallbackComponent={FallbackComponent}>
-      <div className="w-full h-[600px] bg-gray-900 rounded-lg overflow-hidden">
+      <div className="w-full h-full bg-gray-900">
         <Canvas
           shadows
           dpr={[1, 2]} // Optimize for device pixel ratio
@@ -60,11 +64,9 @@ export function ModelViewer({ modelPath }: ModelViewerProps) {
               <Model modelPath={modelPath} />
             </Stage>
             <OrbitControls
-              autoRotate
-              enableZoom={true}
-              enablePan={true}
               minPolarAngle={Math.PI / 4}
               maxPolarAngle={Math.PI / 1.5}
+              {...orbitControlsProps}
             />
           </Suspense>
         </Canvas>
