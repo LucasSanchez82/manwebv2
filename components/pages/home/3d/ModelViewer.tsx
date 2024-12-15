@@ -16,6 +16,11 @@ function Model({ modelPath }: ModelViewerProps) {
   const scrollRef = useRef(0);
 
   useEffect(() => {
+    if (modelRef.current) {
+      modelRef.current.rotation.x = Math.PI / 15;
+      modelRef.current.rotation.y = Math.PI;
+      modelRef.current.rotation.z = 0;
+    }
     const handleScroll = () => {
       scrollRef.current = window.scrollY;
     };
@@ -30,7 +35,7 @@ function Model({ modelPath }: ModelViewerProps) {
   useFrame(() => {
     if (modelRef.current) {
       // Adjust rotation speed by changing the division factor
-      modelRef.current.rotation.y = scrollRef.current * 0.002;
+      modelRef.current.rotation.y = Math.PI + scrollRef.current * 0.004;
     }
   });
 
@@ -50,7 +55,7 @@ export function ModelViewer({ modelPath }: ModelViewerProps) {
   return (
     <ErrorBoundary FallbackComponent={FallbackComponent}>
       <div className="w-full h-full bg-gray-900">
-        <Canvas shadows camera={{ position: [5, 5, 5], fov: 45 }}>
+        <Canvas shadows camera={{ position: [5, 5, 5], zoom: 1.25 }}>
           <Suspense fallback={null}>
             <Stage environment="city" intensity={0.6}>
               <Model modelPath={modelPath} />
