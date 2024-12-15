@@ -6,10 +6,10 @@ import { ModelViewer } from "@/components/pages/home/3d/ModelViewer";
 
 export default function Hero() {
   return (
-    <div className="min-h-screen relative overflow-hidden bg-transparent">
+    <div className="min-h-screen">
       {/* Model Background */}
-      <div className="absolute top-0 right-0">
-        <ModelViewer modelPath="/shiba/scene.gltf" />
+      <div className="fixed inset-0 -z-10">
+        <ModelViewer modelPath="/hologram_console/scene.gltf" />
       </div>
 
       {/* Content Overlay */}

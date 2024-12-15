@@ -14,6 +14,7 @@ function Model({ modelPath }: ModelViewerProps) {
   const { scene } = useGLTF(modelPath);
   const modelRef = useRef<THREE.Group>(null);
   const scrollRef = useRef(0);
+  const mouseRef = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
     if (modelRef.current) {
@@ -24,10 +25,18 @@ function Model({ modelPath }: ModelViewerProps) {
     const handleScroll = () => {
       scrollRef.current = window.scrollY;
     };
+    const handleMouseMove = (event: MouseEvent) => {
+      // Normalize mouse position between -1 and 1
+      mouseRef.current.x = (event.clientX / window.innerWidth) * 2 - 1;
+      mouseRef.current.y = (event.clientY / window.innerHeight) * 2 - 1;
+    };
 
     window.addEventListener("scroll", handleScroll);
+    window.addEventListener("mousemove", handleMouseMove);
+
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("mousemove", handleMouseMove);
       useGLTF.preload(modelPath);
     };
   }, [modelPath]);
@@ -36,6 +45,16 @@ function Model({ modelPath }: ModelViewerProps) {
     if (modelRef.current) {
       // Adjust rotation speed by changing the division factor
       modelRef.current.rotation.y = Math.PI + scrollRef.current * 0.004;
+      modelRef.current.rotation.x = THREE.MathUtils.lerp(
+        modelRef.current.rotation.x,
+        mouseRef.current.y * 0.1,
+        0.1
+      );
+      modelRef.current.rotation.y = THREE.MathUtils.lerp(
+        modelRef.current.rotation.y,
+        mouseRef.current.x * 0.35 + Math.PI,
+        0.1
+      );
     }
   });
 
