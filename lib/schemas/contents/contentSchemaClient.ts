@@ -1,7 +1,6 @@
 import { z } from 'zod'
 import { contentWithoutImage } from './contentSchema'
 import { MAX_FILE_SIZE } from './constant'
-import { contentTypesKeys } from '@/prisma/constant'
 
 export const contentSchemaClient = contentWithoutImage.extend({
   image: z

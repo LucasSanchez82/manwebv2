@@ -11,7 +11,6 @@ import {
   SelectValue,
   SelectContent,
   SelectGroup,
-  SelectLabel,
   SelectItem,
 } from '@/components/ui/select'
 import { contentSchemaClient } from '@/lib/schemas/contents/contentSchemaClient'

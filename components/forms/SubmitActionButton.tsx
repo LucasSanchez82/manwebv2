@@ -1,6 +1,6 @@
 'use client'
 
-import React, { PropsWithChildren } from 'react'
+import React from 'react'
 import { Button } from '../ui/button'
 import { useFormStatus } from 'react-dom'
 import Spinner from '../global/Spinner'

@@ -1,5 +1,4 @@
 import { prisma } from '@/lib/prisma'
-import { fsync } from 'fs'
 
 const main = async () => {
   const contents = await prisma.content.findMany()

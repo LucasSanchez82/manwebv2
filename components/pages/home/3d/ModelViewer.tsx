@@ -1,6 +1,6 @@
 'use client'
 
-import React, { Suspense, useEffect, useRef, useCallback, memo } from 'react'
+import React, { Suspense, useEffect, useRef, memo } from 'react'
 import { useGLTF, OrbitControls, Stage, Html } from '@react-three/drei'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { ErrorBoundary } from 'react-error-boundary'

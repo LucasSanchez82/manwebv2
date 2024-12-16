@@ -1,4 +1,3 @@
-import { cacheLife } from 'next/dist/server/use-cache/cache-life'
 import { mangaResponseSchema } from './schema'
 
 export const getMangasFromMangadexAction = async (

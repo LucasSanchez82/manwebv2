@@ -1,5 +1,5 @@
 import SearchContentBar from '@/components/pages/home/SearchContentBar'
-import React, { PropsWithChildren } from 'react'
+import React from 'react'
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (

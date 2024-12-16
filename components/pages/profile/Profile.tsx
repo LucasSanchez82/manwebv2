@@ -1,5 +1,4 @@
 import { getSession } from '@/lib/auth/getsession'
-import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar'
 import React from 'react'
 import { ProfileSettingsPopover } from './ProfileSettingsPopover'
 
