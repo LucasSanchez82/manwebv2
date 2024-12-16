@@ -1,5 +1,3 @@
-import AddContentForm from '@/components/forms/contentForm/AddContentForm'
-import { DialogResponsive } from '@/components/global/DialogResponsive/DialogResponsive'
 import DisplayContents from '@/components/pages/home/Content/DisplayContents'
 import { getSession } from '@/lib/auth/getsession'
 import { getPersonnalContents } from '@/lib/cachedRequests/content/getPersonnalContents'
