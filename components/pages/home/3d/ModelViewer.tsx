@@ -37,7 +37,7 @@ const Model = memo(
     // Throttle event handlers to improve performance
     const handleScroll = useThrottledCallback(() => {
       scrollRef.current = window.scrollY;
-    }, 100);
+    }, 50);
 
     const handleMouseMove = useThrottledCallback((event: MouseEvent) => {
       mouseRef.current = {
@@ -67,6 +67,7 @@ const Model = memo(
     // Optimize frame updates with RAF
     useFrame(() => {
       if (!modelRef.current) return;
+      console.log("useframe");
 
       modelRef.current.rotation.y = THREE.MathUtils.lerp(
         modelRef.current.rotation.y,
@@ -81,7 +82,7 @@ const Model = memo(
       );
 
       // Apply scroll-based rotation
-      const scrollRotation = (scrollRef.current / 10) * scrollRotationFactor;
+      const scrollRotation = (scrollRef.current / 40) * scrollRotationFactor;
       modelRef.current.rotation.y += scrollRotation;
     });
 

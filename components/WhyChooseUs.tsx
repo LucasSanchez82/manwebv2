@@ -13,8 +13,8 @@ export default function WhyChooseUs() {
   return (
     <section className="py-20 px-8">
       <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          <div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12  items-center">
+          <div className=" backdrop-blur-sm">
             <h2 className="text-3xl font-bold mb-6">
               Pourquoi choisir Manweb ?
             </h2>
@@ -30,7 +30,7 @@ export default function WhyChooseUs() {
             </div>
           </div>
           <div className="relative">
-            <div className="aspect-video rounded-lg bg-gradient-to-br from-primary/20 via-primary/10 to-background backdrop-blur-sm border shadow-xl">
+            <div className="aspect-video rounded-lg bg-gradient-to-br from-primary/20 via-primary/10 to-background border shadow-xl">
               <div className="absolute inset-0 flex items-center justify-center">
                 <p className="text-lg font-medium text-center px-6">
                   Rejoignez les utilisateurs qui font confiance à Manweb pour

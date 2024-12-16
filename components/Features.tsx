@@ -41,7 +41,7 @@ export default function Features() {
   return (
     <section className="py-20 px-8 bg-secondary/50">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
+        <div className="text-center mb-12 backdrop-blur-sm">
           <h2 className="text-3xl font-bold mb-4">
             Tout ce dont vous avez besoin
           </h2>
