@@ -33,8 +33,8 @@ export default function WhyChooseUs() {
             <div className="aspect-video rounded-lg bg-gradient-to-br from-primary/20 via-primary/10 to-background backdrop-blur-sm border shadow-xl">
               <div className="absolute inset-0 flex items-center justify-center">
                 <p className="text-lg font-medium text-center px-6">
-                  Rejoignez des milliers d'utilisateurs qui font confiance à
-                  Manweb pour gérer leur bibliothèque de divertissement
+                  Rejoignez les utilisateurs qui font confiance à Manweb pour
+                  gérer leur bibliothèque de divertissement
                 </p>
               </div>
             </div>

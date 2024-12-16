@@ -45,7 +45,7 @@ export default function Features() {
           <h2 className="text-3xl font-bold mb-4">
             Tout ce dont vous avez besoin
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-muted-foreground max-w-2xl mx-auto primary">
             Manweb fournit tous les outils dont vous avez besoin pour gérer
             efficacement votre bibliothèque de divertissement
           </p>
