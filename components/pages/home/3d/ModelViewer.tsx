@@ -18,7 +18,7 @@ function Model({ modelPath }: ModelViewerProps) {
 
   useEffect(() => {
     if (modelRef.current) {
-      modelRef.current.rotation.x = Math.PI / 15;
+      modelRef.current.rotation.x = Math.PI;
       modelRef.current.rotation.y = Math.PI;
       modelRef.current.rotation.z = 0;
     }
@@ -43,7 +43,7 @@ function Model({ modelPath }: ModelViewerProps) {
 
   useFrame(() => {
     if (modelRef.current) {
-      // Adjust rotation speed by changing the division factor
+      //   Adjust rotation speed by changing the division factor
       modelRef.current.rotation.y = Math.PI + scrollRef.current * 0.004;
       modelRef.current.rotation.x = THREE.MathUtils.lerp(
         modelRef.current.rotation.x,
@@ -74,7 +74,7 @@ export function ModelViewer({ modelPath }: ModelViewerProps) {
   return (
     <ErrorBoundary FallbackComponent={FallbackComponent}>
       <div className="w-full h-full bg-gray-900">
-        <Canvas shadows camera={{ position: [5, 5, 5], zoom: 1.25 }}>
+        <Canvas shadows camera={{ position: [5, 5, 5], zoom: 1.75 }}>
           <Suspense fallback={null}>
             <Stage environment="city" intensity={0.6}>
               <Model modelPath={modelPath} />
