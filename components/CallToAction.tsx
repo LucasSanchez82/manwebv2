@@ -6,7 +6,7 @@ export default function CallToAction() {
     <section className="bg-primary px-8 py-20 text-primary-foreground">
       <div className="mx-auto max-w-4xl text-center">
         <h2 className="mb-4 text-3xl font-bold">
-          Commencez à Organiser Votre Divertissement Aujourd'hui
+          {"Commencez à Organiser Votre Divertissement Aujourd'hui"}
         </h2>
         <p className="mx-auto mb-8 max-w-2xl text-primary-foreground/80">
           Rejoignez Manweb et prenez le contrôle de votre bibliothèque de

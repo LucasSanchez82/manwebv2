@@ -4,7 +4,6 @@ import { ProfileSettingsPopover } from './ProfileSettingsPopover'
 
 const Profile = async () => {
   const session = await getSession()
-  const image = session.user?.image
   const name = session.user?.name
   const initials = name
     ?.split(' ')

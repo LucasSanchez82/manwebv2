@@ -7,7 +7,7 @@ type SessionState = {
   setSession: (session: Session | null) => void
 }
 
-export const useSessionStore = create<SessionState>((set, get) => {
+export const useSessionStore = create<SessionState>((set) => {
   // Immediately invoke an async function to fetch the session
   ;(async () => {
     const initialSession = await getSession()

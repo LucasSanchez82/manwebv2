@@ -75,7 +75,7 @@ export default function CustomPagination({
     }
 
     return pages
-  }, [getPage(), start, itemsCount, nbPages, totalPages])
+  }, [start, itemsCount, nbPages, totalPages])
 
   return (
     <Pagination>

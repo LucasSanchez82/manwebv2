@@ -7,10 +7,9 @@ const getInput = async () => {
   }
 }
 const main = async () => {
-  const prompt = 'Type something: '
   console.log("what's your email ?")
   const email = await getInput()
-  json.map((content) => {})
+  json.map(() => {})
   try {
     const me = await prisma.user.findUnique({
       where: {

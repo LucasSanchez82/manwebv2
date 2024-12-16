@@ -27,7 +27,7 @@ export function Navigation() {
                 <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
                   <li className="row-span-3">
                     <NavigationMenuLink asChild>
-                      <a
+                      <Link
                         className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
                         href="/#features"
                       >
@@ -38,7 +38,7 @@ export function Navigation() {
                           Explorez comment Manweb peut améliorer votre
                           expérience de lecture de séries, films, mangas.
                         </p>
-                      </a>
+                      </Link>
                     </NavigationMenuLink>
                   </li>
                   <li>
@@ -51,7 +51,7 @@ export function Navigation() {
                           Améliorations futures
                         </div>
                         <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                          Découvrez nos plans pour l'avenir de Manweb.
+                          {"Découvrez nos plans pour l'avenir de Manweb."}
                         </p>
                       </a>
                     </NavigationMenuLink>

@@ -71,10 +71,10 @@ function AutoForm<SchemaType extends ZodObjectOrWrapped>({
       <form
         action={(e) => {
           form.handleSubmit(onParsedAction)()
-          action && action(e)
+          if (action) action(e)
         }}
         onSubmit={(e) => {
-          onSubmitProp && form.handleSubmit(onSubmit)()
+          if (onSubmitProp) form.handleSubmit(onSubmit)()
         }}
         onChange={() => {
           const values = form.getValues()

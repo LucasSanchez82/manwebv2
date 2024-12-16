@@ -54,9 +54,8 @@ export const deleteContentAction: ServerResponseHandler = async (
       },
     })
 
-    deletedContent.image &&
-      deletedContent.isSelfHosted &&
-      (await deleteOldFile(deletedContent.image))
+    if (deletedContent.image && deletedContent.isSelfHosted)
+      await deleteOldFile(deletedContent.image)
     expireTag(cacheTagEnum.GET_PERSONNAL_CONTENTS)
 
     return {
@@ -137,7 +136,7 @@ export const restoreContentAction: ServerResponseHandler = async (
         message: 'Contenu restauré',
       },
     }
-  } catch (error) {
+  } catch (_) {
     return { error: 'Erreur interne du serveur' }
   }
 }

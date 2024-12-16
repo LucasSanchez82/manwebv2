@@ -5,7 +5,7 @@ import { Moon, Sun } from 'lucide-react'
 import { useTheme } from 'next-themes'
 
 export function ModeToggleItem() {
-  const { setTheme, theme, themes } = useTheme()
+  const { setTheme, theme } = useTheme()
 
   const toggleTheme = () => {
     if (theme === 'dark') setTheme('light')

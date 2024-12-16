@@ -45,7 +45,7 @@ const AddContentMagicForm = () => {
 
         if (okValue) formdata.append(key, okValue)
       })
-      const result = await refetch('/api/contents', {
+      await refetch('/api/contents', {
         method: 'POST',
         body: formdata,
       }).then((fetchedState) => {

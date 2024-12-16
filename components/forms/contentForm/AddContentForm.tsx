@@ -18,7 +18,6 @@ import useFetch from '@/lib/hooks/useFetch'
 import { contentSchemaClient } from '@/lib/schemas/contents/contentSchemaClient'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
-import { FormEvent } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import * as z from 'zod'
@@ -39,10 +38,7 @@ const AddContentForm = () => {
     },
   })
 
-  const onSubmit = (
-    submissionData: z.infer<typeof contentSchemaClient>,
-    e: FormEvent
-  ) => {
+  const onSubmit = (submissionData: z.infer<typeof contentSchemaClient>) => {
     const { image: unknownImage, ...submissionDataProps } = submissionData
     const image =
       unknownImage instanceof FileList ? unknownImage[0] : unknownImage
@@ -78,7 +74,7 @@ const AddContentForm = () => {
   return (
     <Form {...form}>
       <form
-        onSubmit={(e) => form.handleSubmit((v) => onSubmit(v, e))(e)}
+        onSubmit={(e) => form.handleSubmit((v) => onSubmit(v))(e)}
         className="space-y-8"
       >
         {/* Title */}

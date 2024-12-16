@@ -26,7 +26,6 @@ const Model = memo(
   ({
     modelPath,
     rotationSpeed = 0.1,
-    mouseRotationFactor = 0.35,
     scrollRotationFactor = 0.004,
   }: ModelViewerProps) => {
     const { scene } = useGLTF(modelPath)

@@ -11,16 +11,6 @@ const Page = async ({ searchParams }: { searchParams?: SearchParams }) => {
   const session = await getSession()
   if (!(session && session.user?.id)) throw new Error('pas de session')
   const params = await searchParams
-  const types =
-    typeof params?.types === 'string'
-      ? params.types.split(',').reduce((acc, nb) => {
-          // return array of numbers (skip if isNaN)
-          const number = Number(nb)
-          if (number) acc.push(number)
-          return acc
-        }, [] as number[])
-      : []
-
   const personnalContent = await getPersonnalContents({
     userId: session.user.id,
     filters: await sanitizeSearchParamsForSearch(searchParams),

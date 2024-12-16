@@ -2,9 +2,8 @@ import DisplayContents from '@/components/pages/home/Content/DisplayContents'
 import { getSession } from '@/lib/auth/getsession'
 import { getPersonnalContents } from '@/lib/cachedRequests/content/getPersonnalContents'
 import sanitizeSearchParamsForSearch from '@/lib/cachedRequests/content/sanitizeSearchParamsForSearch'
-import SearchParams from '@/lib/global/types/searchParams'
 
-const Page = async ({ searchParams }: { searchParams?: SearchParams }) => {
+const Page = async () => {
   const session = await getSession()
   if (!(session && session.user?.id)) throw new Error('pas de session')
 
