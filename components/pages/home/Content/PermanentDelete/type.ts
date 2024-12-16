@@ -1,3 +1,3 @@
 export type PermanentDeleteProps = {
-  contentToPermDelete: number | bigint;
-};
+  contentToPermDelete: number | bigint
+}

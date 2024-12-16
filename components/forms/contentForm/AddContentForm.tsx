@@ -1,8 +1,8 @@
-"use client";
+'use client'
 
-import { useDialog } from "@/components/global/DialogResponsive/DialogResponsive.context";
-import ImageInput from "@/components/pages/home/Content/ImageInput";
-import { Button } from "@/components/ui/button";
+import { useDialog } from '@/components/global/DialogResponsive/DialogResponsive.context'
+import ImageInput from '@/components/pages/home/Content/ImageInput'
+import { Button } from '@/components/ui/button'
 import {
   Form,
   FormControl,
@@ -11,70 +11,69 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import useFetch from "@/lib/hooks/useFetch";
-import { contentSchemaClient } from "@/lib/schemas/contents/contentSchemaClient";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
-import { FormEvent } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import * as z from "zod";
-import { SelectType } from "@/components/forms/contentForm/items/SelectType";
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
+import useFetch from '@/lib/hooks/useFetch'
+import { contentSchemaClient } from '@/lib/schemas/contents/contentSchemaClient'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from 'next/navigation'
+import { FormEvent } from 'react'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import * as z from 'zod'
+import { SelectType } from '@/components/forms/contentForm/items/SelectType'
 
 const AddContentForm = () => {
-  const { refetch, isLoading } = useFetch();
-  const router = useRouter();
-  const { setOpen } = useDialog();
+  const { refetch, isLoading } = useFetch()
+  const router = useRouter()
+  const { setOpen } = useDialog()
 
   const form = useForm<z.infer<typeof contentSchemaClient>>({
     resolver: zodResolver(contentSchemaClient),
     defaultValues: {
-      title: "",
-      readerUrl: "",
-      description: "",
+      title: '',
+      readerUrl: '',
+      description: '',
       chapter: 0,
     },
-  });
+  })
 
   const onSubmit = (
     submissionData: z.infer<typeof contentSchemaClient>,
     e: FormEvent
   ) => {
-    const { image: unknownImage, ...submissionDataProps } = submissionData;
+    const { image: unknownImage, ...submissionDataProps } = submissionData
     const image =
-      unknownImage instanceof FileList ? unknownImage[0] : unknownImage;
-    const submissionDataWithImage = { ...submissionDataProps, image };
-    const formdata = new FormData();
+      unknownImage instanceof FileList ? unknownImage[0] : unknownImage
+    const submissionDataWithImage = { ...submissionDataProps, image }
+    const formdata = new FormData()
     Object.entries(submissionDataWithImage).forEach(([key, value]) => {
-      const okValue =
-        typeof value === "number" ? value.toString() : value || "";
-      formdata.append(key, okValue);
-    });
+      const okValue = typeof value === 'number' ? value.toString() : value || ''
+      formdata.append(key, okValue)
+    })
 
-    refetch("/api/contents", {
-      method: "POST",
+    refetch('/api/contents', {
+      method: 'POST',
       body: formdata,
     }).then((fetchedState) => {
       try {
         if (fetchedState.data) {
-          setOpen(false);
-          router.refresh();
+          setOpen(false)
+          router.refresh()
         }
         if (!fetchedState.isLoading && fetchedState.error) {
-          console.error("Error adding content:", fetchedState.error);
-          toast.error("Error adding content. Please try again.");
+          console.error('Error adding content:', fetchedState.error)
+          toast.error('Error adding content. Please try again.')
         } else if (fetchedState.isLoading) {
-          toast.loading("Adding content...");
-        } else toast.success("contenu ajouté avec succès.");
+          toast.loading('Adding content...')
+        } else toast.success('contenu ajouté avec succès.')
       } catch (error) {
-        console.error("Error submitting form:", error);
-        toast.error("Error adding content. Please try again.");
+        console.error('Error submitting form:', error)
+        toast.error('Error adding content. Please try again.')
       }
-    });
-  };
+    })
+  }
 
   return (
     <Form {...form}>
@@ -111,7 +110,7 @@ const AddContentForm = () => {
                 <Textarea
                   placeholder="Description... (optionnel)"
                   {...field}
-                  value={field.value ?? ""}
+                  value={field.value ?? ''}
                 />
               </FormControl>
               <FormMessage />
@@ -130,7 +129,7 @@ const AddContentForm = () => {
                 <Input
                   placeholder="https://example.com"
                   {...field}
-                  value={field.value ?? ""}
+                  value={field.value ?? ''}
                 />
               </FormControl>
               <FormDescription>Url du lecteur en ligne</FormDescription>
@@ -168,11 +167,11 @@ const AddContentForm = () => {
         />
 
         <Button type="submit" disabled={isLoading}>
-          {isLoading ? "En cours..." : "Ajouter contenu"}
+          {isLoading ? 'En cours...' : 'Ajouter contenu'}
         </Button>
       </form>
     </Form>
-  );
-};
+  )
+}
 
-export default AddContentForm;
+export default AddContentForm

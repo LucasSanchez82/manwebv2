@@ -1,29 +1,29 @@
-"use server";
+'use server'
 
-import { unstable_expireTag as expireTag } from "next/cache";
-import { auth } from "../auth/auth";
-import { prisma } from "../prisma";
-import { cacheTagEnum } from "../cachedRequests/cacheTagEnum";
-import { webdav } from "../webdav";
-import { ServerResponseHandler } from "./type";
+import { unstable_expireTag as expireTag } from 'next/cache'
+import { auth } from '../auth/auth'
+import { prisma } from '../prisma'
+import { cacheTagEnum } from '../cachedRequests/cacheTagEnum'
+import { webdav } from '../webdav'
+import { ServerResponseHandler } from './type'
 
-const WEBDAV_UPLOAD_PATH = process.env.WEBDAV_UPLOAD_PATH!;
+const WEBDAV_UPLOAD_PATH = process.env.WEBDAV_UPLOAD_PATH!
 
 export const deleteOldFile = async (filePath: string): Promise<void> => {
   try {
-    await webdav.deleteFile(WEBDAV_UPLOAD_PATH + filePath);
-    console.log("Old file deleted successfully");
+    await webdav.deleteFile(WEBDAV_UPLOAD_PATH + filePath)
+    console.log('Old file deleted successfully')
   } catch (error) {
-    console.error("Error deleting old file:", error);
+    console.error('Error deleting old file:', error)
     // Continue execution even if delete fails
   }
-};
+}
 export const deleteContentAction: ServerResponseHandler = async (
   id: number | bigint
 ) => {
-  const session = await auth();
+  const session = await auth()
   if (!session || !session.user?.id) {
-    return { error: "Unauthorized" };
+    return { error: 'Unauthorized' }
   }
 
   const contentToDelete = await prisma.content.findUnique({
@@ -31,10 +31,10 @@ export const deleteContentAction: ServerResponseHandler = async (
       id,
       userId: session.user.id,
     },
-  });
+  })
 
   if (!contentToDelete) {
-    return { error: "Contenu non trouvé" };
+    return { error: 'Contenu non trouvé' }
   }
 
   //HARD DELETE
@@ -52,19 +52,19 @@ export const deleteContentAction: ServerResponseHandler = async (
         image: true,
         isSelfHosted: true,
       },
-    });
+    })
 
     deletedContent.image &&
       deletedContent.isSelfHosted &&
-      (await deleteOldFile(deletedContent.image));
-    expireTag(cacheTagEnum.GET_PERSONNAL_CONTENTS);
+      (await deleteOldFile(deletedContent.image))
+    expireTag(cacheTagEnum.GET_PERSONNAL_CONTENTS)
 
     return {
       data: {
         deletedContent: deletedContent,
-        message: "Contenu supprimé définitivement",
+        message: 'Contenu supprimé définitivement',
       },
-    };
+    }
   }
   //   SOFT DELETE
   const softDeletedContent = await prisma.content.update({
@@ -83,24 +83,24 @@ export const deleteContentAction: ServerResponseHandler = async (
       image: true,
       isSelfHosted: true,
     },
-  });
+  })
 
-  expireTag(cacheTagEnum.GET_PERSONNAL_CONTENTS);
+  expireTag(cacheTagEnum.GET_PERSONNAL_CONTENTS)
 
   return {
     data: {
       softDeletedContent: softDeletedContent,
-      message: "Contenu déplacé dans la corbeille",
+      message: 'Contenu déplacé dans la corbeille',
     },
-  };
-};
+  }
+}
 
 export const restoreContentAction: ServerResponseHandler = async (
   id: number | bigint
 ) => {
-  const session = await auth();
+  const session = await auth()
   if (!session || !session.user?.id) {
-    return { error: "Unauthorized" };
+    return { error: 'Unauthorized' }
   }
 
   try {
@@ -109,10 +109,10 @@ export const restoreContentAction: ServerResponseHandler = async (
         userId: session.user.id,
         id,
       },
-    });
-    if (!currentContent) return { error: "Ce contenu n'existe pas ou plus" };
+    })
+    if (!currentContent) return { error: "Ce contenu n'existe pas ou plus" }
     if (!currentContent?.deletedAt)
-      return { error: "Ce contenu n'est pas dans la corebeille" };
+      return { error: "Ce contenu n'est pas dans la corebeille" }
     const restoredContent = await prisma.content.update({
       where: {
         userId: session.user.id,
@@ -129,12 +129,15 @@ export const restoreContentAction: ServerResponseHandler = async (
         image: true,
         isSelfHosted: true,
       },
-    });
-    expireTag(cacheTagEnum.GET_PERSONNAL_CONTENTS);
+    })
+    expireTag(cacheTagEnum.GET_PERSONNAL_CONTENTS)
     return {
-      data: { restoredContent: restoredContent, message: "Contenu restauré" },
-    };
+      data: {
+        restoredContent: restoredContent,
+        message: 'Contenu restauré',
+      },
+    }
   } catch (error) {
-    return { error: "Erreur interne du serveur" };
+    return { error: 'Erreur interne du serveur' }
   }
-};
+}

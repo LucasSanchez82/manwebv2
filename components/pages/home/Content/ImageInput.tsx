@@ -5,18 +5,18 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import React, { useState } from "react";
-import { Control } from "react-hook-form";
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import React, { useState } from 'react'
+import { Control } from 'react-hook-form'
 
 interface ImageInputProps {
-  control: Control<any>;
-  name: string;
+  control: Control<any>
+  name: string
 }
 
 const ImageInput: React.FC<ImageInputProps> = ({ control, name }) => {
-  const [useUrl, setUseUrl] = useState(false);
+  const [useUrl, setUseUrl] = useState(false)
   return (
     <>
       {/* Image Toggle */}
@@ -79,7 +79,7 @@ const ImageInput: React.FC<ImageInputProps> = ({ control, name }) => {
         />
       )}
     </>
-  );
-};
+  )
+}
 
-export default ImageInput;
+export default ImageInput

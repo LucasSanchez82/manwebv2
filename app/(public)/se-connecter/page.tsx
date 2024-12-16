@@ -1,7 +1,7 @@
-import { signIn } from "@/lib/auth/auth";
+import { signIn } from '@/lib/auth/auth'
 
 const Page = () => {
-  return signIn();
-};
+  return signIn()
+}
 
-export default Page;
+export default Page

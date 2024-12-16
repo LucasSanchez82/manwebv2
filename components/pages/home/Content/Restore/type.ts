@@ -1,3 +1,3 @@
 export type RestoreProps = {
-  contentToRestore: number | bigint;
-};
+  contentToRestore: number | bigint
+}

@@ -1,6 +1,6 @@
 // DialogResponsive.custom.tsx
-"use client";
-import React from "react";
+'use client'
+import React from 'react'
 import {
   Dialog,
   DialogContent,
@@ -8,7 +8,7 @@ import {
   DialogTitle,
   DialogDescription,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from '@/components/ui/dialog'
 import {
   Drawer,
   DrawerContent,
@@ -18,20 +18,20 @@ import {
   DrawerTrigger,
   DrawerClose,
   DrawerFooter,
-} from "@/components/ui/drawer";
-import { Button } from "@/components/ui/button";
-import { useMediaQuery } from "@/lib/hooks/use-media-query";
-import { DialogProvider, useDialog } from "./DialogResponsive.context";
+} from '@/components/ui/drawer'
+import { Button } from '@/components/ui/button'
+import { useMediaQuery } from '@/lib/hooks/use-media-query'
+import { DialogProvider, useDialog } from './DialogResponsive.context'
 
 type DialogResponsiveProps = {
-  title: string;
-  desc?: string;
-  children?: React.ReactNode;
-  form: React.ReactNode;
-  buttonProps?: React.ComponentProps<typeof Button>;
-  className?: string;
-  style?: React.CSSProperties;
-};
+  title: string
+  desc?: string
+  children?: React.ReactNode
+  form: React.ReactNode
+  buttonProps?: React.ComponentProps<typeof Button>
+  className?: string
+  style?: React.CSSProperties
+}
 
 function DialogResponsiveContent({
   title,
@@ -42,8 +42,8 @@ function DialogResponsiveContent({
   className,
   style,
 }: DialogResponsiveProps) {
-  const { open, setOpen } = useDialog();
-  const isDesktop = useMediaQuery("(min-width: 768px)");
+  const { open, setOpen } = useDialog()
+  const isDesktop = useMediaQuery('(min-width: 768px)')
 
   if (isDesktop) {
     return (
@@ -62,7 +62,7 @@ function DialogResponsiveContent({
           {form}
         </DialogContent>
       </Dialog>
-    );
+    )
   }
 
   return (
@@ -83,7 +83,7 @@ function DialogResponsiveContent({
         </DrawerFooter>
       </DrawerContent>
     </Drawer>
-  );
+  )
 }
 
 export function DialogResponsive(props: DialogResponsiveProps) {
@@ -91,5 +91,5 @@ export function DialogResponsive(props: DialogResponsiveProps) {
     <DialogProvider>
       <DialogResponsiveContent {...props} />
     </DialogProvider>
-  );
+  )
 }

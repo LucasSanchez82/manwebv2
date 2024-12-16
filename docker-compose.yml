@@ -9,7 +9,7 @@ services:
       POSTGRES_PASSWORD: jioczhfBHgcaomXhicez
       POSTGRES_DB: boilerplate
     ports:
-      - "48874:5432"
+      - '48874:5432'
     volumes:
       - pgdata:/var/lib/postgresql/data # Persistent storage for PostgreSQL
 

@@ -1,20 +1,20 @@
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import { Button } from '@/components/ui/button'
+import Link from 'next/link'
 
 export default function CallToAction() {
   return (
-    <section className="py-20 px-8 bg-primary text-primary-foreground">
-      <div className="max-w-4xl mx-auto text-center">
-        <h2 className="text-3xl font-bold mb-4">
+    <section className="bg-primary px-8 py-20 text-primary-foreground">
+      <div className="mx-auto max-w-4xl text-center">
+        <h2 className="mb-4 text-3xl font-bold">
           Commencez à Organiser Votre Divertissement Aujourd'hui
         </h2>
-        <p className="text-primary-foreground/80 mb-8 max-w-2xl mx-auto">
+        <p className="mx-auto mb-8 max-w-2xl text-primary-foreground/80">
           Rejoignez Manweb et prenez le contrôle de votre bibliothèque de
           divertissement. Suivez votre progression, découvrez de nouveaux
           contenus et ne perdez plus jamais la trace de ce que vous regardez ou
           lisez.
         </p>
-        <div className="flex gap-4 justify-center">
+        <div className="flex justify-center gap-4">
           <Button size="lg" variant="secondary" asChild>
             <Link href="/se-connecter">Créer un Compte Gratuit</Link>
           </Button>
@@ -29,5 +29,5 @@ export default function CallToAction() {
         </div>
       </div>
     </section>
-  );
+  )
 }

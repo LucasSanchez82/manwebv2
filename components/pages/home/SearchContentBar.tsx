@@ -1,5 +1,5 @@
-"use client";
-import { Button } from "@/components/ui/button";
+'use client'
+import { Button } from '@/components/ui/button'
 import {
   Form,
   FormControl,
@@ -8,32 +8,32 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import useCustomSearchParams from "@/lib/hooks/useCustomSearchParams";
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import useCustomSearchParams from '@/lib/hooks/useCustomSearchParams'
 
 const SearchContentBar = () => {
   const form = useForm({
     resolver: zodResolver(
       z.object({
-        search: z.string({ message: "Veuillez entrer un nom" }),
+        search: z.string({ message: 'Veuillez entrer un nom' }),
       })
     ),
     defaultValues: {
-      search: "",
+      search: '',
     },
-  });
-  const { pushManyQueries } = useCustomSearchParams();
+  })
+  const { pushManyQueries } = useCustomSearchParams()
   const handleSubmit = form.handleSubmit((data) => {
-    pushManyQueries({ page: "1", search: data.search });
-  });
+    pushManyQueries({ page: '1', search: data.search })
+  })
 
   return (
     <Form {...form}>
-      <form onSubmit={handleSubmit} className="w-3/4 m-auto">
+      <form onSubmit={handleSubmit} className="m-auto w-3/4">
         <FormItem className="">
           <FormLabel htmlFor="search">Rechercher un contenu</FormLabel>
           <FormField
@@ -56,7 +56,7 @@ const SearchContentBar = () => {
         </FormItem>
       </form>
     </Form>
-  );
-};
+  )
+}
 
-export default SearchContentBar;
+export default SearchContentBar

@@ -1,13 +1,13 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 type TabsProviderProps = {
   tabs: {
-    value: string;
-    node: React.ReactNode;
-  }[];
-};
+    value: string
+    node: React.ReactNode
+  }[]
+}
 export function TabsProvider({ tabs }: TabsProviderProps) {
-  const defaultValue = tabs[0].value;
+  const defaultValue = tabs[0].value
   return (
     <Tabs defaultValue={defaultValue}>
       <TabsList
@@ -28,5 +28,5 @@ export function TabsProvider({ tabs }: TabsProviderProps) {
         </TabsContent>
       ))}
     </Tabs>
-  );
+  )
 }
