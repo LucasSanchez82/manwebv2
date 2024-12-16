@@ -1,7 +1,14 @@
 import { signIn } from '@/lib/auth/auth'
-
-const Page = () => {
+import { Suspense } from 'react'
+const Component = () => {
   return signIn()
+}
+const Page = () => {
+  return (
+    <Suspense>
+      <Component />
+    </Suspense>
+  )
 }
 
 export default Page
