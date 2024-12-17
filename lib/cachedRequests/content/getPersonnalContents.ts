@@ -2,6 +2,11 @@
 
 import { prisma } from '@/lib/prisma'
 import { Prisma } from '@prisma/client'
+import {
+  unstable_cacheLife as cacheLife,
+  unstable_cacheTag as cacheTag,
+} from 'next/cache'
+import { cacheTagEnum } from '../cacheTagEnum'
 import { SanitizedSearchParamsForSearch } from './sanitizeSearchParamsForSearch'
 
 type Props = {
@@ -14,6 +19,9 @@ export const getPersonnalContents = async ({
   showDeleted = false,
   filters: { itempsPerPage, page, search = '', types = [] },
 }: Props) => {
+  cacheLife('days')
+  cacheTag(cacheTagEnum.GET_PERSONNAL_CONTENTS)
+
   const query: Prisma.ContentFindManyArgs = {
     where: {
       deletedAt: showDeleted ? { not: null } : null,
