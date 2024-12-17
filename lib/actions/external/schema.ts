@@ -1,9 +1,9 @@
-import { z } from "zod";
+import { z } from 'zod'
 
 // Tag Schema
 const tagSchema = z.object({
   id: z.string(),
-  type: z.literal("tag"),
+  type: z.literal('tag'),
   attributes: z.object({
     name: z.object({
       en: z.string(),
@@ -13,7 +13,7 @@ const tagSchema = z.object({
     version: z.number(),
   }),
   relationships: z.array(z.any()).optional(),
-});
+})
 const coverArtAttributesSchema = z.object({
   description: z.string().optional().nullable(),
   volume: z.string().optional().nullable(),
@@ -22,13 +22,13 @@ const coverArtAttributesSchema = z.object({
   //   createdAt: z.string().date().optional(),
   //   updatedAt: z.string().date().optional(),
   version: z.number().optional().nullable(),
-});
+})
 
 const relationshipSchema = z.object({
   id: z.string(),
   type: z.string(),
   attributes: coverArtAttributesSchema.optional(),
-});
+})
 
 // Manga Attributes Schema
 export const mangaAttributesSchema = z.object({
@@ -58,27 +58,27 @@ export const mangaAttributesSchema = z.object({
   version: z.number(),
   availableTranslatedLanguages: z.array(z.string()),
   latestUploadedChapter: z.string().nullable(),
-});
+})
 
 // Manga Item Schema
 export const mangaItemSchema = z.object({
   id: z.string(),
-  type: z.literal("manga"),
+  type: z.literal('manga'),
   attributes: mangaAttributesSchema,
   relationships: z.array(relationshipSchema),
-});
+})
 
 // Full Response Schema
 export const mangaResponseSchema = z.object({
-  result: z.literal("ok"),
-  response: z.literal("collection"),
+  result: z.literal('ok'),
+  response: z.literal('collection'),
   data: z.array(mangaItemSchema),
   //   limit: z.number(),
   //   offset: z.number(),
   total: z.number(),
-});
+})
 
-export type MangadexResponse = z.infer<typeof mangaResponseSchema>;
-export type MangadexItem = z.infer<typeof mangaItemSchema>;
-export type MangadexAttributes = z.infer<typeof mangaAttributesSchema>;
-export type MangadexRelationshipSchema = z.infer<typeof relationshipSchema>;
+export type MangadexResponse = z.infer<typeof mangaResponseSchema>
+export type MangadexItem = z.infer<typeof mangaItemSchema>
+export type MangadexAttributes = z.infer<typeof mangaAttributesSchema>
+export type MangadexRelationshipSchema = z.infer<typeof relationshipSchema>

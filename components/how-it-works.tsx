@@ -1,4 +1,4 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight } from 'lucide-react'
 
 export function HowItWorks() {
   return (
@@ -13,15 +13,15 @@ export function HowItWorks() {
         <div className="grid gap-8 md:grid-cols-3">
           {[
             {
-              title: "Créez votre compte",
-              description: "Inscrivez-vous gratuitement en quelques secondes",
+              title: 'Créez votre compte',
+              description: 'Inscrivez-vous gratuitement en quelques secondes',
             },
             {
-              title: "Ajoutez vos sources",
-              description: "Connectez vos sites de lecture préférés",
+              title: 'Ajoutez vos sources',
+              description: 'Connectez vos sites de lecture préférés',
             },
             {
-              title: "Commencez à lire",
+              title: 'Commencez à lire',
               description: "Profitez d'une expérience de lecture unifiée",
             },
           ].map((step, i) => (
@@ -41,5 +41,5 @@ export function HowItWorks() {
         </div>
       </div>
     </section>
-  );
+  )
 }

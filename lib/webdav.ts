@@ -1,6 +1,6 @@
-import { AuthType, createClient, WebDAVClient } from "webdav";
+import { AuthType, createClient, WebDAVClient } from 'webdav'
 
-const globalForPrisma = globalThis as unknown as { webdav: WebDAVClient };
+const globalForPrisma = globalThis as unknown as { webdav: WebDAVClient }
 
 export const webdav =
   globalForPrisma.webdav ||
@@ -8,6 +8,6 @@ export const webdav =
     authType: AuthType.Password,
     username: process.env.WEBDAV_USER,
     password: process.env.WEBDAV_PASS,
-  });
+  })
 
-if (process.env.NODE_ENV !== "production") globalForPrisma.webdav = webdav;
+if (process.env.NODE_ENV !== 'production') globalForPrisma.webdav = webdav

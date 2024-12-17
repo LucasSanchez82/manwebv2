@@ -1,20 +1,20 @@
-import React from "react";
-import AddContentForm from "./AddContentForm";
-import AddContentMagicForm from "./AddContentMagicForm";
-import { TabsProvider } from "@/components/global/TabsProvider";
+import React from 'react'
+import AddContentForm from './AddContentForm'
+import AddContentMagicForm from './AddContentMagicForm'
+import { TabsProvider } from '@/components/global/TabsProvider'
 
 const AddContentsTabs = () => {
   const tabs = [
     {
-      value: "Magic",
+      value: 'Magic',
       node: <AddContentMagicForm />,
     },
     {
-      value: "Manual",
+      value: 'Manual',
       node: <AddContentForm />,
     },
-  ];
-  return <TabsProvider tabs={tabs} />;
-};
+  ]
+  return <TabsProvider tabs={tabs} />
+}
 
-export default AddContentsTabs;
+export default AddContentsTabs

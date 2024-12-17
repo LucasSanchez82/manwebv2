@@ -1,28 +1,27 @@
-"use client";
+'use client'
 import {
   FormControl,
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
+} from '@/components/ui/form'
 import {
   Select,
   SelectTrigger,
   SelectValue,
   SelectContent,
   SelectGroup,
-  SelectLabel,
   SelectItem,
-} from "@/components/ui/select";
-import { contentSchemaClient } from "@/lib/schemas/contents/contentSchemaClient";
-import { contentTypes, contentTypesKeys } from "@/prisma/constant";
-import React from "react";
-import { ControllerRenderProps } from "react-hook-form";
-import { z } from "zod";
+} from '@/components/ui/select'
+import { contentSchemaClient } from '@/lib/schemas/contents/contentSchemaClient'
+import { contentTypes, contentTypesKeys } from '@/prisma/constant'
+import React from 'react'
+import { ControllerRenderProps } from 'react-hook-form'
+import { z } from 'zod'
 export const SelectType = ({
   field,
 }: {
-  field: ControllerRenderProps<z.infer<typeof contentSchemaClient>, "type">;
+  field: ControllerRenderProps<z.infer<typeof contentSchemaClient>, 'type'>
 }) => (
   <FormItem>
     <FormLabel>Type</FormLabel>
@@ -44,4 +43,4 @@ export const SelectType = ({
     </Select>
     <FormMessage />
   </FormItem>
-);
+)

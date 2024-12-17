@@ -1,37 +1,38 @@
-import React from "react";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { ChevronDownIcon } from "@radix-ui/react-icons";
+import React from 'react'
+import { Button } from '@/components/ui/button'
+import Link from 'next/link'
+import { ChevronDownIcon } from '@radix-ui/react-icons'
+import { ModelViewer } from '@/components/pages/home/3d/ModelViewer'
 
 export default function Hero() {
-  // TODO: Scroll in view
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-8 relative">
-      <div className="max-w-4xl flex flex-col md:flex-row items-center gap-8">
-        <div className="flex-1 ">
-          <h1 className="text-4xl font-bold mb-4">Manweb</h1>
-          <p className="mb-6">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci
-            earum error fugit fuga laudantium veniam quis ullam possimus minus
-            quaerat sunt, eligendi dicta saepe reiciendis soluta id. Dolorem,
-            alias quasi.
-          </p>
-          <div className="flex gap-4">
-            <Button>
-              <Link href="se-connecter">Se-connecter</Link>
-            </Button>
-          </div>
-        </div>
-        <div className="flex-1">
-          {/* Replace with your 3D avatar or image */}
-          <div className="w-5/6 h-64 bg-gray-300 rounded mx-auto">
-            {/* Placeholder for 3D avatar */}
-          </div>
-        </div>
+    <div className="min-h-screen">
+      {/* Model Background */}
+      <div className="fixed inset-0 -z-10">
+        <ModelViewer modelPath="/hologram_console/scene.gltf" />
       </div>
-      <div className="w-20 h-20 absolute bottom-36 cursor-pointer">
-        <ChevronDownIcon className="h-full w-full" />
+
+      {/* Content Overlay */}
+      <div className="relative z-10 flex min-h-screen flex-col items-center justify-center p-8">
+        <div className="flex max-w-4xl flex-col items-center gap-8 md:flex-row">
+          <div className="flex-1p-6 rounded-lg backdrop-blur-sm">
+            <h1 className="mb-4 text-4xl font-bold text-white">Manweb</h1>
+            <p className="mb-6 text-white/90">
+              Manweb, le marque page numérique pour tous vos besoins (films,
+              séries, musiques, jeux, et tous les contenus qui ont besoin de
+              marque page.)
+            </p>
+            <div className="flex gap-4">
+              <Button>
+                <Link href="se-connecter">Se-connecter</Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+        <div className="absolute bottom-36 h-20 w-20 cursor-pointer">
+          <ChevronDownIcon className="h-full w-full text-white" />
+        </div>
       </div>
     </div>
-  );
+  )
 }

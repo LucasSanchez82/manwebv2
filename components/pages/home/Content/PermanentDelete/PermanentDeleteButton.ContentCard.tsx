@@ -1,7 +1,7 @@
-import { DialogResponsive } from "@/components/global/DialogResponsive/DialogResponsive";
-import React, { PropsWithChildren } from "react";
-import { PermanentDeleteProps } from "./type";
-import PermanentDeleteContentForm from "./PermanentDeleteForm.ContentCard";
+import { DialogResponsive } from '@/components/global/DialogResponsive/DialogResponsive'
+import React, { PropsWithChildren } from 'react'
+import { PermanentDeleteProps } from './type'
+import PermanentDeleteContentForm from './PermanentDeleteForm.ContentCard'
 
 const PermanentDeleteContentCard: React.FC<
   PropsWithChildren<PermanentDeleteProps>
@@ -12,11 +12,11 @@ const PermanentDeleteContentCard: React.FC<
       form={
         <PermanentDeleteContentForm contentToPermDelete={contentToPermDelete} />
       }
-      buttonProps={{ variant: "destructive" }}
+      buttonProps={{ variant: 'destructive' }}
     >
       {children}
     </DialogResponsive>
-  );
-};
+  )
+}
 
-export default PermanentDeleteContentCard;
+export default PermanentDeleteContentCard

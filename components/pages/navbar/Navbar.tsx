@@ -1,14 +1,14 @@
-import * as React from "react";
-import { cn } from "@/lib/utils";
+import * as React from 'react'
+import { cn } from '@/lib/utils'
 import {
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuLink,
-} from "@/components/ui/navigation-menu";
-import Profile from "../profile/Profile";
-import { NavigationMenuList } from "@radix-ui/react-navigation-menu";
+} from '@/components/ui/navigation-menu'
+import Profile from '../profile/Profile'
+import { NavigationMenuList } from '@radix-ui/react-navigation-menu'
 
-export default function NavBar() {
+const NavBar = () => {
   return (
     <section className="flex w-full justify-between p-5">
       <NavigationMenu>
@@ -84,12 +84,12 @@ export default function NavBar() {
       </NavigationMenu>
       <Profile />
     </section>
-  );
+  )
 }
 
 const ListItem = React.forwardRef<
-  React.ComponentRef<"a">,
-  React.ComponentPropsWithoutRef<"a">
+  React.ComponentRef<'a'>,
+  React.ComponentPropsWithoutRef<'a'>
 >(({ className, title, children, ...props }, ref) => {
   return (
     <li>
@@ -97,7 +97,7 @@ const ListItem = React.forwardRef<
         <a
           ref={ref}
           className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+            'block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground',
             className
           )}
           {...props}
@@ -109,6 +109,7 @@ const ListItem = React.forwardRef<
         </a>
       </NavigationMenuLink>
     </li>
-  );
-});
-ListItem.displayName = "ListItem";
+  )
+})
+ListItem.displayName = 'ListItem'
+export default NavBar

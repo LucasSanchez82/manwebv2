@@ -1,8 +1,8 @@
-"use client";
+'use client'
 
-import * as React from "react";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import * as React from 'react'
+import Link from 'next/link'
+import { Button } from '@/components/ui/button'
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -10,13 +10,13 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu";
+} from '@/components/ui/navigation-menu'
 
 export function Navigation() {
   return (
-    <div className="fixed top-0 w-full z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <div className="fixed top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
-        <Link href="/" className="font-bold text-2xl">
+        <Link href="/" className="text-2xl font-bold">
           Manweb
         </Link>
         <NavigationMenu>
@@ -27,7 +27,7 @@ export function Navigation() {
                 <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
                   <li className="row-span-3">
                     <NavigationMenuLink asChild>
-                      <a
+                      <Link
                         className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
                         href="/#features"
                       >
@@ -38,7 +38,7 @@ export function Navigation() {
                           Explorez comment Manweb peut améliorer votre
                           expérience de lecture de séries, films, mangas.
                         </p>
-                      </a>
+                      </Link>
                     </NavigationMenuLink>
                   </li>
                   <li>
@@ -51,7 +51,7 @@ export function Navigation() {
                           Améliorations futures
                         </div>
                         <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                          Découvrez nos plans pour l'avenir de Manweb.
+                          {"Découvrez nos plans pour l'avenir de Manweb."}
                         </p>
                       </a>
                     </NavigationMenuLink>
@@ -73,5 +73,5 @@ export function Navigation() {
         </Button>
       </div>
     </div>
-  );
+  )
 }

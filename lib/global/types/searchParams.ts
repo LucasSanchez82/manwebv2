@@ -1,3 +1,3 @@
-type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
+type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
 
-export default SearchParams;
+export default SearchParams

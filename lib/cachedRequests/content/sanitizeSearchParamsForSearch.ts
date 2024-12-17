@@ -1,8 +1,8 @@
-import { paginationConstants } from "@/lib/global/constants/pagination.constant";
-import SearchParams from "@/lib/global/types/searchParams";
+import { paginationConstants } from '@/lib/global/constants/pagination.constant'
+import SearchParams from '@/lib/global/types/searchParams'
 
 const sanitizeSearchParamsForSearch = async (p?: SearchParams) => {
-  const params = await p;
+  const params = await p
 
   const itempsPerPage =
     parseInt(
@@ -10,32 +10,32 @@ const sanitizeSearchParamsForSearch = async (p?: SearchParams) => {
         ? params.itempsPerPage[0]
         : params?.itempsPerPage) ??
         paginationConstants.itemsPerPage.default.toString()
-    ) ?? paginationConstants.itemsPerPage.default;
+    ) ?? paginationConstants.itemsPerPage.default
 
   const page =
     parseInt(
-      (params?.page instanceof Array ? params.page[0] : params?.page) ?? "1"
-    ) ?? 1;
+      (params?.page instanceof Array ? params.page[0] : params?.page) ?? '1'
+    ) ?? 1
   const types =
-    typeof params?.types === "string"
-      ? params.types.split(",").reduce((acc, nb) => {
+    typeof params?.types === 'string'
+      ? params.types.split(',').reduce((acc, nb) => {
           // return array of numbers (skip if isNaN)
-          const number = Number(nb);
-          if (number) acc.push(number);
-          return acc;
+          const number = Number(nb)
+          if (number) acc.push(number)
+          return acc
         }, [] as number[])
-      : [];
+      : []
 
   return {
     search: params?.search instanceof Array ? params.search[0] : params?.search,
     types,
     itempsPerPage,
     page,
-  };
-};
+  }
+}
 
-export default sanitizeSearchParamsForSearch;
+export default sanitizeSearchParamsForSearch
 type SanitizedSearchParamsForSearch = Awaited<
   ReturnType<typeof sanitizeSearchParamsForSearch>
->;
-export type { SanitizedSearchParamsForSearch };
+>
+export type { SanitizedSearchParamsForSearch }

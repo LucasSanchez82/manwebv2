@@ -1,10 +1,10 @@
-import { PrismaClient, Type } from "@prisma/client";
-import { contentTypesValues } from "./constant";
+import { PrismaClient, Type } from '@prisma/client'
+import { contentTypesValues } from './constant'
 
 const seed = async () => {
-  const prisma = new PrismaClient();
+  const prisma = new PrismaClient()
   try {
-    const results: Type[] = [];
+    const results: Type[] = []
     contentTypesValues.forEach(async ({ name, id }) => {
       const result = await prisma.type.upsert({
         where: { id },
@@ -16,16 +16,16 @@ const seed = async () => {
           name,
           id,
         },
-      });
-      console.log(result);
-      results.push(result);
-    });
-    console.log(results);
+      })
+      console.log(result)
+      results.push(result)
+    })
+    console.log(results)
   } catch (error) {
-    console.error(error);
+    console.error(error)
   } finally {
-    await prisma.$disconnect();
+    await prisma.$disconnect()
   }
-};
+}
 
-seed();
+seed()

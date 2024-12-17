@@ -4,4 +4,4 @@ export const paginationConstants = {
     default: 15,
     min: 5,
   },
-};
+}
