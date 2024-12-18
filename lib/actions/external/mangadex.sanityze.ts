@@ -14,11 +14,12 @@ export const sanityzeMangadexResponse = (
       (rel) => rel.type === 'cover_art'
     )
     const cover = coverRelation?.attributes?.fileName
+    cover?.includes
     return {
       title: manga.attributes?.title.en || '',
       description: manga.attributes.description?.en ?? '',
       image: cover
-        ? `https://mangadex.org/covers/${manga.id}/${cover}.512.jpg`
+        ? `/manga-image-proxy?image=${manga.id}/${cover}.512.jpg`
         : '/404.png',
       readerUrl: `https://mangadex.org/title/${manga.id}/${manga.attributes.title.en}`,
       chapter: 0,
