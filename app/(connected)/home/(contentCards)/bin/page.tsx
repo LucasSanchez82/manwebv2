@@ -1,9 +1,9 @@
-import DisplayContents from '@/components/pages/home/Content/DisplayContents'
+import SuspensWrapper from '@/components/global/SuspensWrapper'
 import { getSession } from '@/lib/auth/getsession'
 import { getPersonnalContents } from '@/lib/cachedRequests/content/getPersonnalContents'
 import sanitizeSearchParamsForSearch from '@/lib/cachedRequests/content/sanitizeSearchParamsForSearch'
 
-const Page = async () => {
+const Page = SuspensWrapper(async () => {
   const session = await getSession()
   if (!(session && session.user?.id)) throw new Error('pas de session')
 
@@ -12,11 +12,7 @@ const Page = async () => {
     showDeleted: true,
     filters: await sanitizeSearchParamsForSearch(undefined),
   })
-  return (
-    <>
-      <DisplayContents {...personnalContent} showDeleted />
-    </>
-  )
-}
+  return <>{/* <DisplayContents {...personnalContent} showDeleted /> */}</>
+})
 
 export default Page

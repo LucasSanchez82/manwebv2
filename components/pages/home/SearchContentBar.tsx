@@ -14,8 +14,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import useCustomSearchParams from '@/lib/hooks/useCustomSearchParams'
+import SuspensWrapper from '@/components/global/SuspensWrapper'
 
-const SearchContentBar = () => {
+const SearchContentBar = SuspensWrapper(() => {
   const form = useForm({
     resolver: zodResolver(
       z.object({
@@ -57,6 +58,6 @@ const SearchContentBar = () => {
       </form>
     </Form>
   )
-}
+})
 
 export default SearchContentBar

@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/pagination'
 import { paginationConstants } from '@/lib/global/constants/pagination.constant'
 import useCustomSearchParams from '@/lib/hooks/useCustomSearchParams'
-import { useCallback } from 'react'
+import { Suspense, useCallback } from 'react'
 
 interface CustomPaginationProps {
   itemsCount: number
@@ -78,50 +78,54 @@ export default function CustomPagination({
   }, [start, itemsCount, nbPages, totalPages])
 
   return (
-    <Pagination>
-      <PaginationContent>
-        <PaginationItem>
-          <PaginationPrevious
-            onClick={() => getPage() > start && handlePageChange(getPage() - 1)}
-            className={
-              getPage() <= start
-                ? 'pointer-events-none opacity-50'
-                : 'cursor-pointer'
-            }
-          />
-        </PaginationItem>
+    <Suspense fallback={<p>Chargement...</p>}>
+      <Pagination>
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious
+              onClick={() =>
+                getPage() > start && handlePageChange(getPage() - 1)
+              }
+              className={
+                getPage() <= start
+                  ? 'pointer-events-none opacity-50'
+                  : 'cursor-pointer'
+              }
+            />
+          </PaginationItem>
 
-        {getPageNumbers().map((pageNumber, index) =>
-          pageNumber === -1 ? (
-            <PaginationItem key={`ellipsis-${index}`}>
-              <PaginationEllipsis />
-            </PaginationItem>
-          ) : (
-            <PaginationItem key={pageNumber}>
-              <PaginationLink
-                onClick={() => handlePageChange(pageNumber)}
-                isActive={getPage() === pageNumber}
-                className="cursor-pointer"
-              >
-                {pageNumber}
-              </PaginationLink>
-            </PaginationItem>
-          )
-        )}
+          {getPageNumbers().map((pageNumber, index) =>
+            pageNumber === -1 ? (
+              <PaginationItem key={`ellipsis-${index}`}>
+                <PaginationEllipsis />
+              </PaginationItem>
+            ) : (
+              <PaginationItem key={pageNumber}>
+                <PaginationLink
+                  onClick={() => handlePageChange(pageNumber)}
+                  isActive={getPage() === pageNumber}
+                  className="cursor-pointer"
+                >
+                  {pageNumber}
+                </PaginationLink>
+              </PaginationItem>
+            )
+          )}
 
-        <PaginationItem>
-          <PaginationNext
-            onClick={() =>
-              getPage() >= totalPages && handlePageChange(getPage() + 1)
-            }
-            className={
-              getPage() >= totalPages
-                ? 'pointer-events-none opacity-50'
-                : 'cursor-pointer'
-            }
-          />
-        </PaginationItem>
-      </PaginationContent>
-    </Pagination>
+          <PaginationItem>
+            <PaginationNext
+              onClick={() =>
+                getPage() >= totalPages && handlePageChange(getPage() + 1)
+              }
+              className={
+                getPage() >= totalPages
+                  ? 'pointer-events-none opacity-50'
+                  : 'cursor-pointer'
+              }
+            />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
+    </Suspense>
   )
 }
