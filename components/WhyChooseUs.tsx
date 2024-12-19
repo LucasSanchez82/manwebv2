@@ -14,7 +14,7 @@ export default function WhyChooseUs() {
     <section className="px-8 py-20">
       <div className="mx-auto max-w-6xl">
         <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-2">
-          <div className="backdrop-blur-sm">
+          <div className="bg-backgroundBlue rounded py-4 pr-2 backdrop-blur-sm">
             <h2 className="mb-6 text-3xl font-bold">
               Pourquoi choisir Manweb ?
             </h2>

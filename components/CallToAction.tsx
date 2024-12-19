@@ -16,7 +16,7 @@ export default function CallToAction() {
         </p>
         <div className="flex justify-center gap-4">
           <Button size="lg" variant="secondary" asChild>
-            <Link href="/se-connecter">Créer un Compte Gratuit</Link>
+            <Link href="/home">Créer un Compte Gratuit</Link>
           </Button>
           {/* <Button
             size="lg"
