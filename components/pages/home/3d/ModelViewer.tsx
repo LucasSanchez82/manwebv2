@@ -1,7 +1,13 @@
 'use client'
 
-import React, { Suspense, useEffect, useRef, memo } from 'react'
-import { useGLTF, OrbitControls, Stage, Html } from '@react-three/drei'
+import { Suspense, useEffect, useRef, memo } from 'react'
+import {
+  useGLTF,
+  OrbitControls,
+  Stage,
+  Html,
+  useAnimations,
+} from '@react-three/drei'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { ErrorBoundary } from 'react-error-boundary'
 import * as THREE from 'three'
@@ -28,7 +34,8 @@ const Model = memo(
     rotationSpeed = 0.1,
     scrollRotationFactor = 0.004,
   }: ModelViewerProps) => {
-    const { scene } = useGLTF(modelPath)
+    const { scene, animations } = useGLTF(modelPath)
+    const { actions } = useAnimations(animations)
     const modelRef = useRef<THREE.Group>(null)
     const scrollRef = useRef(0)
     const mouseRef = useRef({ x: 0, y: 0 })
@@ -66,7 +73,7 @@ const Model = memo(
     // Optimize frame updates with RAF
     useFrame(() => {
       if (!modelRef.current) return
-      console.log('useframe')
+      console.log(actions)
 
       modelRef.current.rotation.y = THREE.MathUtils.lerp(
         modelRef.current.rotation.y,
@@ -111,8 +118,8 @@ export const ModelViewer = memo(
             dpr={[1, 2]}
             performance={{ min: 0.5 }}
             camera={{
-              position: [5, 5, 5],
-              zoom: 1.75,
+              position: [5, 5, -80],
+              zoom: 0.75,
               near: 0.1,
               far: 1000,
             }}

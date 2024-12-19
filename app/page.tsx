@@ -1,12 +1,14 @@
 import CallToAction from '@/components/CallToAction'
 import Features from '@/components/Features'
-import HeroHeader from '@/components/pages/landing/Heroalternative'
+import ChestModel from '@/components/pages/landing/Chest/Chest'
+import Hero from '@/components/pages/landing/Hero'
 import WhyChooseUs from '@/components/WhyChooseUs'
 
 export default function Home() {
   return (
     <main className="min-h-screen">
-      <HeroHeader />
+      <ChestModel />
+      <Hero />
       {/* <Hero /> */}
       <Features />
       <WhyChooseUs />

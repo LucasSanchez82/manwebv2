@@ -1,10 +1,9 @@
 import Link from 'next/link'
 import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import { ModelViewer } from '../home/3d/ModelViewer'
 import { ChevronDownIcon } from '@radix-ui/react-icons'
 
-export default function HeroHeader() {
+export default function Hero() {
   return (
     <section className="container relative m-auto flex min-h-screen flex-col pt-0 text-center lg:items-center lg:gap-8 lg:pb-20">
       <div className="flex flex-1 flex-col items-center gap-4 text-center lg:gap-8">
@@ -25,7 +24,7 @@ export default function HeroHeader() {
         </Link>
       </div>
       <div className="fixed inset-0 -z-10">
-        <ModelViewer modelPath="/hologram_console/scene.gltf" />
+        {/* <ModelViewer modelPath="/chest/Chest.glb" /> */}
       </div>
       <div className="absolute bottom-36 h-20 w-20 cursor-pointer">
         <ChevronDownIcon className="h-full w-full text-white" />
