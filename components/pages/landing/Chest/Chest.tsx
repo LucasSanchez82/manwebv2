@@ -1,42 +1,33 @@
 'use client'
-import { Suspense, useEffect, useState } from 'react'
+import { Suspense, useEffect } from 'react'
 import { Canvas } from '@react-three/fiber'
-import { OrbitControls, useGLTF, useAnimations } from '@react-three/drei'
-import { AnimationProvider, useAnimationContext } from './AnimationContext'
+import { useGLTF, useAnimations, Html, OrbitControls } from '@react-three/drei'
 import { ErrorBoundary, FallbackProps } from 'react-error-boundary'
+
+function LoadingSpinner() {
+  return (
+    <Html center>
+      <div className="text-white">Loading...</div>
+    </Html>
+  )
+}
 
 function Scene() {
   const { scene, animations } = useGLTF('/chest/Chest.glb')
   const { actions, names } = useAnimations(animations, scene)
-  const { currentAnimation, setNames } = useAnimationContext()
 
   useEffect(() => {
-    setNames(names)
-    return () => {
-      // Cleanup
-      actions &&
-        Object.values(actions).forEach((action) => {
-          if (action) {
-            action.stop()
-          } else {
-            console.log('No action')
-          }
-        })
-    }
-  }, [names, setNames, actions])
-
-  useEffect(() => {
-    if (currentAnimation && actions[currentAnimation]) {
-      const action = actions[currentAnimation]
-      action.reset().fadeIn(4).play()
+    if (actions && actions['Chest_Open']) {
+      const action = actions['Chest_Open']
+      action.reset().fadeIn(0).play()
       return () => {
-        action.fadeOut(4)
+        action.fadeOut(0.5)
       }
     }
-  }, [currentAnimation, actions])
+  }, [actions])
 
   return (
-    <>
+    <group>
       <ambientLight intensity={0.5} />
       <directionalLight position={[10, 10, 5]} intensity={1} />
       <OrbitControls
@@ -45,23 +36,15 @@ function Scene() {
         maxPolarAngle={Math.PI / 2}
       />
       <primitive object={scene} />
-    </>
+    </group>
   )
 }
 
 function ModelContent() {
   return (
-    <Suspense fallback={<LoadingFallback />}>
+    <Suspense fallback={<LoadingSpinner />}>
       <Scene />
     </Suspense>
-  )
-}
-
-function LoadingFallback() {
-  return (
-    <div className="absolute inset-0 flex items-center justify-center text-white">
-      Loading...
-    </div>
   )
 }
 
@@ -80,56 +63,18 @@ function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
   )
 }
 
-function ButtonTriggerAnimation() {
-  const { names, setCurrentAnimation, currentAnimation } = useAnimationContext()
-
-  return (
-    <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-2">
-      {names.map((name) => (
-        <button
-          key={name}
-          onClick={() => setCurrentAnimation(name)}
-          className={`rounded-md px-4 py-2 text-sm font-medium transition-colors ${
-            currentAnimation === name
-              ? 'bg-blue-600 text-white'
-              : 'bg-blue-100 text-blue-900 hover:bg-blue-200'
-          } `}
-        >
-          {name.charAt(0).toUpperCase() + name.slice(1)}
-        </button>
-      ))}
-    </div>
-  )
-}
-
 const ModelViewer = () => {
-  const [names, setNames] = useState<string[]>([])
-  const [currentAnimation, setCurrentAnimation] = useState<string | null>(null)
-
   return (
-    <AnimationProvider
-      value={{
-        names,
-        setNames,
-        currentAnimation,
-        setCurrentAnimation,
-      }}
-    >
-      <div className="relative h-96 w-full rounded-lg bg-gray-900">
-        <ErrorBoundary
-          FallbackComponent={ErrorFallback}
-          onReset={() => setCurrentAnimation(null)}
+    <div className="relative h-96 w-full rounded-lg bg-gray-900">
+      <ErrorBoundary FallbackComponent={ErrorFallback}>
+        <Canvas
+          camera={{ position: [0, 0, 5], fov: 50 }}
+          className="h-full w-full"
         >
-          <Canvas
-            camera={{ position: [0, 0, 5], fov: 50 }}
-            className="h-full w-full"
-          >
-            <ModelContent />
-          </Canvas>
-        </ErrorBoundary>
-        <ButtonTriggerAnimation />
-      </div>
-    </AnimationProvider>
+          <ModelContent />
+        </Canvas>
+      </ErrorBoundary>
+    </div>
   )
 }
 
