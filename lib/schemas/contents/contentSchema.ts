@@ -36,6 +36,17 @@ export const contentSchemaInputServer = contentWithoutImage.extend({
         "Url de l'image de couverture ( https://exemple.com/image.jpg )"
       ),
     z
+      .string()
+      .regex(
+        /^\/api\/manga-image-proxy\?image=[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\.[a-z]+\.\d+\.[a-z]+$/,
+        'Format UUID invalide'
+      )
+      .describe('Chemin avec format UUID'),
+    z
+      .string()
+      .regex(/^\/[a-zA-Z0-9-_]+\.[a-zA-Z]+$/, 'Format de chemin invalide')
+      .describe('Chemin simple (ex: /404.png)'),
+    z
       .instanceof(File)
       .refine(
         (file) => file.type.startsWith('image/'),

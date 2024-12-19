@@ -8,7 +8,7 @@ import {
 import Profile from '../profile/Profile'
 import { NavigationMenuList } from '@radix-ui/react-navigation-menu'
 
-export default function NavBar() {
+const NavBar = () => {
   return (
     <section className="flex w-full justify-between p-5">
       <NavigationMenu>
@@ -112,3 +112,4 @@ const ListItem = React.forwardRef<
   )
 })
 ListItem.displayName = 'ListItem'
+export default NavBar

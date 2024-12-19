@@ -1,14 +1,14 @@
-import React, { Suspense } from 'react'
+import SuspensWrapper from '@/components/global/SuspensWrapper'
+import SearchContentBar from '@/components/pages/home/SearchContentBar'
+import React from 'react'
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
+const Layout = SuspensWrapper(({ children }: { children: React.ReactNode }) => {
   return (
-    <Suspense>
-      <div className="w-full">
-        {/* <SearchContentBar /> */}
-        {children}
-      </div>
-    </Suspense>
+    <div className="w-full">
+      <SearchContentBar />
+      {children}
+    </div>
   )
-}
+})
 
 export default Layout
