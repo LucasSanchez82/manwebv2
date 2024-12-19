@@ -1,8 +1,14 @@
 'use client'
-import { Suspense, useEffect } from 'react'
-import { Canvas } from '@react-three/fiber'
-import { useGLTF, useAnimations, Html, OrbitControls } from '@react-three/drei'
-import { ErrorBoundary, FallbackProps } from 'react-error-boundary'
+import { Suspense } from 'react'
+import { Canvas, useFrame } from '@react-three/fiber'
+import {
+  useGLTF,
+  useAnimations,
+  Html,
+  OrbitControls,
+  useScroll,
+  ScrollControls,
+} from '@react-three/drei'
 
 function LoadingSpinner() {
   return (
@@ -15,19 +21,25 @@ function LoadingSpinner() {
 function Scene() {
   const { scene, animations } = useGLTF('/chest/Chest.glb')
   const { actions, names } = useAnimations(animations, scene)
+  const scroll = useScroll()
 
-  useEffect(() => {
-    if (actions && actions['Chest_Open']) {
-      const action = actions['Chest_Open']
-      action.reset().fadeIn(0).play()
-      return () => {
-        action.fadeOut(0.5)
-      }
+  useFrame(() => {
+    // Get scroll progress between 0 and 1
+    const scrollProgress = scroll.offset
+
+    // Find the chest animation
+    const chestAnimation = actions['Chest_Open']
+    if (chestAnimation) {
+      // Set animation time based on scroll
+      chestAnimation.time = chestAnimation.getClip().duration * scrollProgress
+      chestAnimation.play()
+      // Pause to prevent auto-updating of time
+      chestAnimation.paused = true
     }
-  }, [actions])
+  })
 
   return (
-    <group>
+    <group position={[0, -1, 0]} scale={[1.5, 1.5, 1.5]}>
       <ambientLight intensity={0.5} />
       <directionalLight position={[10, 10, 5]} intensity={1} />
       <OrbitControls
@@ -47,33 +59,19 @@ function ModelContent() {
     </Suspense>
   )
 }
-
-function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
-  return (
-    <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
-      <p>Something went wrong:</p>
-      <pre>{error.message}</pre>
-      <button
-        onClick={resetErrorBoundary}
-        className="mt-4 rounded bg-blue-500 px-4 py-2 hover:bg-blue-600"
-      >
-        Try again
-      </button>
-    </div>
-  )
-}
-
 const ModelViewer = () => {
   return (
-    <div className="relative h-96 w-full rounded-lg bg-gray-900">
-      <ErrorBoundary FallbackComponent={ErrorFallback}>
+    <div className="relative h-[200vh] w-full">
+      <div className="sticky top-0 h-screen w-full rounded-lg bg-gray-900">
         <Canvas
           camera={{ position: [0, 0, 5], fov: 50 }}
           className="h-full w-full"
         >
-          <ModelContent />
+          <ScrollControls pages={1}>
+            <ModelContent />
+          </ScrollControls>
         </Canvas>
-      </ErrorBoundary>
+      </div>
     </div>
   )
 }
