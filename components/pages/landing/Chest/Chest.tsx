@@ -1,15 +1,7 @@
 'use client'
-import { Suspense } from 'react'
+import { memo, Suspense } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { useGLTF, useAnimations, Html } from '@react-three/drei'
-
-function LoadingSpinner() {
-  return (
-    <Html center>
-      <div className="text-white">Loading...</div>
-    </Html>
-  )
-}
 
 function Scene() {
   const { scene, animations } = useGLTF('/chest/Chest.glb')
@@ -60,7 +52,12 @@ const ModelViewer = () => {
     </div>
   )
 }
-
+// Loader component using Html from drei
+const LoadingSpinner = memo(() => (
+  <Html center>
+    <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-white" />
+  </Html>
+))
 export default ModelViewer
 
 function getScrollProgress() {
