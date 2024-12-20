@@ -38,7 +38,7 @@ function ModelContent() {
     </Suspense>
   )
 }
-const ModelViewer = () => {
+const ChestViewer = () => {
   return (
     <div className="relative h-[200vh] w-full">
       <div className="sticky top-0 h-screen w-full rounded-lg bg-gray-900">
@@ -58,7 +58,9 @@ const LoadingSpinner = memo(() => (
     <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-white" />
   </Html>
 ))
-export default ModelViewer
+
+ChestViewer.displayName = 'ModelViewer'
+export default ChestViewer
 
 function getScrollProgress() {
   //to calc the scollProgress we didn't use the viewportHeight = window.innerHeight to stop early the animation
