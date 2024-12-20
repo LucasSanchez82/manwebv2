@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { ChevronDownIcon } from '@radix-ui/react-icons'
+import ChestModel from '@/components/pages/landing/Chest/Chest'
 
 export default function Hero() {
   return (
@@ -24,6 +25,8 @@ export default function Hero() {
         </Link>
       </div>
       <div className="fixed inset-0 -z-10">
+        <ChestModel />
+
         {/* <ModelViewer modelPath="/chest/Chest.glb" /> */}
       </div>
       <div className="absolute bottom-36 h-20 w-20 cursor-pointer">

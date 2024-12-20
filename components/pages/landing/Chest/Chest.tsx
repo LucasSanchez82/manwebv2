@@ -1,14 +1,7 @@
 'use client'
 import { Suspense } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import {
-  useGLTF,
-  useAnimations,
-  Html,
-  OrbitControls,
-  useScroll,
-  ScrollControls,
-} from '@react-three/drei'
+import { useGLTF, useAnimations, Html } from '@react-three/drei'
 
 function LoadingSpinner() {
   return (
@@ -20,13 +13,9 @@ function LoadingSpinner() {
 
 function Scene() {
   const { scene, animations } = useGLTF('/chest/Chest.glb')
-  const { actions, names } = useAnimations(animations, scene)
-  const scroll = useScroll()
-
+  const { actions } = useAnimations(animations, scene)
   useFrame(() => {
-    // Get scroll progress between 0 and 1
-    const scrollProgress = scroll.offset
-
+    const scrollProgress = getScrollProgress()
     // Find the chest animation
     const chestAnimation = actions['Chest_Open']
     if (chestAnimation) {
@@ -36,17 +25,15 @@ function Scene() {
       // Pause to prevent auto-updating of time
       chestAnimation.paused = true
     }
+
+    // Rotate the scene based on scroll
+    scene.rotation.y = getRotateY(scrollProgress)
   })
 
   return (
-    <group position={[0, -1, 0]} scale={[1.5, 1.5, 1.5]}>
+    <group position={[0, -1, 0]} scale={[1, 1, 1]}>
       <ambientLight intensity={0.5} />
       <directionalLight position={[10, 10, 5]} intensity={1} />
-      <OrbitControls
-        enableZoom={false}
-        minPolarAngle={Math.PI / 4}
-        maxPolarAngle={Math.PI / 2}
-      />
       <primitive object={scene} />
     </group>
   )
@@ -67,9 +54,7 @@ const ModelViewer = () => {
           camera={{ position: [0, 0, 5], fov: 50 }}
           className="h-full w-full"
         >
-          <ScrollControls pages={1}>
-            <ModelContent />
-          </ScrollControls>
+          <ModelContent />
         </Canvas>
       </div>
     </div>
@@ -77,3 +62,26 @@ const ModelViewer = () => {
 }
 
 export default ModelViewer
+
+function getScrollProgress() {
+  //to calc the scollProgress we didn't use the viewportHeight = window.innerHeight to stop early the animation
+  // Get scroll progress between 0 and 1
+
+  const currentYPosition =
+    window.scrollY ||
+    document.documentElement.scrollTop ||
+    document.body.scrollTop
+  const pageHeight =
+    document.documentElement.scrollHeight || document.body.scrollHeight
+  const currentPagePosition = currentYPosition
+  const scrollProgress = Math.min(currentPagePosition / pageHeight, 1)
+  return scrollProgress
+}
+
+function getRotateY(scrollProgress: number) {
+  // Rotate the scene based on scroll
+  //Math.PI corresponds to 180 degrees
+  const initialRotation = Math.PI * -0.15
+  const scrollRapidity = Math.PI * 2.25 // 2.25 is the number of turns
+  return initialRotation + scrollProgress * scrollRapidity
+}
