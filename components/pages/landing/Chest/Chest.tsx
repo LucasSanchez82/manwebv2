@@ -58,8 +58,8 @@ const LoadingSpinner = memo(() => (
     <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-white" />
   </Html>
 ))
-
-ChestViewer.displayName = 'ModelViewer'
+LoadingSpinner.displayName = 'ChestLoader'
+ChestViewer.displayName = 'ChestModelViewer'
 export default ChestViewer
 
 function getScrollProgress() {
