@@ -44,7 +44,7 @@ export function ContentTypesToggleGroups({
         type="multiple"
         defaultValue={types}
         onValueChange={handleValueChange}
-        className="grid gap-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6"
+        className="mb-7 grid gap-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6"
       >
         {contentTypesKeys.map((key) => (
           <ToggleGroupItem
