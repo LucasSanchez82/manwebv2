@@ -8,7 +8,7 @@ export default function Hero() {
   return (
     <section className="container relative m-auto flex min-h-screen flex-col pt-0 text-center lg:items-center lg:gap-8 lg:pb-20">
       <div className="flex flex-1 flex-col items-center gap-4 text-center lg:gap-8">
-        <div className="bg-backgroundBlue w-screen space-y-4 rounded-lg p-4 lg:pt-20">
+        <div className="w-screen space-y-4 rounded-lg p-4 lg:pt-20">
           <h1 className="text-4xl font-bold lg:text-6xl">Manweb</h1>
           <h2 className="text-lg font-light text-muted-foreground lg:text-3xl">
             {
