@@ -30,7 +30,7 @@ const ChestViewer = () => {
     <div className="relative h-full w-full">
       <div className="absolute inset-0">
         <Canvas
-          dpr={[1, 2]} // Limit pixel ratio for better performance
+          dpr={Math.min(window.devicePixelRatio, 1.5)} // Limit DPR more aggressively
           performance={{ min: 0.5 }} // Lower frame rate when inactive
           camera={{ position: [0, 0, 5], fov: 50 }}
           className="h-full w-full"
@@ -38,6 +38,8 @@ const ChestViewer = () => {
             powerPreference: 'high-performance',
             antialias: false, // Disable antialiasing if not crucial
             alpha: false, // Disable transparency if not needed
+            stencil: false, // Disable stencil buffer
+            // depth: false, // Disable depth buffer if not needed
           }}
         >
           <color attach="background" args={['hsl(221, 39%, 11%)']} />
