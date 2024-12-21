@@ -17,8 +17,7 @@ export default function Hero() {
           </h2>
         </div>
         <Link
-          href="/home>"
-          target="_blank"
+          href="/home"
           className={`w-[10rem] ${cn(buttonVariants({ size: 'lg' }))}`}
         >
           Commencer
