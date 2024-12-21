@@ -12,7 +12,7 @@ const useCustomSearchParams = () => {
   // searchParams with a provided key/value pair
   const createQueryString = useCallback(
     (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString())
+      const params = new URLSearchParams(searchParams?.toString())
       params.set(name, value)
 
       return params.toString()
@@ -29,7 +29,7 @@ const useCustomSearchParams = () => {
 
   const pushManyQueries = useCallback(
     (queries: Record<string, string>) => {
-      const params = new URLSearchParams(searchParams.toString())
+      const params = new URLSearchParams(searchParams?.toString())
       Object.entries(queries).forEach(([key, value]) => {
         params.set(key, value)
       })
@@ -40,7 +40,7 @@ const useCustomSearchParams = () => {
   )
   const removeQuery = useCallback(
     (name: string) => {
-      const params = new URLSearchParams(searchParams.toString())
+      const params = new URLSearchParams(searchParams?.toString())
       params.delete(name)
       router.push(`${pathname}?${params.toString()}`)
     },
@@ -48,7 +48,7 @@ const useCustomSearchParams = () => {
   )
   const getQuery = useCallback(
     (name: string) => {
-      const params = new URLSearchParams(searchParams.toString())
+      const params = new URLSearchParams(searchParams?.toString())
       return params.get(name)
     },
     [searchParams]

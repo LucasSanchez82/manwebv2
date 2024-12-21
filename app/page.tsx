@@ -10,7 +10,6 @@ export default function Home() {
       <Features />
       <WhyChooseUs />
       <CallToAction />
-      {/* <ModelViewer modelPath="/scene.gltf" /> */}
     </main>
   )
 }
