@@ -32,7 +32,6 @@ export default async function handler(
     const buffer = await response.arrayBuffer()
 
     // Définir les headers pour l'image
-    console.log('test')
     res.setHeader('Content-Type', contentType || 'image/*')
     res.setHeader('Cache-Control', 'public, max-age=31536000')
 
