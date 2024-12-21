@@ -13,11 +13,12 @@ interface R3FCanvas extends HTMLCanvasElement {
 const ModelContent = lazy(() => import('./Scene.Chest'))
 
 const ChestViewer = () => {
+  const getIsClient = () => typeof window !== 'undefined'
   // Cleanup effect
   useEffect(() => {
     return () => {
       // Dispose of any Three.js resources
-      if (typeof window !== 'undefined') {
+      if (getIsClient()) {
         const renderer = document.querySelector('canvas') as R3FCanvas
         if (renderer?.__r3f?.renderer) {
           renderer?.__r3f?.renderer.dispose()
@@ -30,7 +31,7 @@ const ChestViewer = () => {
     <div className="relative h-full w-full">
       <div className="absolute inset-0">
         <Canvas
-          dpr={Math.min(window.devicePixelRatio, 1.5)} // Limit DPR more aggressively
+          dpr={Math.min(getIsClient() ? window.devicePixelRatio : 1, 1.5)} // Limit DPR more aggressively
           performance={{ min: 0.5 }} // Lower frame rate when inactive
           camera={{ position: [0, 0, 5], fov: 50 }}
           className="h-full w-full"
