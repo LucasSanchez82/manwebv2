@@ -10,7 +10,7 @@ type Props = {
 
 const EasyUpChapterButton = ({ idContent, chapter }: Props) => {
   return (
-    <div className="mb-2 flex items-center gap-2">
+    <div className="flex w-min items-center gap-2 rounded p-1 backdrop-blur-sm">
       <Button
         variant="ghost"
         size="icon"

@@ -3,13 +3,12 @@ import ContentCardEditedForm from '../../../forms/contentForm/ContentCardEditedF
 import { DialogResponsive } from '@/components/global/DialogResponsive/DialogResponsive'
 import { PersonnalContent } from '@/lib/cachedRequests/content/getPersonnalContents'
 import ContentCardProvider from './ContentCard.provider'
-import EasyUpChapterButton from '@/components/forms/contentForm/EasyUpChapterButton'
 
 export default function ContentCard(props: PersonnalContent) {
   const imageUrl = `${props.isSelfHosted ? process.env.SELFHOSTED_IMAGES_BASE_URL + '/' : ''}${props.image}`
   return (
     <ContentCardProvider {...props}>
-      <EasyUpChapterButton idContent={props.id} chapter={props.chapter} />
+      {/* <EasyUpChapterButton idContent={props.id} chapter={props.chapter} /> */}
 
       <DialogResponsive
         title={`Modifier ${props.title}`}
