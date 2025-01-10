@@ -178,6 +178,7 @@ const ContentCardEditedForm = (
                   <Input
                     placeholder="Last chapter read"
                     type="number"
+                    step="any"
                     {...field}
                   />
                 </FormControl>
@@ -187,7 +188,7 @@ const ContentCardEditedForm = (
           />
           <section className="flex w-full justify-around">
             <Button type="submit" disabled={isLoading}>
-              {isLoading ? 'En cours...' : 'Modifier'}
+              {isLoading ? 'En cours...' : 'Sauvegarder'}
             </Button>
 
             <ButtonAction
@@ -200,7 +201,6 @@ const ContentCardEditedForm = (
           </section>
         </form>
       </Form>
-      {/* <form action={dele}></form> */}
     </>
   )
 }

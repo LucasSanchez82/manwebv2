@@ -5,9 +5,10 @@ import Link from 'next/link'
 import ContentCardBackgroundImage from './ContentCard.backgroundImage'
 import { PersonnalContent } from '@/lib/cachedRequests/content/getPersonnalContents'
 import { PropsWithChildren } from 'react'
+import EasyUpChapterButton from '@/components/forms/contentForm/EasyUpChapterButton'
 
 type Props = PropsWithChildren<
-  Omit<Partial<PersonnalContent>, 'id'> & {
+  Partial<PersonnalContent> & {
     hideContinueReading?: boolean
     buttonContainer?: {
       className?: string
@@ -23,6 +24,8 @@ export default function ContentCardProvider({
   children,
   hideContinueReading = false,
   buttonContainer,
+  deletedAt,
+  id,
 }: Props) {
   const imageUrl = `${isSelfHosted ? process.env.SELFHOSTED_IMAGES_BASE_URL + '/' : ''}${image}`
   return (
@@ -35,13 +38,16 @@ export default function ContentCardProvider({
         <div
           className={`flex items-center ${buttonContainer?.className || 'justify-between'}`}
         >
-          {!hideContinueReading && readerUrl && (
-            <Link href={readerUrl} passHref>
-              <Button className="mr-2 flex-grow" variant="secondary">
-                <BookOpen className="mr-2 h-4 w-4" />
-                Continue Reading
-              </Button>
-            </Link>
+          {!deletedAt && id && readerUrl && (
+            <div className="flex flex-col gap-2">
+              <EasyUpChapterButton idContent={id} chapter={chapter ?? 0} />
+              <Link href={readerUrl} passHref className="">
+                <Button className="mr-2 flex-grow" variant="secondary">
+                  <BookOpen className="mr-2 h-4 w-4" />
+                  Continue Reading
+                </Button>
+              </Link>
+            </div>
           )}
           {children}
         </div>

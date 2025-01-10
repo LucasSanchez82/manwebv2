@@ -22,6 +22,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { useMediaQuery } from '@/lib/hooks/use-media-query'
 import { DialogProvider, useDialog } from './DialogResponsive.context'
+import { cn } from '@/lib/utils'
 
 type DialogResponsiveProps = {
   title: string
@@ -70,7 +71,7 @@ function DialogResponsiveContent({
       <DrawerTrigger asChild>
         <Button variant="outline">{children}</Button>
       </DrawerTrigger>
-      <DrawerContent className={className} style={style}>
+      <DrawerContent className={cn('px-2', className)} style={style}>
         <DrawerHeader className="text-left">
           <DrawerTitle>{title}</DrawerTitle>
           {desc && <DrawerDescription>{desc}</DrawerDescription>}
