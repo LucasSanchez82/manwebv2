@@ -115,7 +115,7 @@ export default function CustomPagination({
           <PaginationItem>
             <PaginationNext
               onClick={() =>
-                getPage() >= totalPages && handlePageChange(getPage() + 1)
+                getPage() < totalPages && handlePageChange(getPage() + 1)
               }
               className={
                 getPage() >= totalPages
