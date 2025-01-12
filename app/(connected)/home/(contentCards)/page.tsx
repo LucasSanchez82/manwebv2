@@ -9,8 +9,7 @@ import SearchParams from '@/lib/global/types/searchParams'
 
 const Page = async ({ searchParams }: { searchParams: SearchParams }) => {
   const session = await getSession()
-  if (!(session && session.user?.id)) throw new Error('pas de session')
-  const params = await searchParams
+  if (!(session && session.user?.id)) throw new Error('Aucune session trouvée')
   const personnalContent = await getPersonnalContents({
     userId: session.user.id,
     filters: await sanitizeSearchParamsForSearch(searchParams),

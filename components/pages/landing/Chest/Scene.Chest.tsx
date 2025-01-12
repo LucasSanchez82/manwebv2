@@ -4,12 +4,12 @@ import { useFrame } from '@react-three/fiber'
 import { useGLTF, useAnimations } from '@react-three/drei'
 
 function Scene() {
-  const { scene, animations } = useGLTF('/chest/Chest.glb')
+  const { scene, animations } = useGLTF('/chest/Chest.glb', true)
   const { actions } = useAnimations(animations, scene)
+
   useFrame(() => {
     const scrollProgress = getScrollProgress()
-    // Find the chest animation
-    const chestAnimation = actions['Chest_Open']
+    const chestAnimation = actions['Chest_Open'] // Find the chest animation
     if (chestAnimation) {
       // Set animation time based on scroll
       chestAnimation.time = chestAnimation.getClip().duration * scrollProgress

@@ -25,8 +25,6 @@ export default function Hero() {
       </div>
       <div className="fixed inset-0 -z-10">
         <ChestModel />
-
-        {/* <ModelViewer modelPath="/chest/Chest.glb" /> */}
       </div>
       <div className="absolute bottom-36 h-20 w-20 cursor-pointer">
         <ChevronDownIcon className="h-full w-full text-white" />

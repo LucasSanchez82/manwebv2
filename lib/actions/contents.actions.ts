@@ -140,3 +140,35 @@ export const restoreContentAction: ServerResponseHandler = async (
     return { error: 'Erreur interne du serveur' }
   }
 }
+const isItMyOwnContent = async (id: number | bigint) => {
+  const session = await auth()
+  if (!session || !session.user?.id) {
+    return false
+  }
+  const content = await prisma.content.findUnique({
+    where: {
+      id,
+      userId: session.user.id,
+    },
+  })
+  return Boolean(content)
+}
+export const quickChangeChapterContent = async (
+  idContent: number | bigint,
+  up: boolean = true
+) => {
+  if (await isItMyOwnContent(idContent)) {
+    const content = await prisma.content.update({
+      where: {
+        id: Number(idContent),
+      },
+      data: {
+        chapter: {
+          increment: up ? 1 : -1,
+        },
+      },
+    })
+    expireTag(cacheTagEnum.GET_PERSONNAL_CONTENTS)
+    return content
+  }
+}
