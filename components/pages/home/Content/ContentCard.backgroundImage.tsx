@@ -12,9 +12,6 @@ const useBackgroundImageWithRetry = (
   maxRetries: number = 3,
   retryDelay: number = 1000
 ) => {
-  //   const [style, setStyle] = useState<React.CSSProperties>({});
-  //   const [loading, setLoading] = useState(true);
-  //   const [error, setError] = useState<string | null>(null);
   const [{ style, loading, error }, setState] = useState<{
     style: React.CSSProperties
     loading: boolean
@@ -55,7 +52,6 @@ const useBackgroundImageWithRetry = (
           setError(`Retry ${retryCount}/${maxRetries}`)
         } else {
           setError(`Failed to load image`)
-          console.error(`Failed to load image: ${imageUrl}`)
           setLoading(false)
         }
       }
