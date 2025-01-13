@@ -12,6 +12,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { Popover, PopoverAnchor, PopoverContent } from '@/components/ui/popover'
 import { Skeleton } from '@/components/ui/skeleton'
+import { toast } from 'sonner'
 
 type Props<T extends string> = {
   selectedValue: T
@@ -72,7 +73,7 @@ export function AutoComplete<T extends string>({
         if (error instanceof DOMException && error.name === 'AbortError') {
           console.log('Search was cancelled')
         } else {
-          console.error('Search error:', error)
+          toast.error('Erreur lors de la recherche, veuillez réessayer.')
         }
       }
     }

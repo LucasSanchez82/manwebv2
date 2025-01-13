@@ -57,13 +57,11 @@ const AddContentMagicForm = () => {
             router.refresh()
           }
           if (!fetchedState.isLoading && fetchedState.error) {
-            console.error('Error adding Content:', fetchedState.error)
             toast.error('Error adding manga. Please try again.')
           } else if (fetchedState.isLoading) {
             toast.loading('Adding content...')
           } else toast.success('contenu ajouté avec succès.')
         } catch (error) {
-          console.error('Error submitting form:', error)
           toast.error('Error adding content. Please try again.')
         }
       })
