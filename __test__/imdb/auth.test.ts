@@ -37,7 +37,7 @@ describe('auth', () => {
 
   it('should return a json object of a result', async () => {
     const url =
-      'https://api.themoviedb.org/3/search/multi?query=harry potter&include_adult=true&language=fr-FR&page=1'
+      'https://api.themoviedb.org/3/search/multi?query=gossip&include_adult=true&language=fr-FR&page=1'
     const options = {
       method: 'GET',
       headers: {
@@ -50,9 +50,9 @@ describe('auth', () => {
     const response = await fetch(url, options)
     const result = await response.json()
     const parsed = TMDBResponseSchema.safeParse(result)
-    // expect(parsed.success).toBeTrue()
-    // expect(parsed.data?.results).toBeDefined()
     console.log(parsed.error)
     console.log(result[19])
+    expect(parsed.success).toBeTrue()
+    expect(parsed.data?.results).toBeDefined()
   })
 })
