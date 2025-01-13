@@ -41,7 +41,13 @@ export default function ContentCardProvider({
           {!deletedAt && id && readerUrl && (
             <div className="flex flex-col gap-2">
               <EasyUpChapterButton idContent={id} chapter={chapter ?? 0} />
-              <Link href={readerUrl} passHref className="">
+              <Link
+                href={readerUrl}
+                passHref
+                target="_blank"
+                referrerPolicy="no-referrer"
+                rel="noreferrer"
+              >
                 <Button className="mr-2 flex-grow" variant="secondary">
                   <BookOpen className="mr-2 h-4 w-4" />
                   Continue Reading
