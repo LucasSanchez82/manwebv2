@@ -20,9 +20,11 @@ import useFetch from '@/lib/hooks/useFetch'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { toast } from 'sonner'
+import SelectTypeOfContent from './SelectTypeOfContent'
 
 const AddContentMagicForm = () => {
   const [selectedValue, setSelectedValue] = useState('')
+  const [typeOfContent, setTypeOfContent] = useState('')
   const [items, setItems] = useState<SanityzedMangadexResponseItem[]>([])
   const selectedItem: SanityzedMangadexResponseItem | undefined = items.find(
     (item) => item.mangadexId === selectedValue
@@ -79,39 +81,42 @@ const AddContentMagicForm = () => {
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Ajouter un contenu</CardTitle>
-        <CardDescription>
-          Ajouter un contenu à votre liste de lecture
-        </CardDescription>
-        <AutoComplete
-          emptyMessage="Aucun contenu trouvé"
-          onSearchValueChange={handleSearchValueChange}
-          selectedValue={selectedValue}
-          onSelectedValueChange={setSelectedValue}
-          items={items.map((item) => ({
-            value: item.mangadexId,
-            label: item.title,
-          }))}
-        />
-      </CardHeader>
-      <CardContent>
-        {selectedItem && (
-          <section className="flex flex-col justify-center gap-4">
-            <ContentCardProvider
-              {...{
-                ...selectedItem,
-                isSelfHosted: false,
-                description: selectedItem.description,
-                readerUrl: selectedItem.readerUrl,
-              }}
-            ></ContentCardProvider>
-            <ButtonAction action={handleClick}>Ajouter</ButtonAction>
-          </section>
-        )}
-      </CardContent>
-    </Card>
+    <>
+      <SelectTypeOfContent />
+      <Card>
+        <CardHeader>
+          <CardTitle>Ajouter un contenu</CardTitle>
+          <CardDescription>
+            Ajouter un contenu à votre liste de lecture
+          </CardDescription>
+          <AutoComplete
+            emptyMessage="Aucun contenu trouvé"
+            onSearchValueChange={handleSearchValueChange}
+            selectedValue={selectedValue}
+            onSelectedValueChange={setSelectedValue}
+            items={items.map((item) => ({
+              value: item.mangadexId,
+              label: item.title,
+            }))}
+          />
+        </CardHeader>
+        <CardContent>
+          {selectedItem && (
+            <section className="flex flex-col justify-center gap-4">
+              <ContentCardProvider
+                {...{
+                  ...selectedItem,
+                  isSelfHosted: false,
+                  description: selectedItem.description,
+                  readerUrl: selectedItem.readerUrl,
+                }}
+              ></ContentCardProvider>
+              <ButtonAction action={handleClick}>Ajouter</ButtonAction>
+            </section>
+          )}
+        </CardContent>
+      </Card>
+    </>
   )
 }
 

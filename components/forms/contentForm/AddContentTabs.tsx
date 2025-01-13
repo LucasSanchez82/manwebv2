@@ -1,6 +1,5 @@
-import React from 'react'
 import AddContentForm from './AddContentForm'
-import AddContentMagicForm from './AddContentMagicForm'
+import AddContentMagicForm from './AddConntent/AddContentMagicForm'
 import { TabsProvider } from '@/components/global/TabsProvider'
 
 const AddContentsTabs = () => {
