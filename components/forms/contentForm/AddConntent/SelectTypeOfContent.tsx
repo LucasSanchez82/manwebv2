@@ -12,10 +12,13 @@ import {
   contentTypesKeys,
   ContentTypeKey,
 } from '@/prisma/constant'
+import { Dispatch, SetStateAction } from 'react'
 
-type Props = {}
+type Props = {
+  setSelectedValue: Dispatch<SetStateAction<ContentTypeKey>>
+}
 
-export default function SelectTypeOfContent({}: Props) {
+export default function SelectTypeOfContent({ setSelectedValue }: Props) {
   const disponiblesProvider: ContentTypeKey[] = ['manga', 'anime']
 
   return (
@@ -33,6 +36,7 @@ export default function SelectTypeOfContent({}: Props) {
                 key={content.id}
                 value={content.id.toString()}
                 disabled={!disponiblesProvider.includes(contentKey)}
+                onSelect={() => setSelectedValue(contentKey)}
               >
                 {content.name}
               </SelectItem>

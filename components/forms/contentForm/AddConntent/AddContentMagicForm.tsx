@@ -24,7 +24,6 @@ import SelectTypeOfContent from './SelectTypeOfContent'
 
 const AddContentMagicForm = () => {
   const [selectedValue, setSelectedValue] = useState('')
-  const [typeOfContent, setTypeOfContent] = useState('')
   const [items, setItems] = useState<SanityzedMangadexResponseItem[]>([])
   const selectedItem: SanityzedMangadexResponseItem | undefined = items.find(
     (item) => item.mangadexId === selectedValue
@@ -80,7 +79,7 @@ const AddContentMagicForm = () => {
 
   return (
     <>
-      <SelectTypeOfContent />
+      <SelectTypeOfContent setSelectedValue={(e) => alert(e)} />
       <Card>
         <CardHeader>
           <CardTitle>Ajouter un contenu</CardTitle>
