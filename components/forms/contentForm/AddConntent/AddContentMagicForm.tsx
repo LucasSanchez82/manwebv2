@@ -11,11 +11,11 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { getMangasFromMangadexAction } from '@/lib/actions/external/mangadex.action'
+import { getMangasFromMangadexAction } from '@/lib/actions/external/mangadex/mangadex.action'
 import {
   SanityzedMangadexResponseItem,
   sanityzeMangadexResponse,
-} from '@/lib/actions/external/mangadex.sanityze'
+} from '@/lib/actions/external/mangadex/mangadex.sanityze'
 import useFetch from '@/lib/hooks/useFetch'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'

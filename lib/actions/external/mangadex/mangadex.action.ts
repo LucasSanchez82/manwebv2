@@ -1,6 +1,6 @@
-"use server"
+'use server'
 
-import { mangaResponseSchema } from './schema'
+import { mangaResponseSchema } from './mangadex.schema'
 
 export const getMangasFromMangadexAction = async (
   title: string,
