@@ -1,3 +1,4 @@
+import getFilmsTmdbMovies from '@/lib/actions/external/tmdb/tmdb.action'
 import { describe, expect, it } from 'bun:test'
 
 describe('provider.film', async () => {
@@ -16,5 +17,9 @@ describe('provider.film', async () => {
     expect(response.status).toBe(200)
     const json = await response.json()
     expect(json.success).toBeTrue()
+  })
+
+  it('should return all content type ids available', async () => {
+    expect((await getFilmsTmdbMovies('squid game')).results).toBeArray()
   })
 })
