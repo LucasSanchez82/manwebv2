@@ -18,7 +18,7 @@ const EasyUpChapterButton = ({ idContent, chapter }: Props) => {
     try {
       setIsLoading(true)
       await quickChangeChapterContent(idContent, toUp > 0)
-    } catch (error) {
+    } catch {
       toast.error('Erreur lors de la mise a jour du chapitre')
     } finally {
       setIsLoading(false)
@@ -35,10 +35,10 @@ const EasyUpChapterButton = ({ idContent, chapter }: Props) => {
       <Button
         variant="ghost"
         size="icon"
-        onClick={async () => await handleFileChange(1)}
+        onClick={async () => await handleFileChange(-1)}
         className="h-8 w-8 bg-white/10 text-white hover:bg-white/20"
       >
-        <ChevronUp className="h-4 w-4" />
+        <ChevronDown className="h-4 w-4" />
       </Button>
       <span className="min-w-[2ch] text-center font-medium text-white">
         {chapter}
@@ -46,10 +46,10 @@ const EasyUpChapterButton = ({ idContent, chapter }: Props) => {
       <Button
         variant="ghost"
         size="icon"
-        onClick={async () => await handleFileChange(-1)}
+        onClick={async () => await handleFileChange(1)}
         className="h-8 w-8 bg-white/10 text-white hover:bg-white/20"
       >
-        <ChevronDown className="h-4 w-4" />
+        <ChevronUp className="h-4 w-4" />
       </Button>
     </div>
   )

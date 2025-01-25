@@ -9,7 +9,6 @@ import EasyUpChapterButton from '@/components/forms/contentForm/EasyUpChapterBut
 
 type Props = PropsWithChildren<
   Partial<PersonnalContent> & {
-    hideContinueReading?: boolean
     buttonContainer?: {
       className?: string
     }
@@ -22,7 +21,6 @@ export default function ContentCardProvider({
   chapter,
   isSelfHosted,
   children,
-  hideContinueReading = false,
   buttonContainer,
   deletedAt,
   id,
@@ -34,7 +32,7 @@ export default function ContentCardProvider({
       <div className="absolute inset-0 bg-black bg-opacity-50 transition-opacity duration-300 group-hover:bg-opacity-70" />
       <CardContent className="relative flex h-full flex-col justify-end p-4 text-white">
         <h2 className="s mb-2 text-2xl font-bold">{title}</h2>
-        <p className="mb-4 text-sm">Last read: {chapter}</p>
+        <p className="mb-4 text-sm">Dernier lu: {chapter}</p>
         <div
           className={`flex items-center ${buttonContainer?.className || 'justify-between'}`}
         >
@@ -44,7 +42,7 @@ export default function ContentCardProvider({
               <Link href={readerUrl} passHref className="">
                 <Button className="mr-2 flex-grow" variant="secondary">
                   <BookOpen className="mr-2 h-4 w-4" />
-                  Continue Reading
+                  Continuer à lire
                 </Button>
               </Link>
             </div>
