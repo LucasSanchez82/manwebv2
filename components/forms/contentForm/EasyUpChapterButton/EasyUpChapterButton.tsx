@@ -5,6 +5,7 @@ import { quickChangeChapterContent } from '@/lib/actions/contents.actions'
 import { ChevronUp, ChevronDown } from 'lucide-react'
 import { useState } from 'react'
 import { toast } from 'sonner'
+import { EasySelectChapter } from '@/components/forms/contentForm/EasyUpChapterButton/EasyUpChapterButton.select'
 
 type Props = {
   idContent: number | bigint
@@ -41,7 +42,7 @@ const EasyUpChapterButton = ({ idContent, chapter }: Props) => {
         <ChevronDown className="h-4 w-4" />
       </Button>
       <span className="min-w-[2ch] text-center font-medium text-white">
-        {chapter}
+        <EasySelectChapter chapter={chapter} />
       </span>
       <Button
         variant="ghost"

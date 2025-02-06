@@ -5,7 +5,7 @@ import Link from 'next/link'
 import ContentCardBackgroundImage from './ContentCard.backgroundImage'
 import { PersonnalContent } from '@/lib/cachedRequests/content/getPersonnalContents'
 import { PropsWithChildren } from 'react'
-import EasyUpChapterButton from '@/components/forms/contentForm/EasyUpChapterButton'
+import EasyUpChapterButton from '@/components/forms/contentForm/EasyUpChapterButton/EasyUpChapterButton'
 
 type Props = PropsWithChildren<
   Partial<PersonnalContent> & {
