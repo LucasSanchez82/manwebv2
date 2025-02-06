@@ -1,7 +1,15 @@
 import { cn } from '@/lib/utils'
 import { Command as CommandPrimitive } from 'cmdk'
 import { Check } from 'lucide-react'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import {
   Command,
   CommandEmpty,
@@ -12,11 +20,16 @@ import {
 import { Input } from '@/components/ui/input'
 import { Popover, PopoverAnchor, PopoverContent } from '@/components/ui/popover'
 import { Skeleton } from '@/components/ui/skeleton'
+import Spinner from './Spinner'
 
 type Props<T extends string> = {
   selectedValue: T
   onSelectedValueChange: (value: T) => void
-  onSearchValueChange: (value: string, signal: AbortSignal) => Promise<void>
+  onSearchValueChange: (
+    value: string,
+    signal: AbortSignal,
+    setIsDebouncing: Dispatch<SetStateAction<boolean>>
+  ) => Promise<void>
   items: { value: T; label: string }[]
   isLoading?: boolean
   emptyMessage?: string
@@ -39,7 +52,7 @@ export function AutoComplete<T extends string>({
   const lastSearchTermRef = useRef('')
   const controllerRef = useRef<AbortController | null>(null)
   const inputRef = useRef<HTMLInputElement>(null)
-
+  const [isDebouncing, setIsDebouncing] = useState(false)
   // Cancel any ongoing search when component unmounts or search changes
   const cancelOngoingSearch = useCallback(() => {
     if (controllerRef.current) {
@@ -62,7 +75,11 @@ export function AutoComplete<T extends string>({
       try {
         // Only search if the term is different from the last searched term
         if (searchInput !== lastSearchTermRef.current) {
-          await onSearchValueChange(searchInput, controller.signal)
+          await onSearchValueChange(
+            searchInput,
+            controller.signal,
+            setIsDebouncing
+          ) // actually signal wasn't used
 
           // Update the last searched term only after successful search
           lastSearchTermRef.current = searchInput
@@ -139,7 +156,10 @@ export function AutoComplete<T extends string>({
               onMouseDown={() => setOpen((open) => !open)}
               onFocus={() => setOpen(true)}
             >
-              <Input placeholder={placeholder} />
+              <div className="flex items-center gap-2">
+                <Input placeholder={placeholder} />
+                {isDebouncing && <Spinner className="w-1/6 max-w-7" />}
+              </div>
             </CommandPrimitive.Input>
           </PopoverAnchor>
           {!open && <CommandList aria-hidden="true" className="hidden" />}
@@ -187,7 +207,16 @@ export function AutoComplete<T extends string>({
                 </CommandGroup>
               )}
               {!isLoading && (
-                <CommandEmpty>{emptyMessage ?? 'No items.'}</CommandEmpty>
+                <CommandEmpty>
+                  <div className="p-4 text-center text-gray-500">
+                    {emptyMessage}
+                    <p className="mt-2 text-sm text-gray-400">
+                      {searchInput.length > 0
+                        ? "Essaye d'ecrire autre chose 😉"
+                        : "Essaye d'ecrire quelque chose 😉"}
+                    </p>
+                  </div>
+                </CommandEmpty>
               )}
             </CommandList>
           </PopoverContent>
