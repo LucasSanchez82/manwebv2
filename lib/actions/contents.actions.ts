@@ -136,7 +136,7 @@ export const restoreContentAction: ServerResponseHandler = async (
         message: 'Contenu restauré',
       },
     }
-  } catch (_) {
+  } catch {
     return { error: 'Erreur interne du serveur' }
   }
 }
@@ -153,7 +153,7 @@ const isItMyOwnContent = async (id: number | bigint) => {
   })
   return Boolean(content)
 }
-export const quickChangeChapterContent = async (
+export const quickChangeChapterContentAction = async (
   idContent: number | bigint,
   up: boolean = true
 ) => {
@@ -167,8 +167,28 @@ export const quickChangeChapterContent = async (
           increment: up ? 1 : -1,
         },
       },
+      select: { chapter: true },
     })
     expireTag(cacheTagEnum.GET_PERSONNAL_CONTENTS)
-    return content
-  }
+    return content.chapter
+  } else throw new Error('Unauthorized')
+}
+
+export const changeChapterContentAction = async (
+  idContent: number | bigint,
+  newChapter: number
+) => {
+  if (await isItMyOwnContent(idContent)) {
+    const content = await prisma.content.update({
+      where: {
+        id: Number(idContent),
+      },
+      data: {
+        chapter: newChapter,
+      },
+      select: { chapter: true },
+    })
+    expireTag(cacheTagEnum.GET_PERSONNAL_CONTENTS)
+    return content.chapter
+  } else throw new Error('Unauthorized')
 }

@@ -7,11 +7,17 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 
-export function EasySelectChapter({ chapter }: { chapter: number }) {
-  const nbSelect = 100
+export function EasySelectChapter({
+  chapter,
+  handleChangeChapter,
+}: {
+  chapter: number
+  handleChangeChapter: (newChapter: number) => Promise<number | undefined>
+}) {
+  const nbSelect = 50
   const calculateRange = () => {
     const start = Math.max(0, chapter - nbSelect)
-    const end = start + nbSelect
+    const end = chapter + nbSelect
     return { start, end }
   }
 
@@ -30,14 +36,16 @@ export function EasySelectChapter({ chapter }: { chapter: number }) {
     return options
   }
   return (
-    <Select defaultValue={chapter.toString()}>
+    <Select
+      defaultValue={chapter.toString()}
+      onValueChange={(e) => handleChangeChapter(Number(e))}
+      key={chapter}
+    >
       <SelectTrigger>
-        <SelectValue />
+        <SelectValue key={chapter + '_selectvalue'} />
       </SelectTrigger>
       <SelectContent>
-        <SelectGroup defaultValue={chapter.toString()}>
-          {generateOptions()}
-        </SelectGroup>
+        <SelectGroup>{generateOptions()}</SelectGroup>
       </SelectContent>
     </Select>
   )
