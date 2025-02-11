@@ -18,7 +18,7 @@ import {
 } from '@/lib/actions/external/mangadex.sanityze'
 import useFetch from '@/lib/hooks/useFetch'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
 import { toast } from 'sonner'
 
 const AddContentMagicForm = () => {
@@ -72,10 +72,19 @@ const AddContentMagicForm = () => {
       })
   }
 
-  const handleSearchValueChange = async (value: string) => {
-    const content = await getMangasFromMangadexAction(value)
-    const sanityzedMangas = sanityzeMangadexResponse(content)
-    setItems(sanityzedMangas)
+  const handleSearchValueChange = async (
+    value: string,
+    _: AbortSignal,
+    searchIsDebouncing: Dispatch<SetStateAction<boolean>>
+  ) => {
+    searchIsDebouncing(true)
+
+    getMangasFromMangadexAction(value).then((content) => {
+      const sanityzedMangas = sanityzeMangadexResponse(content)
+      setItems(sanityzedMangas)
+      searchIsDebouncing(false)
+      console.log('searchisdebouncingfalse')
+    })
   }
 
   return (

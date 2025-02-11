@@ -8,8 +8,6 @@ export default function ContentCard(props: PersonnalContent) {
   const imageUrl = `${props.isSelfHosted ? process.env.SELFHOSTED_IMAGES_BASE_URL + '/' : ''}${props.image}`
   return (
     <ContentCardProvider {...props}>
-      {/* <EasyUpChapterButton idContent={props.id} chapter={props.chapter} /> */}
-
       <DialogResponsive
         title={`Modifier ${props.title}`}
         form={

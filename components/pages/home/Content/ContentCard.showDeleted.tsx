@@ -6,7 +6,7 @@ import PermanentDeleteContentCard from './PermanentDelete/PermanentDeleteButton.
 
 export default function ContentCardDeleted(props: PersonnalContent) {
   return (
-    <ContentCardProvider {...props} hideContinueReading>
+    <ContentCardProvider {...props}>
       <PermanentDeleteContentCard contentToPermDelete={props.id}>
         Supprimer
       </PermanentDeleteContentCard>
