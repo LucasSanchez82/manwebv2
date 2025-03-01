@@ -83,7 +83,6 @@ export default function Features() {
               variants={item}
               className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-800/50 to-gray-900/50 p-8 hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-300 border border-gray-800/50"
             >
-              {/* Gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-pink-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
               <div className="relative z-10">
@@ -94,7 +93,6 @@ export default function Features() {
                 <p className="text-gray-400">{feature.description}</p>
               </div>
 
-              {/* Hover effect */}
               <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-500 to-pink-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
             </motion.div>
           ))}
