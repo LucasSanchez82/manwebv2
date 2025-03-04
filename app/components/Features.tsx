@@ -57,7 +57,7 @@ const item = {
 export default function Features() {
   return (
     <section className="w-full bg-gradient-to-b from-gray-900 to-black py-20">
-      <div className="container w-full px-4 md:px-6">
+      <div className="container px-4 md:px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
