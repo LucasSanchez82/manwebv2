@@ -1,49 +1,71 @@
-"use client"
+'use client'
 
-import { motion } from "framer-motion"
-import { BookOpen, ListPlus, Star } from "lucide-react"
+import { motion } from 'framer-motion'
+import { BookOpen, ListPlus, LucideProps, Star } from 'lucide-react'
+import mobileImage from '../assets/landing/mockups/mobile.png'
+import desktopImage from '../assets/landing/mockups/desktop.png'
+import PhoneMockup from './mockups/phone-mockup'
+import TabletMockup from './mockups/tablet-mockup'
+import DesktopMockup from './mockups/desktop-mockup'
+import DesktopPCMockup from './mockups/laptop-mockup'
+import { ArrowRightIcon } from '@radix-ui/react-icons'
+import { StaticImageData } from 'next/image'
+import { ForwardRefExoticComponent, RefAttributes } from 'react'
 
-// Import mockup components
-import PhoneMockup from "./mockups/phone-mockup"
-import TabletMockup from "./mockups/tablet-mockup"
-import DesktopMockup from "./mockups/desktop-mockup"
-import DesktopPCMockup from "./mockups/laptop-mockup"
-import { ArrowRightIcon } from "@radix-ui/react-icons"
-
-const steps = [
+type Step = {
+  title: string
+  description: string
+  icon: ForwardRefExoticComponent<
+    Omit<LucideProps, 'ref'> & RefAttributes<SVGSVGElement>
+  >
+  image: StaticImageData
+  color: string
+  mockupType: 'phone' | 'tablet' | 'desktop' | 'desktopPC'
+  isAvailable: boolean
+}
+const steps: Step[] = [
   {
-    title: "Créez votre bibliothèque",
-    description: "Ajoutez facilement vos films, séries, mangas et jeux à votre collection personnelle.",
+    title: 'Créez votre bibliothèque',
+    description:
+      'Ajoutez facilement vos films, séries, mangas et jeux à votre collection personnelle.',
     icon: ListPlus,
-    mockup: "/placeholder.svg?height=600&width=800",
-    color: "from-purple-500 to-pink-500",
+    image: mobileImage,
+    color: 'from-purple-500 to-pink-500',
+    mockupType: 'phone',
+    isAvailable: true,
   },
   {
-    title: "Suivez votre progression",
-    description: "Gardez une trace de vos épisodes visionnés, chapitres lus et niveaux complétés.",
+    title: 'Suivez votre progression',
+    description:
+      'Gardez une trace de vos épisodes visionnés, chapitres lus et niveaux complétés.',
     icon: BookOpen,
-    mockup: "/placeholder.svg?height=600&width=800",
-    color: "from-blue-500 to-cyan-500",
+    image: desktopImage,
+    color: 'from-blue-500 to-cyan-500',
+    mockupType: 'desktop',
+    isAvailable: true,
   },
   {
-    title: "Notez et partagez",
-    description: "Évaluez vos contenus préférés et découvrez les recommandations de la communauté.",
+    title: 'Notez et partagez',
+    description:
+      'Évaluez vos contenus préférés et découvrez les recommandations de la communauté.',
     icon: Star,
-    mockup: "/placeholder.svg?height=600&width=800",
-    color: "from-amber-500 to-orange-500",
+    image: mobileImage,
+    color: 'from-amber-500 to-orange-500',
+    mockupType: 'phone',
+    isAvailable: false,
   },
 ]
 
 export default function HowItWorks() {
   return (
-    <section className="w-full py-20 bg-gradient-to-b from-black to-gray-900 overflow-hidden">
+    <section className="w-full overflow-hidden bg-gradient-to-b from-black to-gray-900 py-20">
       <div className="container px-4 md:px-6">
-        <div className="text-center mb-16">
+        <div className="mb-16 text-center">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-white mb-4"
+            className="mb-4 text-3xl font-bold tracking-tighter text-white sm:text-4xl md:text-5xl"
           >
             Comment ça marche
           </motion.h2>
@@ -52,9 +74,10 @@ export default function HowItWorks() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-gray-400 md:text-lg max-w-3xl mx-auto"
+            className="mx-auto max-w-3xl text-gray-400 md:text-lg"
           >
-            Découvrez comment Manweb vous aide à organiser et suivre tous vos divertissements en quelques étapes simples
+            Découvrez comment Manweb vous aide à organiser et suivre tous vos
+            divertissements en quelques étapes simples
           </motion.p>
         </div>
 
@@ -62,17 +85,47 @@ export default function HowItWorks() {
           {steps.map((step, index) => {
             // Determine which device mockup to use based on index
             const renderMockup = () => {
-              switch (index % 4) {
-                case 0:
-                  return <PhoneMockup image={step.mockup} color={step.color} />
-                case 1:
-                  return <DesktopPCMockup image={step.mockup} color={step.color} />
-                case 2:
-                  return <TabletMockup image={step.mockup} color={step.color} />
-                case 3:
-                  return <DesktopMockup image={step.mockup} color={step.color} />
+              switch (step.mockupType) {
+                case 'phone':
+                  return (
+                    <PhoneMockup
+                      color={step.color}
+                      image={step.image}
+                      key={index}
+                    />
+                  )
+                case 'desktopPC':
+                  return (
+                    <DesktopPCMockup
+                      color={step.color}
+                      image={step.image}
+                      key={index}
+                    />
+                  )
+                case 'tablet':
+                  return (
+                    <TabletMockup
+                      color={step.color}
+                      image={step.image}
+                      key={index}
+                    />
+                  )
+                case 'desktop':
+                  return (
+                    <DesktopMockup
+                      color={step.color}
+                      image={step.image}
+                      key={index}
+                    />
+                  )
                 default:
-                  return <PhoneMockup image={step.mockup} color={step.color} />
+                  return (
+                    <PhoneMockup
+                      color={step.color}
+                      image={step.image}
+                      key={index}
+                    />
+                  )
               }
             }
 
@@ -83,27 +136,31 @@ export default function HowItWorks() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className={`flex flex-col ${index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"} items-center gap-8 md:gap-12`}
+                className={`flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-8 md:gap-12`}
               >
                 {/* Content */}
                 <div className="flex-1 text-center md:text-left">
                   <div
-                    className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-r ${step.color} p-0.5 mb-6`}
+                    className={`inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-r ${step.color} mb-6 p-0.5`}
                   >
-                    <div className="w-full h-full rounded-2xl bg-gray-900 flex items-center justify-center">
-                      <step.icon className="w-8 h-8 text-white" />
+                    <div className="flex h-full w-full items-center justify-center rounded-2xl bg-gray-900">
+                      <step.icon className="h-8 w-8 text-white" />
                     </div>
                   </div>
-                  <h3 className="text-2xl font-bold text-white mb-4">{step.title}</h3>
-                  <p className="text-gray-400 text-lg mb-6">{step.description}</p>
-                  <div className="flex items-center justify-center md:justify-start space-x-2 text-purple-400 hover:text-purple-300 transition-colors">
+                  <h3 className="mb-4 text-2xl font-bold text-white">
+                    {step.title}
+                  </h3>
+                  <p className="mb-6 text-lg text-gray-400">
+                    {step.description}
+                  </p>
+                  <div className="flex items-center justify-center space-x-2 text-purple-400 transition-colors hover:text-purple-300 md:justify-start">
                     <span className="font-medium">En savoir plus</span>
-                    <ArrowRightIcon className="w-5 h-5" />
+                    <ArrowRightIcon className="h-5 w-5" />
                   </div>
                 </div>
 
                 {/* Device Mockup */}
-                <div className="flex-1 relative">
+                <div className="relative flex-1">
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -114,9 +171,9 @@ export default function HowItWorks() {
                     {renderMockup()}
 
                     {/* Floating Elements */}
-                    <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
-                      <div className="absolute top-1/4 left-0 w-20 h-20 bg-purple-500/10 rounded-full blur-xl animate-float" />
-                      <div className="absolute bottom-1/4 right-0 w-32 h-32 bg-pink-500/10 rounded-full blur-xl animate-float-delayed" />
+                    <div className="pointer-events-none absolute left-0 top-0 h-full w-full">
+                      <div className="animate-float absolute left-0 top-1/4 h-20 w-20 rounded-full bg-purple-500/10 blur-xl" />
+                      <div className="animate-float-delayed absolute bottom-1/4 right-0 h-32 w-32 rounded-full bg-pink-500/10 blur-xl" />
                     </div>
                   </motion.div>
                 </div>
@@ -128,4 +185,3 @@ export default function HowItWorks() {
     </section>
   )
 }
-

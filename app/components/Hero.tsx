@@ -165,7 +165,7 @@ export default function Hero() {
       <ChevronsDown
         width={80}
         height={80}
-        className="absolute bottom-5 left-1/2 -translate-x-1/2 animate-bounce"
+        className="centered-bounce absolute bottom-5 left-1/2"
       />
     </section>
   )
