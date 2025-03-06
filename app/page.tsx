@@ -1,4 +1,4 @@
-import HowItWorks from './components/how-it-works'
+import HowItWorks from './components/HowItWork'
 import WhyManweb from './components/WhyManweb'
 import FAQ from './components/FAQ'
 import CallToAction from './components/CTA'
