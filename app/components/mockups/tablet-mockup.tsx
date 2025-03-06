@@ -15,13 +15,15 @@ export default function TabletMockup({ image, color }: MockupProps) {
         <div className="absolute inset-0 rounded-[1.5rem] bg-gradient-to-br from-gray-800 to-gray-900" />
         <div className="relative h-full overflow-hidden rounded-[1.5rem] bg-gray-900">
           {/* Screen Content */}
-          <Image
-            alt={image.alt || 'Tablet screen content'}
-            src={image.src}
-            width={image.width}
-            height={image.height}
-            className="object-cover"
-          />
+          {image && (
+            <Image
+              alt={image.alt || 'Tablet screen content'}
+              src={image.src}
+              width={image.width}
+              height={image.height}
+              className="object-cover"
+            />
+          )}
 
           {/* Screen Reflections */}
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent" />

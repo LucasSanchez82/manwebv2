@@ -1,11 +1,5 @@
-import Image, { ImageProps } from 'next/image'
-
-interface MockupProps {
-  image: Omit<ImageProps, 'alt'> & {
-    alt?: string
-  }
-  color: string
-}
+import Image from 'next/image'
+import { MockupProps } from './type'
 
 export default function PhoneMockup({ image, color }: MockupProps) {
   return (
@@ -22,13 +16,15 @@ export default function PhoneMockup({ image, color }: MockupProps) {
 
         <div className="absolute inset-0 rounded-[2.5rem] bg-gradient-to-br from-gray-800 to-gray-900" />
         <div className="relative h-full overflow-hidden rounded-[2.5rem] bg-gray-900">
-          <Image
-            alt={image.alt || 'Mobile screen content'}
-            src={image.src}
-            width={image.width}
-            height={image.height}
-            className="object-cover"
-          />
+          {image && (
+            <Image
+              alt={image.alt || 'Mobile screen content'}
+              src={image.src}
+              width={image.width}
+              height={image.height}
+              className="object-cover"
+            />
+          )}
 
           {/* Screen Reflections */}
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent" />

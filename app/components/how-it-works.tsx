@@ -11,6 +11,7 @@ import DesktopPCMockup from './mockups/laptop-mockup'
 import { ArrowRightIcon } from '@radix-ui/react-icons'
 import { StaticImageData } from 'next/image'
 import { ForwardRefExoticComponent, RefAttributes } from 'react'
+import { Badge } from '@/components/ui/badge'
 
 type Step = {
   title: string
@@ -18,16 +19,16 @@ type Step = {
   icon: ForwardRefExoticComponent<
     Omit<LucideProps, 'ref'> & RefAttributes<SVGSVGElement>
   >
-  image: StaticImageData
+  image?: StaticImageData
   color: string
   mockupType: 'phone' | 'tablet' | 'desktop' | 'desktopPC'
   isAvailable: boolean
 }
 const steps: Step[] = [
   {
-    title: 'Créez votre bibliothèque',
+    title: 'Suivez votre progression',
     description:
-      'Ajoutez facilement vos films, séries, mangas et jeux à votre collection personnelle.',
+      'Gardez une trace de vos épisodes visionnés, chapitres lus et niveaux complétés.',
     icon: ListPlus,
     image: mobileImage,
     color: 'from-purple-500 to-pink-500',
@@ -35,9 +36,9 @@ const steps: Step[] = [
     isAvailable: true,
   },
   {
-    title: 'Suivez votre progression',
+    title: 'Créez votre bibliothèque',
     description:
-      'Gardez une trace de vos épisodes visionnés, chapitres lus et niveaux complétés.',
+      'Ajoutez facilement vos films, séries, mangas et jeux à votre collection personnelle.',
     icon: BookOpen,
     image: desktopImage,
     color: 'from-blue-500 to-cyan-500',
@@ -49,7 +50,7 @@ const steps: Step[] = [
     description:
       'Évaluez vos contenus préférés et découvrez les recommandations de la communauté.',
     icon: Star,
-    image: mobileImage,
+    // image: mobileImage,
     color: 'from-amber-500 to-orange-500',
     mockupType: 'phone',
     isAvailable: false,
@@ -59,7 +60,7 @@ const steps: Step[] = [
 export default function HowItWorks() {
   return (
     <section className="w-full overflow-hidden bg-gradient-to-b from-black to-gray-900 py-20">
-      <div className="container px-4 md:px-6">
+      <div className="container mx-auto">
         <div className="mb-16 text-center">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -136,10 +137,19 @@ export default function HowItWorks() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className={`flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-8 md:gap-12`}
+                className={`flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} relative items-center gap-8 md:gap-12`}
               >
+                {/* Add coming soon border and badge */}
+                {!step.isAvailable && (
+                  <>
+                    <div className="absolute inset-0 -m-4 animate-pulse rounded-3xl border-2 border-dashed border-amber-500/50"></div>
+                    <Badge className="absolute right-0 top-0 z-10 -translate-y-1/2 translate-x-1/4 transform border-0 bg-gradient-to-r from-amber-500 to-orange-500 px-4 py-1 text-white">
+                      Disponible prochainement
+                    </Badge>
+                  </>
+                )}
                 {/* Content */}
-                <div className="flex-1 text-center md:text-left">
+                <div className={'relative flex-1 text-center md:text-left'}>
                   <div
                     className={`inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-r ${step.color} mb-6 p-0.5`}
                   >
@@ -166,7 +176,7 @@ export default function HowItWorks() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.2 }}
-                    className="relative"
+                    className="relative py-2"
                   >
                     {renderMockup()}
 
@@ -175,6 +185,17 @@ export default function HowItWorks() {
                       <div className="animate-float absolute left-0 top-1/4 h-20 w-20 rounded-full bg-purple-500/10 blur-xl" />
                       <div className="animate-float-delayed absolute bottom-1/4 right-0 h-32 w-32 rounded-full bg-pink-500/10 blur-xl" />
                     </div>
+                    {/* Add overlay for coming soon items */}
+                    {!step.isAvailable && (
+                      <div className="absolute inset-0 flex items-center justify-center rounded-xl bg-gradient-to-br from-amber-500/10 to-orange-500/10 backdrop-blur-[2px]">
+                        <Badge
+                          className="animate-pulse border-0 bg-gradient-to-r from-amber-500 to-orange-500 px-6 py-3 text-lg font-bold text-white shadow-lg"
+                          variant="secondary"
+                        >
+                          Bientôt disponible
+                        </Badge>
+                      </div>
+                    )}
                   </motion.div>
                 </div>
               </motion.div>

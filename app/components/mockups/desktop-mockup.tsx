@@ -12,13 +12,15 @@ export default function DesktopMockup({ image, color }: MockupProps) {
         <div className="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-900" />
         <div className="relative aspect-video overflow-hidden bg-gray-900">
           {/* Screen Content */}
-          <Image
-            alt={image.alt || 'Desktop screen content'}
-            src={image.src}
-            width={image.width}
-            height={image.height}
-            className="object-cover"
-          />
+          {image && (
+            <Image
+              alt={image.alt || 'Desktop screen content'}
+              src={image.src}
+              width={image.width}
+              height={image.height}
+              className="object-cover"
+            />
+          )}
 
           {/* Screen Reflections */}
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent" />

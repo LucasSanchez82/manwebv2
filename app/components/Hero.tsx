@@ -1,13 +1,6 @@
 'use client'
 
-import {
-  Film,
-  Music,
-  Gamepad2,
-  Bookmark,
-  Sparkles,
-  ChevronsDown,
-} from 'lucide-react'
+import { Film, Music, Gamepad2, Bookmark, ChevronsDown } from 'lucide-react'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
@@ -150,7 +143,7 @@ export default function Hero() {
               </span>
             </Link>
 
-            <Link
+            {/* <Link
               href="/en-savoir-plus"
               className="group relative inline-flex h-14 items-center justify-center overflow-hidden rounded-full border border-white/20 bg-white/10 px-10 text-base font-medium text-white backdrop-blur-sm transition-all hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2"
             >
@@ -158,7 +151,7 @@ export default function Hero() {
                 En savoir plus
                 <Sparkles className="ml-2 h-4 w-4 text-amber-300" />
               </span>
-            </Link>
+            </Link> */}
           </div>
         </motion.div>
       </div>
