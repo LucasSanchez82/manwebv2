@@ -42,7 +42,7 @@ export default function CallToAction() {
               transition={{ delay: 0.2 }}
             >
               <Link
-                href="/creer-un-compte"
+                href="/home"
                 className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-purple-600 to-pink-600 px-8 py-4 text-base font-medium text-white shadow-lg shadow-purple-500/25 transition-all duration-300 hover:scale-105 hover:shadow-purple-500/50"
               >
                 Créer un Compte Gratuit
