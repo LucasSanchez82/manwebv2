@@ -6,15 +6,8 @@ import SubmitActionButton from './SubmitActionButton'
 import AutoForm from '../ui/auto-form'
 import { useSessionStore } from '@/lib/store/sessionStore'
 
-type ProfileSchemaFormShape = (typeof profileSchemaForm)['shape']
-type keyOfProfileSchemaShape = keyof ProfileSchemaFormShape
-
 const ProfileEditorForm = () => {
   const { session } = useSessionStore()
-
-  const fieldNames = Object.keys(
-    profileSchemaForm.shape
-  ) as keyOfProfileSchemaShape[]
 
   return (
     <AutoForm
