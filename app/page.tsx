@@ -1,3 +1,4 @@
+import './landing.css'
 import HowItWorks from './components/HowItWork'
 import WhyManweb from './components/WhyManweb'
 import FAQ from './components/FAQ'
@@ -7,7 +8,7 @@ import Hero from './components/Hero'
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center">
+    <main className="flex w-screen flex-col items-center justify-center overflow-hidden">
       <Hero />
       <Features />
       <HowItWorks />

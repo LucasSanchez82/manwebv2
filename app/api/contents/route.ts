@@ -160,7 +160,7 @@ export async function PUT(request: NextRequest) {
       )
     }
 
-    const { image, type, ...updateData } = parsedData.data
+    const { image, type: _, ...updateData } = parsedData.data
     let imageName
     let isImageFile = false
 
