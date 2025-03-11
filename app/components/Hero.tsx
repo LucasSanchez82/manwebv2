@@ -104,7 +104,7 @@ export default function Hero() {
               <span className="absolute inset-0 h-full w-full bg-gradient-to-t from-white/20 via-white/0 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-20"></span>
               <span className="relative flex items-center">
                 Commencer
-                <ArrowRight className="ml-2 h-5 w-5 animate-pulse" />
+                <ArrowRight className="ml-2 h-5 w-5" />
               </span>
             </Link>
           </div>
