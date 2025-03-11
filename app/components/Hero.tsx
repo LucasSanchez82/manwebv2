@@ -76,7 +76,7 @@ export default function Hero() {
                 className="group relative"
               >
                 <div
-                  className={`flex flex-col items-center rounded-xl bg-gradient-to-br ${category.color} border border-white/10 p-4 shadow-lg transition-all duration-300 ease-out hover:scale-105 hover:shadow-xl md:p-6`}
+                  className={`flex flex-col items-center rounded-xl bg-gradient-to-br ${category.color} transform border border-white/10 p-4 shadow-lg transition-all duration-300 ease-out hover:-translate-y-4 hover:scale-105 hover:shadow-xl md:p-6`}
                 >
                   <div className="absolute inset-0 rounded-xl bg-black opacity-40 transition-opacity group-hover:opacity-30"></div>
                   <div className="relative z-10 flex flex-col items-center">
