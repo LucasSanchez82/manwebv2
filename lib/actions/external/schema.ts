@@ -69,7 +69,7 @@ export const mangaItemSchema = z.object({
 })
 
 // Full Response Schema
-export const mangaResponseSchema = z.object({
+export const contentResponseSchema = z.object({
   result: z.literal('ok'),
   response: z.literal('collection'),
   data: z.array(mangaItemSchema),
@@ -78,7 +78,7 @@ export const mangaResponseSchema = z.object({
   total: z.number(),
 })
 
-export type MangadexResponse = z.infer<typeof mangaResponseSchema>
+export type MangadexResponse = z.infer<typeof contentResponseSchema>
 export type MangadexItem = z.infer<typeof mangaItemSchema>
 export type MangadexAttributes = z.infer<typeof mangaAttributesSchema>
 export type MangadexRelationshipSchema = z.infer<typeof relationshipSchema>

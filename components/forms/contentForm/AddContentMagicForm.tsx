@@ -13,18 +13,18 @@ import {
 } from '@/components/ui/card'
 import { getMangasFromMangadexAction } from '@/lib/actions/external/mangadex.action'
 import {
-  SanityzedMangadexResponseItem,
-  sanityzeMangadexResponse,
+  sanityzeMangadexResponse
 } from '@/lib/actions/external/mangadex.sanityze'
 import useFetch from '@/lib/hooks/useFetch'
+import { ContentSchemaInputServer } from '@/lib/schemas/contents/contentSchema'
 import { useRouter } from 'next/navigation'
 import { Dispatch, SetStateAction, useState } from 'react'
 import { toast } from 'sonner'
 
 const AddContentMagicForm = () => {
   const [selectedValue, setSelectedValue] = useState('')
-  const [items, setItems] = useState<SanityzedMangadexResponseItem[]>([])
-  const selectedItem: SanityzedMangadexResponseItem | undefined = items.find(
+  const [items, setItems] = useState<ContentSchemaInputServer[]>([])
+  const selectedItem: ContentSchemaInputServer | undefined = items.find(
     (item) => item.mangadexId === selectedValue
   )
   const { setOpen } = useDialog()
