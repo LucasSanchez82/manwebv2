@@ -1,14 +1,13 @@
-import { ContentSchemaInputServer } from '@/lib/schemas/contents/contentSchema'
-import { MangadexResponse } from './schema'
+import { ContentSchemaInputServer, ContentSchemaFromProvider } from '@/lib/schemas/contents/contentSchema';
+import { MangadexResponse } from './schema';
 
 export type SanityzedMangadexResponseItem = ContentSchemaInputServer & {
   image: string
-  mangadexId: string
   isSelfHosted: boolean
 }
 export const sanityzeMangadexResponse = (
   response: MangadexResponse
-): SanityzedMangadexResponseItem[] => {
+): ContentSchemaFromProvider[] => {
   return response.data.map((manga) => {
     const coverRelation = manga.relationships.find(
       (rel) => rel.type === 'cover_art'
@@ -23,7 +22,7 @@ export const sanityzeMangadexResponse = (
       image,
       readerUrl: `https://mangadex.org/title/${manga.id}/${manga.attributes.title.en}`,
       chapter: 0,
-      mangadexId: manga.id,
+      uniqueIdentifier: `mangadex-${manga.id}`,
       isSelfHosted: false,
       type: 'manga',
     }

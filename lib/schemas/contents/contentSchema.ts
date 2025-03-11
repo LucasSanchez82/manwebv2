@@ -58,6 +58,11 @@ export const contentSchemaInputServer = contentWithoutImage.extend({
       ),
   ]),
 })
+
+export const contentSchemaFromProvider = contentWithoutImage.extend({
+  image: z.string(),
+  uniqueIdentifier: z.coerce.string().describe('Id du contenu'),
+})
 export const contentSchemaInputServerWithId = contentSchemaInputServer.extend({
   id: z.coerce.bigint().describe('Id du contenu'),
 })
@@ -66,3 +71,6 @@ export const contentSchemaOutputServer = contentSchemaInputServer.extend({
 })
 
 export type ContentSchemaInputServer = z.infer<typeof contentSchemaInputServer>
+
+
+export type ContentSchemaFromProvider = z.infer<typeof contentSchemaFromProvider>

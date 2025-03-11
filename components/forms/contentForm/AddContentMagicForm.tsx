@@ -16,16 +16,16 @@ import {
   sanityzeMangadexResponse
 } from '@/lib/actions/external/mangadex.sanityze'
 import useFetch from '@/lib/hooks/useFetch'
-import { ContentSchemaInputServer } from '@/lib/schemas/contents/contentSchema'
+import { ContentSchemaFromProvider } from '@/lib/schemas/contents/contentSchema'
 import { useRouter } from 'next/navigation'
 import { Dispatch, SetStateAction, useState } from 'react'
 import { toast } from 'sonner'
 
 const AddContentMagicForm = () => {
   const [selectedValue, setSelectedValue] = useState('')
-  const [items, setItems] = useState<ContentSchemaInputServer[]>([])
-  const selectedItem: ContentSchemaInputServer | undefined = items.find(
-    (item) => item.mangadexId === selectedValue
+  const [items, setItems] = useState<ContentSchemaFromProvider[]>([])
+  const selectedItem: ContentSchemaFromProvider | undefined = items.find(
+    (item) => item.uniqueIdentifier === selectedValue
   )
   const { setOpen } = useDialog()
   const router = useRouter()
@@ -100,7 +100,7 @@ const AddContentMagicForm = () => {
           selectedValue={selectedValue}
           onSelectedValueChange={setSelectedValue}
           items={items.map((item) => ({
-            value: item.mangadexId,
+            value: item.uniqueIdentifier,
             label: item.title,
           }))}
         />
