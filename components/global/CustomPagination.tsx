@@ -28,13 +28,6 @@ export default function CustomPagination({
       getQuery('itemsPerPage') ||
         paginationConstants.itemsPerPage.default.toString()
     ) ?? paginationConstants.itemsPerPage.default
-  // Handle page change
-  const handlePageChange = useCallback(
-    (page: number) => {
-      setPage(page)
-    },
-    [setPage]
-  )
 
   // Generate page numbers
   const start = 1
@@ -75,7 +68,8 @@ export default function CustomPagination({
     }
 
     return pages
-  }, [start, itemsCount, nbPages, totalPages])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [totalPages, nbPages])
 
   return (
     <Suspense fallback={<p>Chargement...</p>}>
@@ -83,9 +77,7 @@ export default function CustomPagination({
         <PaginationContent>
           <PaginationItem>
             <PaginationPrevious
-              onClick={() =>
-                getPage() > start && handlePageChange(getPage() - 1)
-              }
+              onClick={() => getPage() > start && setPage(getPage() - 1)}
               className={
                 getPage() <= start
                   ? 'pointer-events-none opacity-50'
@@ -102,7 +94,7 @@ export default function CustomPagination({
             ) : (
               <PaginationItem key={pageNumber}>
                 <PaginationLink
-                  onClick={() => handlePageChange(pageNumber)}
+                  onClick={() => setPage(pageNumber)}
                   isActive={getPage() === pageNumber}
                   className="cursor-pointer"
                 >
@@ -114,9 +106,7 @@ export default function CustomPagination({
 
           <PaginationItem>
             <PaginationNext
-              onClick={() =>
-                getPage() < totalPages && handlePageChange(getPage() + 1)
-              }
+              onClick={() => getPage() < totalPages && setPage(getPage() + 1)}
               className={
                 getPage() >= totalPages
                   ? 'pointer-events-none opacity-50'
