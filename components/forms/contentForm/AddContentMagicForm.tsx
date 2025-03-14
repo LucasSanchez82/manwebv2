@@ -104,7 +104,7 @@ const AddContentMagicForm = () => {
         searchIsDebouncing(false)
       })
     } else {
-      toast.error('Provider not found')
+      toast.error('Fournisseur de contenu non trouvé.')
     }
   }
 
@@ -118,7 +118,7 @@ const AddContentMagicForm = () => {
         <div className="flex gap-2">
           <Select onValueChange={setSelectedProviderType}>
             <SelectTrigger className="w-fit">
-              <SelectValue placeholder="Choisis ton contenu" />
+              <SelectValue placeholder="Quel type de contenu ?" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
