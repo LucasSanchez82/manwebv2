@@ -11,10 +11,8 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { getMangasFromMangadexAction } from '@/lib/actions/external/mangadex.action'
-import {
-  sanityzeMangadexResponse
-} from '@/lib/actions/external/mangadex.sanityze'
+import { Select } from '@/components/ui/select'
+import { getContentsFromMangadexAction } from '@/lib/actions/external/mangadex.action'
 import useFetch from '@/lib/hooks/useFetch'
 import { ContentSchemaFromProvider } from '@/lib/schemas/contents/contentSchema'
 import { useRouter } from 'next/navigation'
@@ -30,6 +28,14 @@ const AddContentMagicForm = () => {
   const { setOpen } = useDialog()
   const router = useRouter()
   const { refetch } = useFetch()
+
+  const obj = [
+    {
+      provider: 'mangadex',
+      fn: getContentsFromMangadexAction,
+      type: 'manga',
+    },
+  ]
 
   const handleClick = async () => {
     const selectedContent = {
@@ -79,11 +85,9 @@ const AddContentMagicForm = () => {
   ) => {
     searchIsDebouncing(true)
 
-    getMangasFromMangadexAction(value).then((content) => {
-      const sanityzedMangas = sanityzeMangadexResponse(content)
-      setItems(sanityzedMangas)
+    getContentsFromMangadexAction(value).then((content) => {
+      setItems(content)
       searchIsDebouncing(false)
-      console.log('searchisdebouncingfalse')
     })
   }
 
@@ -93,6 +97,15 @@ const AddContentMagicForm = () => {
         <CardTitle>Ajouter un contenu</CardTitle>
         <CardDescription>
           Ajouter un contenu à votre liste de lecture
+          <Select>
+            <option value="manga">Manga</option>
+            <option value="anime">Anime</option>
+            {obj.map((content) => (
+              <option key={content.provider} value={content.provider}>
+                {content.provider}
+              </option>
+            ))}
+          </Select>
         </CardDescription>
         <AutoComplete
           emptyMessage="Aucun contenu trouvé"
