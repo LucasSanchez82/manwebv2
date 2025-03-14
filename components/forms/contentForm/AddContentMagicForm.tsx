@@ -11,7 +11,14 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { Select } from '@/components/ui/select'
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+} from '@/components/ui/select'
 import { getContentsFromMangadexAction } from '@/lib/actions/external/mangadex.action'
 import useFetch from '@/lib/hooks/useFetch'
 import { ContentSchemaFromProvider } from '@/lib/schemas/contents/contentSchema'
@@ -21,6 +28,9 @@ import { toast } from 'sonner'
 
 const AddContentMagicForm = () => {
   const [selectedValue, setSelectedValue] = useState('')
+  const [selectedProviderType, setSelectedProviderType] = useState<
+    string | null
+  >(null)
   const [items, setItems] = useState<ContentSchemaFromProvider[]>([])
   const selectedItem: ContentSchemaFromProvider | undefined = items.find(
     (item) => item.uniqueIdentifier === selectedValue
@@ -29,7 +39,7 @@ const AddContentMagicForm = () => {
   const router = useRouter()
   const { refetch } = useFetch()
 
-  const obj = [
+  const allowedProviders = [
     {
       provider: 'mangadex',
       fn: getContentsFromMangadexAction,
@@ -83,12 +93,19 @@ const AddContentMagicForm = () => {
     _: AbortSignal,
     searchIsDebouncing: Dispatch<SetStateAction<boolean>>
   ) => {
-    searchIsDebouncing(true)
-
-    getContentsFromMangadexAction(value).then((content) => {
-      setItems(content)
-      searchIsDebouncing(false)
-    })
+    const usedProvider: (typeof allowedProviders)[number] | undefined =
+      allowedProviders.find(
+        (provider) => provider.type === selectedProviderType
+      )
+    if (usedProvider) {
+      searchIsDebouncing(true)
+      usedProvider.fn(value).then((content) => {
+        setItems(content)
+        searchIsDebouncing(false)
+      })
+    } else {
+      toast.error('Provider not found')
+    }
   }
 
   return (
@@ -97,26 +114,38 @@ const AddContentMagicForm = () => {
         <CardTitle>Ajouter un contenu</CardTitle>
         <CardDescription>
           Ajouter un contenu à votre liste de lecture
-          <Select>
-            <option value="manga">Manga</option>
-            <option value="anime">Anime</option>
-            {obj.map((content) => (
-              <option key={content.provider} value={content.provider}>
-                {content.provider}
-              </option>
-            ))}
-          </Select>
         </CardDescription>
-        <AutoComplete
-          emptyMessage="Aucun contenu trouvé"
-          onSearchValueChange={handleSearchValueChange}
-          selectedValue={selectedValue}
-          onSelectedValueChange={setSelectedValue}
-          items={items.map((item) => ({
-            value: item.uniqueIdentifier,
-            label: item.title,
-          }))}
-        />
+        <div className="flex gap-2">
+          <Select onValueChange={setSelectedProviderType}>
+            <SelectTrigger className="w-fit">
+              <SelectValue placeholder="Choisis ton contenu" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                {allowedProviders.map((content) => (
+                  <SelectItem value={content.type} key={content.type}>
+                    {content.type}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+          {selectedProviderType &&
+            allowedProviders.find(
+              (provider) => provider.type === selectedProviderType
+            ) && (
+              <AutoComplete
+                emptyMessage="Aucun contenu trouvé"
+                onSearchValueChange={handleSearchValueChange}
+                selectedValue={selectedValue}
+                onSelectedValueChange={setSelectedValue}
+                items={items.map((item) => ({
+                  value: item.uniqueIdentifier,
+                  label: item.title,
+                }))}
+              />
+            )}
+        </div>
       </CardHeader>
       <CardContent>
         {selectedItem && (
