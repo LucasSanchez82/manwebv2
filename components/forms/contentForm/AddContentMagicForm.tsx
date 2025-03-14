@@ -44,6 +44,7 @@ const AddContentMagicForm = () => {
       provider: 'mangadex',
       fn: getContentsFromMangadexAction,
       type: 'manga',
+      placeholder: 'ex: one piece...',
     },
   ]
 
@@ -139,6 +140,11 @@ const AddContentMagicForm = () => {
                 onSearchValueChange={handleSearchValueChange}
                 selectedValue={selectedValue}
                 onSelectedValueChange={setSelectedValue}
+                placeholder={
+                  allowedProviders.find(
+                    (provider) => provider.type === selectedProviderType
+                  )?.placeholder
+                }
                 items={items.map((item) => ({
                   value: item.uniqueIdentifier,
                   label: item.title,
