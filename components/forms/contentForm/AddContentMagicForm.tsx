@@ -11,25 +11,52 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { getMangasFromMangadexAction } from '@/lib/actions/external/mangadex.action'
 import {
-  SanityzedMangadexResponseItem,
-  sanityzeMangadexResponse,
-} from '@/lib/actions/external/mangadex.sanityze'
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+} from '@/components/ui/select'
+import { getContentsFromMangadexAction } from '@/lib/actions/external/mangadex/mangadex.action'
+import { getContentsFromPhenixScanAction } from '@/lib/actions/external/phenixscan/phenixscan.action'
 import useFetch from '@/lib/hooks/useFetch'
+import { ContentSchemaFromProvider } from '@/lib/schemas/contents/contentSchema'
+import { contentTypes } from '@/prisma/constant'
 import { useRouter } from 'next/navigation'
 import { Dispatch, SetStateAction, useState } from 'react'
 import { toast } from 'sonner'
 
 const AddContentMagicForm = () => {
   const [selectedValue, setSelectedValue] = useState('')
-  const [items, setItems] = useState<SanityzedMangadexResponseItem[]>([])
-  const selectedItem: SanityzedMangadexResponseItem | undefined = items.find(
-    (item) => item.mangadexId === selectedValue
+  const [selectedProviderLabel, setSelectedProviderLabel] = useState<
+    string | null
+  >(null)
+  const [items, setItems] = useState<ContentSchemaFromProvider[]>([])
+  const selectedItem: ContentSchemaFromProvider | undefined = items.find(
+    (item) => item.uniqueIdentifier === selectedValue
   )
   const { setOpen } = useDialog()
   const router = useRouter()
   const { refetch } = useFetch()
+
+  const allowedProviders = [
+    {
+      provider: 'mangadex',
+      fn: getContentsFromMangadexAction,
+      type: contentTypes.manga.name,
+      label: 'Manga (Mangadex)',
+      placeholder: 'ex: one piece...',
+    },
+    {
+      provider: 'phenixscan',
+      fn: getContentsFromPhenixScanAction,
+      type: contentTypes.manga.name,
+      label: 'Manga (phenixscan)',
+      placeholder: 'ex: one piece...',
+    },
+  ]
 
   const handleClick = async () => {
     const selectedContent = {
@@ -77,14 +104,19 @@ const AddContentMagicForm = () => {
     _: AbortSignal,
     searchIsDebouncing: Dispatch<SetStateAction<boolean>>
   ) => {
-    searchIsDebouncing(true)
-
-    getMangasFromMangadexAction(value).then((content) => {
-      const sanityzedMangas = sanityzeMangadexResponse(content)
-      setItems(sanityzedMangas)
-      searchIsDebouncing(false)
-      console.log('searchisdebouncingfalse')
-    })
+    const usedProvider: (typeof allowedProviders)[number] | undefined =
+      allowedProviders.find(
+        (provider) => provider.label === selectedProviderLabel
+      )
+    if (usedProvider) {
+      searchIsDebouncing(true)
+      usedProvider.fn(value).then((content) => {
+        setItems(content)
+        searchIsDebouncing(false)
+      })
+    } else {
+      toast.error('Fournisseur de contenu non trouvé.')
+    }
   }
 
   return (
@@ -94,16 +126,42 @@ const AddContentMagicForm = () => {
         <CardDescription>
           Ajouter un contenu à votre liste de lecture
         </CardDescription>
-        <AutoComplete
-          emptyMessage="Aucun contenu trouvé"
-          onSearchValueChange={handleSearchValueChange}
-          selectedValue={selectedValue}
-          onSelectedValueChange={setSelectedValue}
-          items={items.map((item) => ({
-            value: item.mangadexId,
-            label: item.title,
-          }))}
-        />
+        <div className="flex gap-2">
+          <Select onValueChange={setSelectedProviderLabel}>
+            <SelectTrigger className="w-fit">
+              <SelectValue placeholder="Quel type de contenu ?" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                {allowedProviders.map((content) => (
+                  <SelectItem value={content.label} key={content.provider}>
+                    {content.label}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+          {selectedProviderLabel &&
+            allowedProviders.find(
+              (provider) => provider.label === selectedProviderLabel
+            ) && (
+              <AutoComplete
+                emptyMessage="Aucun contenu trouvé"
+                onSearchValueChange={handleSearchValueChange}
+                selectedValue={selectedValue}
+                onSelectedValueChange={setSelectedValue}
+                placeholder={
+                  allowedProviders.find(
+                    (provider) => provider.type === selectedProviderLabel
+                  )?.placeholder
+                }
+                items={items.map((item) => ({
+                  value: item.uniqueIdentifier,
+                  label: item.title,
+                }))}
+              />
+            )}
+        </div>
       </CardHeader>
       <CardContent>
         {selectedItem && (
