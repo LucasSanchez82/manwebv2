@@ -20,15 +20,17 @@ import {
   SelectItem,
 } from '@/components/ui/select'
 import { getContentsFromMangadexAction } from '@/lib/actions/external/mangadex/mangadex.action'
+import { getContentsFromPhenixScanAction } from '@/lib/actions/external/phenixscan/phenixscan.action'
 import useFetch from '@/lib/hooks/useFetch'
 import { ContentSchemaFromProvider } from '@/lib/schemas/contents/contentSchema'
+import { contentTypes } from '@/prisma/constant'
 import { useRouter } from 'next/navigation'
 import { Dispatch, SetStateAction, useState } from 'react'
 import { toast } from 'sonner'
 
 const AddContentMagicForm = () => {
   const [selectedValue, setSelectedValue] = useState('')
-  const [selectedProviderType, setSelectedProviderType] = useState<
+  const [selectedProviderLabel, setSelectedProviderLabel] = useState<
     string | null
   >(null)
   const [items, setItems] = useState<ContentSchemaFromProvider[]>([])
@@ -43,7 +45,15 @@ const AddContentMagicForm = () => {
     {
       provider: 'mangadex',
       fn: getContentsFromMangadexAction,
-      type: 'manga',
+      type: contentTypes.manga.name,
+      label: 'Manga (Mangadex)',
+      placeholder: 'ex: one piece...',
+    },
+    {
+      provider: 'phenixscan',
+      fn: getContentsFromPhenixScanAction,
+      type: contentTypes.manga.name,
+      label: 'Manga (phenixscan)',
       placeholder: 'ex: one piece...',
     },
   ]
@@ -96,7 +106,7 @@ const AddContentMagicForm = () => {
   ) => {
     const usedProvider: (typeof allowedProviders)[number] | undefined =
       allowedProviders.find(
-        (provider) => provider.type === selectedProviderType
+        (provider) => provider.label === selectedProviderLabel
       )
     if (usedProvider) {
       searchIsDebouncing(true)
@@ -117,23 +127,23 @@ const AddContentMagicForm = () => {
           Ajouter un contenu à votre liste de lecture
         </CardDescription>
         <div className="flex gap-2">
-          <Select onValueChange={setSelectedProviderType}>
+          <Select onValueChange={setSelectedProviderLabel}>
             <SelectTrigger className="w-fit">
               <SelectValue placeholder="Quel type de contenu ?" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
                 {allowedProviders.map((content) => (
-                  <SelectItem value={content.type} key={content.type}>
-                    {content.type}
+                  <SelectItem value={content.label} key={content.provider}>
+                    {content.label}
                   </SelectItem>
                 ))}
               </SelectGroup>
             </SelectContent>
           </Select>
-          {selectedProviderType &&
+          {selectedProviderLabel &&
             allowedProviders.find(
-              (provider) => provider.type === selectedProviderType
+              (provider) => provider.label === selectedProviderLabel
             ) && (
               <AutoComplete
                 emptyMessage="Aucun contenu trouvé"
@@ -142,7 +152,7 @@ const AddContentMagicForm = () => {
                 onSelectedValueChange={setSelectedValue}
                 placeholder={
                   allowedProviders.find(
-                    (provider) => provider.type === selectedProviderType
+                    (provider) => provider.type === selectedProviderLabel
                   )?.placeholder
                 }
                 items={items.map((item) => ({

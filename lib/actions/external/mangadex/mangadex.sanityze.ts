@@ -3,6 +3,7 @@ import {
   ContentSchemaFromProvider,
 } from '@/lib/schemas/contents/contentSchema'
 import { MangadexResponse } from './mangadex.schema'
+import { contentTypes } from '@/prisma/constant'
 
 export type SanityzedMangadexResponseItem = ContentSchemaInputServer & {
   image: string
@@ -27,7 +28,7 @@ export const sanityzeMangadexResponse = (
       chapter: 0,
       uniqueIdentifier: `mangadex-${manga.id}`,
       isSelfHosted: false,
-      type: 'manga',
+      type: contentTypes.manga.name,
     }
   })
 }
