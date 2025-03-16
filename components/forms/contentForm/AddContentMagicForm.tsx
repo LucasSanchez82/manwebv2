@@ -19,7 +19,7 @@ import {
   SelectGroup,
   SelectItem,
 } from '@/components/ui/select'
-import { getContentsFromMangadexAction } from '@/lib/actions/external/mangadex.action'
+import { getContentsFromMangadexAction } from '@/lib/actions/external/mangadex/mangadex.action'
 import useFetch from '@/lib/hooks/useFetch'
 import { ContentSchemaFromProvider } from '@/lib/schemas/contents/contentSchema'
 import { useRouter } from 'next/navigation'

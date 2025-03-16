@@ -1,7 +1,7 @@
 'use server'
 
-import { contentResponseSchema } from './schema'
-import { sanityzeMangadexResponse } from '@/lib/actions/external/mangadex.sanityze'
+import { contentResponseSchema } from './mangadex.schema'
+import { sanityzeMangadexResponse } from '@/lib/actions/external/mangadex/mangadex.sanityze'
 import { type ContentSchemaFromProvider } from '@/lib/schemas/contents/contentSchema'
 
 export const getContentsFromMangadexAction = async (

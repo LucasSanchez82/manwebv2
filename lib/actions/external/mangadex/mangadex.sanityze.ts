@@ -1,5 +1,8 @@
-import { ContentSchemaInputServer, ContentSchemaFromProvider } from '@/lib/schemas/contents/contentSchema';
-import { MangadexResponse } from './schema';
+import {
+  ContentSchemaInputServer,
+  ContentSchemaFromProvider,
+} from '@/lib/schemas/contents/contentSchema'
+import { MangadexResponse } from './mangadex.schema'
 
 export type SanityzedMangadexResponseItem = ContentSchemaInputServer & {
   image: string
