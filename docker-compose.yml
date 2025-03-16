@@ -3,11 +3,11 @@ version: '3.8'
 services:
   postgres:
     image: postgres:latest
-    container_name: boilerplate-postgres
+    container_name: manweb-postgres
     environment:
-      POSTGRES_USER: boilerplate
-      POSTGRES_PASSWORD: jioczhfBHgcaomXhicez
-      POSTGRES_DB: boilerplate
+      POSTGRES_USER: 'manweb'
+      POSTGRES_PASSWORD: 'jioczhfBHgcaomXhicez'
+      POSTGRES_DB: manweb
     ports:
       - '48874:5432'
     volumes:
