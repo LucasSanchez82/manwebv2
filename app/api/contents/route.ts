@@ -70,7 +70,6 @@ export async function POST(request: NextRequest) {
 
     if (!parsedData.success) {
       console.error('Validation Error:', parsedData.error)
-      console.log('original datas', Object.fromEntries(formData.entries()))
       return NextResponse.json<ApiResponse>(
         {
           error:

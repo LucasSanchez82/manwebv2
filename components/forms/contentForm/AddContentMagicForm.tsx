@@ -72,7 +72,6 @@ const AddContentMagicForm = () => {
       isSelfHosted: false,
       description: selectedItem?.description ?? '',
     }
-    console.log(selectedContent)
     if (selectedContent) {
       const formdata = new FormData()
 
