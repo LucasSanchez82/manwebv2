@@ -20,13 +20,20 @@ import {
   SelectItem,
 } from '@/components/ui/select'
 import { getContentsFromMangadexAction } from '@/lib/actions/external/mangadex/mangadex.action'
-import { getContentsFromPhenixScanAction } from '@/lib/actions/external/phenixscan/phenixscan.action'
 import useFetch from '@/lib/hooks/useFetch'
 import { ContentSchemaFromProvider } from '@/lib/schemas/contents/contentSchema'
-import { contentTypes } from '@/prisma/constant'
+import { ContentTypeKey, getContentTypeKeyByName } from '@/prisma/constant'
 import { useRouter } from 'next/navigation'
 import { Dispatch, SetStateAction, useState } from 'react'
 import { toast } from 'sonner'
+
+type AllowedProvider = {
+  type: ContentTypeKey
+  provider: string
+  label: string
+  fn: (value: string) => Promise<ContentSchemaFromProvider[]>
+  placeholder: string
+}
 
 const AddContentMagicForm = () => {
   const [selectedValue, setSelectedValue] = useState('')
@@ -41,26 +48,27 @@ const AddContentMagicForm = () => {
   const router = useRouter()
   const { refetch } = useFetch()
 
-  const allowedProviders = [
+  const allowedProviders: AllowedProvider[] = [
     {
       provider: 'mangadex',
       fn: getContentsFromMangadexAction,
-      type: contentTypes.manga.name,
+      type: 'manga',
       label: 'Manga (Mangadex)',
       placeholder: 'ex: one piece...',
     },
-    {
-      provider: 'phenixscan',
-      fn: getContentsFromPhenixScanAction,
-      type: contentTypes.manga.name,
-      label: 'Manga (phenixscan)',
-      placeholder: 'ex: one piece...',
-    },
+    // {
+    //   provider: 'phenixscan',
+    //   fn: getContentsFromPhenixScanAction,
+    //   type: 'manga',
+    //   label: 'Manga (phenixscan)',
+    //   placeholder: 'ex: one piece...',
+    // },
   ]
 
   const handleClick = async () => {
     const selectedContent = {
       ...selectedItem,
+      type: getContentTypeKeyByName(selectedItem?.type ?? 'other') ?? 'other',
       isSelfHosted: false,
       description: selectedItem?.description ?? '',
     }
@@ -126,7 +134,7 @@ const AddContentMagicForm = () => {
         <CardDescription>
           Ajouter un contenu à votre liste de lecture
         </CardDescription>
-        <div className="flex gap-2">
+        <div className="flex flex-col gap-2">
           <Select onValueChange={setSelectedProviderLabel}>
             <SelectTrigger className="w-fit">
               <SelectValue placeholder="Quel type de contenu ?" />
