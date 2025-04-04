@@ -97,7 +97,7 @@ export default function Hero() {
 
           <div className="flex w-full flex-col justify-center gap-4 sm:flex-row md:mt-8">
             <Link
-              href="/commencer"
+              href="/home"
               className="group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-full bg-gradient-to-r from-purple-600 to-pink-600 px-6 text-base font-medium text-white shadow-lg shadow-purple-500/30 transition-all hover:shadow-xl hover:shadow-purple-500/40 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 md:h-14 md:px-10"
             >
               <span className="absolute inset-0 h-full w-full bg-gradient-to-br from-purple-600 to-pink-600"></span>
